@@ -21,8 +21,9 @@
 
 .login-title {
     text-align: center;
-    font-size: 45px;
-    font-family: Century, sans-serif
+    font-size: 1.6rem;
+    font-family: Cambria, sans-serif;
+    font-weight: 700;
 }
 
 .Clique-login-title {
@@ -30,8 +31,8 @@
     top: 0;
     left: 0;
     margin: 2rem;
-    font-family: "Adobe Hebrew", sans-serif;
-    font-size: 2.2rem;
+    font-family: "Adobe Devanagari", sans-serif;
+    font-size: 2.5rem;
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -46,4 +47,64 @@
     width: 40px;
     height: auto;
     border-radius: 20%;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.input-group label{
+    margin-bottom: 0.5rem;
+    font-family: Calibri, sans-serif;
+}
+
+.input-group input{
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.login-button,
+.register-button {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-button {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.login-button:hover {
+    background-color: #2563eb;
+}
+
+.register-button {
+    background-color: #e5e7eb;
+    color: #1f2937;
+}
+
+.register-button:hover {
+    background-color: #d1d5db;
 }
