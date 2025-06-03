@@ -29,7 +29,7 @@
 .Clique-login-title {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 2%;
     margin: 2rem;
     font-family: "Adobe Devanagari", sans-serif;
     font-size: 2.5rem;
@@ -46,7 +46,7 @@
 .clique-logo {
     width: 40px;
     height: auto;
-    border-radius: 20%;
+    border-radius: 22%;
 }
 
 .login-form {
