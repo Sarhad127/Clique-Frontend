@@ -1,13 +1,15 @@
 import './styles/Clique.css';
-import './styles/Friends.css';
-import './styles/Chatbox.css';
-import './styles/Profile.css';
-import './styles/Sidebar.css';
+import './styles/FIRST-CONTAINER.css';
+import './styles/SECOND-CONTAINER.css';
+import './styles/THIRD-CONTAINER.css';
+import './styles/FOURTH-CONTAINER.css';
+
 import CliqueIcon from "./icons/Clique-icon.png";
 import Logout from './icons/logout.png';
 import AllChats from './icons/all-chats.png';
 import Friends from './icons/friends.png';
 import Profile from './icons/profile.png';
+
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 

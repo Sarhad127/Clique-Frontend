@@ -2,7 +2,6 @@
 .THIRD-CONTAINER {
     flex: 1;
     background-color: #36393f;
-    border-radius: 8px;
     display: flex;
     flex-direction: column;
     overflow: hidden;

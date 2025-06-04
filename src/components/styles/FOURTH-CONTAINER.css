@@ -1,0 +1,9 @@
+.FOURTH-CONTAINER {
+    width: 250px;
+    background-color: #36393f;
+    padding: 1rem;
+    color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
