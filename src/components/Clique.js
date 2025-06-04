@@ -93,42 +93,69 @@ function Clique() {
                             </div>
 
                             <div className="all-chats-content">
-                                {allChatsTab === 'chat' && (
+                                {allChatsTab === "chat" && (
                                     <div>
                                         <h2>Direct Messages</h2>
-                                        <div className="chat-item">
-                                            <img src="https://i.pravatar.cc/40?img=3" alt="User" className="chat-item-avatar" />
-                                            <div className="chat-item-info">
-                                                <div className="chat-item-name">Sarah Johnson</div>
-                                                <div className="chat-item-preview">Hey, how are you doing?</div>
-                                            </div>
-                                        </div>
-                                        {/* More chat items */}
+                                        {user?.directMessages?.length > 0 ? (
+                                            user.directMessages.map((chat) => (
+                                                <div key={chat.id} className="chat-item">
+                                                    <img
+                                                        src={chat.avatarUrl || `https://i.pravatar.cc/40?u=${chat.id}`}
+                                                        alt={chat.username || "User"}
+                                                        className="chat-item-avatar"
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(chat.username || "User")}&background=random&size=40`;
+                                                        }}
+                                                    />
+                                                    <div className="chat-item-info">
+                                                        <div className="chat-item-name">{chat.username}</div>
+                                                        <div className="chat-item-preview">{chat.lastMessagePreview}</div>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div></div>
+                                        )}
                                     </div>
                                 )}
-                                {allChatsTab === 'groups' && (
+
+                                {allChatsTab === "groups" && (
                                     <div>
                                         <h2>Group Chats</h2>
-                                        <div className="chat-item">
-                                            <img src="https://i.pravatar.cc/40?img=5" alt="Group" className="chat-item-avatar" />
-                                            <div className="chat-item-info">
-                                                <div className="chat-item-name">Game Night</div>
-                                                <div className="chat-item-preview">Alex: When are we playing next?</div>
-                                            </div>
-                                        </div>
-                                        {/* More group items */}
+                                        {user?.groupChats?.length > 0 ? (
+                                            user.groupChats.map((group) => (
+                                                <div key={group.id} className="chat-item">
+                                                    <img
+                                                        src={group.avatarUrl || `https://i.pravatar.cc/40?u=${group.id}`}
+                                                        alt={group.name || "Group"}
+                                                        className="chat-item-avatar"
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(group.name || "Group")}&background=random&size=40`;
+                                                        }}
+                                                    />
+                                                    <div className="chat-item-info">
+                                                        <div className="chat-item-name">{group.name}</div>
+                                                        <div className="chat-item-preview">{group.lastMessagePreview}</div>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div></div>
+                                        )}
                                     </div>
                                 )}
                             </div>
                         </div>
                     )}
-                    {serverSection === 'friends' && (
+                    {serverSection === "friends" && (
                         <div className="friends-list">
                             <div className="friends-header">
                                 <h3 className="friends-title">Friends</h3>
                                 <button
                                     className="add-friend-btn"
-                                    onClick={() => alert('Add friend clicked!')}
+                                    onClick={() => alert("Add friend clicked!")}
                                     aria-label="Add Friend"
                                 >
                                     +
@@ -136,17 +163,24 @@ function Clique() {
                             </div>
                             <div className="friends-container">
                                 <ul>
-                                    <li className="friend-item">
-                                        <img src="https://i.pravatar.cc/40?img=1" alt="Friend 1" />
-                                        <span>John Doe</span>
-                                        <div className="status-indicator"></div>
-                                    </li>
-                                    <li className="friend-item">
-                                        <img src="https://i.pravatar.cc/40?img=2" alt="Friend 2" />
-                                        <span>Jane Smith</span>
-                                        <div className="status-indicator status-idle"></div>
-                                    </li>
-                                    {/* Add more friends as needed */}
+                                    {user?.friends?.length > 0 ? (
+                                        user.friends.map((friend) => (
+                                            <li key={friend.id} className="friend-item">
+                                                <img
+                                                    src={friend.avatarUrl || `https://i.pravatar.cc/40?u=${friend.id}`}
+                                                    alt={friend.usernameForController || friend.email || "Friend"}
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(friend.usernameForController || friend.email)}&background=random&size=40`;
+                                                    }}
+                                                />
+                                                <span>{friend.usernameForController || friend.email}</span>
+                                                <div className="status-indicator"></div>
+                                            </li>
+                                        ))
+                                    ) : (
+                                        <li></li>
+                                    )}
                                 </ul>
                             </div>
                         </div>

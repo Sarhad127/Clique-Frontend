@@ -34,7 +34,7 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         fetchUser();
-    }, []);
+    }, [localStorage.getItem("token"), sessionStorage.getItem("token")]);
 
     return (
         <UserContext.Provider value={{ user, setUser, loading, fetchUser }}>
