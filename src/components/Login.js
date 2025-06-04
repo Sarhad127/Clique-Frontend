@@ -2,12 +2,15 @@ import './styles/Login.css'
 import CliqueIcon from './icons/Clique-icon.png'
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
+import { useContext } from "react";
+import { UserContext } from "./UserProvider";
 
 function Login() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMsg, setErrorMsg]  = useState('');
+    const { fetchUser } = useContext(UserContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -30,6 +33,7 @@ function Login() {
                 const token = data.token;
                 localStorage.setItem('token', token);
                 console.log(token)
+                await fetchUser();
                 navigate('/Clique');
             } else {
                 const errorData = await response.json();

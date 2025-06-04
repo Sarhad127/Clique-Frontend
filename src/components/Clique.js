@@ -11,13 +11,15 @@ import Friends from './icons/friends.png';
 import Profile from './icons/profile.png';
 
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useContext, useState} from "react";
+import { UserContext } from "./UserProvider"
 
 function Clique() {
     const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState('allChats')
     const [serverSection, setServerSection] = useState('allChats');
     const [allChatsTab, setAllChatsTab] = useState('chat');
+    const { user } = useContext(UserContext);
 
     function handleLogout() {
         localStorage.removeItem('token')
@@ -152,11 +154,45 @@ function Clique() {
                 </div>
 
                 <div className="THIRD-CONTAINER">
-                    {activeSection === 'profile' ? (
+                    {activeSection === "profile" ? (
                         <div className="profile-info">
-                            <h2>Profile Information</h2>
-                            <div className="profile-details">
-                                {/* Add profile content here */}
+                            <div className="profile-header">
+                                <h2>My Profile</h2>
+                            </div>
+
+                            <div className="profile-content">
+                                <div className="avatar-section">
+                                    {user?.avatarUrl ? (
+                                        <img src={user.avatarUrl} alt="Avatar" className="profile-avatar" />
+                                    ) : (
+                                        <div className="avatar-placeholder">
+                                            {user?.username?.charAt(0).toUpperCase() || 'U'}
+                                        </div>
+                                    )}
+                                    <button className="edit-avatar-btn">Change Avatar</button>
+                                </div>
+
+                                <div className="profile-details">
+                                    <div className="detail-item">
+                                        <label>Username</label>
+                                        <div className="detail-value">{user?.username || "Loading..."}</div>
+                                    </div>
+
+                                    <div className="detail-item">
+                                        <label>Email</label>
+                                        <div className="detail-value">{user?.email || "Loading..."}</div>
+                                    </div>
+
+                                    <div className="detail-item">
+                                        <label>Member Since</label>
+                                        <div className="detail-value">June 2023</div>
+                                    </div>
+                                </div>
+
+                                <div className="profile-actions">
+                                    <button className="edit-profile-btn">Edit Profile</button>
+                                    <button className="change-password-btn">Change Password</button>
+                                </div>
                             </div>
                         </div>
                     ) : (
