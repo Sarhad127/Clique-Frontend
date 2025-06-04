@@ -109,7 +109,6 @@ function Register() {
                             <div className="button-group">
                                 <button type="submit" className="Register-button">Sign up</button>
                             </div>
-
                         </form>
                     </section>
 

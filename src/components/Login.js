@@ -33,10 +33,19 @@ function Login() {
                 navigate('/Clique');
             } else {
                 const errorData = await response.json();
-                if (errorData.error === "INVALID_CREDENTIALS") {
-                    setErrorMsg(errorData.error || "Invalid credentials");
-                } else {
-                    setErrorMsg("Login failed. Please try again.");
+
+                switch (errorData.error) {
+                    case "EMAIL_NOT_FOUND":
+                        setErrorMsg("Email not found. Please register first.");
+                        break;
+                    case "WRONG_PASSWORD":
+                        setErrorMsg("Incorrect password. Please try again.");
+                        break;
+                    case "ACCOUNT_NOT_VERIFIED":
+                        setErrorMsg("Account not verified. Please check your email.");
+                        break;
+                    default:
+                        setErrorMsg("Login failed. Please try again.");
                 }
             }
         } catch (error) {
