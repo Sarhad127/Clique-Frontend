@@ -1,10 +1,10 @@
 
 .clique-page {
-    background-color: #cb6262;
+    background: linear-gradient(to bottom, rgba(234, 234, 234, 0.5), rgba(105, 105, 105, 0.23));
     height: 100vh;
     width: 100vw;
     box-sizing: border-box;
-    padding: 50px 150px 50px 150px;
+    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: stretch;
@@ -14,11 +14,11 @@
     display: flex;
     flex: 1;
     background-color: transparent;
-    gap: 10px;
+    gap: 2px;
 }
 
 .SECOND-CONTAINER {
-    width: 250px;
+    width: 290px;
     background-color: whitesmoke;
     border-radius: 12px;
     color: #1a1a1a;
@@ -29,7 +29,7 @@
 
 .FOURTH-CONTAINER {
     width: 250px;
-    background-color: transparent;
+    background-color: #36393f;
     border-radius: 12px;
     padding: 1rem;
     color: #1a1a1a;

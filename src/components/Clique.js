@@ -76,7 +76,7 @@ function Clique() {
                                     className={allChatsTab === 'chat' ? 'active-tab' : ''}
                                     onClick={() => setAllChatsTab('chat')}
                                 >
-                                    Direct Messages
+                                    Chats
                                 </button>
                                 <button
                                     className={allChatsTab === 'groups' ? 'active-tab' : ''}
