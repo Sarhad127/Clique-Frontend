@@ -4,8 +4,16 @@ import Logout from './icons/logout.png';
 import AllChats from './icons/all-chats.png';
 import Friends from './icons/friends.png';
 import Profile from './icons/profile.png';
+import {useNavigate} from "react-router-dom";
 
 function Clique() {
+    const navigate = useNavigate();
+
+    function handleLogout() {
+        localStorage.removeItem('token')
+        navigate('/home');
+    }
+
     return (
         <div className="clique-page">
             <div className="clique-main-container">
@@ -29,7 +37,7 @@ function Clique() {
                         </div>
                     </nav>
                     <div className="logout-icon">
-                        <img src={Logout} alt="Logout logo" className="nav-icon" />
+                        <img src={Logout} alt="Logout logo" className="nav-icon" onClick={handleLogout}/>
                         <span>Log out</span>
                     </div>
                 </div>

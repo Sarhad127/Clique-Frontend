@@ -19,7 +19,7 @@ function ForgotPassword() {
 
         setLoading(true);
         try {
-            const response = await fetch("http://localhost:8080/forgot-password", {
+            const response = await fetch("http://localhost:8080/auth/forgot-password", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
