@@ -59,7 +59,7 @@
 .input-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
+    margin-bottom: 1.2rem;
 }
 
 .input-group label{
@@ -79,8 +79,7 @@
     margin-top: 1rem;
 }
 
-.login-button,
-.register-button {
+.login-button {
     padding: 0.75rem;
     border: none;
     border-radius: 4px;
@@ -100,17 +99,27 @@
     background-color: #2563eb;
 }
 
-.register-button {
-    background-color: #e5e7eb;
-    color: #1f2937;
+.create-account-link-container {
+    display: flex;
+    justify-content: center;
 }
 
-.register-button:hover {
-    background-color: #d1d5db;
+.create-account-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-family: Calibri, sans-serif;
+}
+
+.create-account-link:hover {
+    color: #2563eb;
 }
 
 .forgot-password {
     display: flex;
+    margin-top: 0.6rem;
     justify-content: flex-end;
 }
 

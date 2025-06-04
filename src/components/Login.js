@@ -22,20 +22,18 @@ function Login() {
                                     type="text"
                                     id="usernameOrEmail"
                                     name="usernameOrEmail"
-                                    placeholder="Enter your username or email"
+                                    placeholder="Username or Email"
                                     required
                                 />
-                                <label htmlFor="usernameOrEmail">Username or Email</label>
                             </div>
                             <div className="input-group">
                                 <input
                                     type="password"
                                     id="password"
                                     name="password"
-                                    placeholder="Enter your password"
+                                    placeholder="Password"
                                     required
                                 />
-                                <label htmlFor="password">Password</label>
                                 <div>
                                     <div className="forgot-password">
                                         <button
@@ -51,9 +49,16 @@ function Login() {
                             </div>
                             <div className="button-group">
                                 <button type="submit" className="login-button">Log In</button>
-                                <button type="submit" className="register-button"
-                                        onClick={() => navigate('/register')}
-                                >Sign Up</button>
+                            </div>
+                            <div className="create-account-link-container">
+                                <p className="create-account-link" onClick={() => navigate('/register')}>
+                                    Create new account
+                                </p>
+                            </div>
+                            <div className="create-account-link-container">
+                                <p className="create-account-link" onClick={() => navigate('/home')}>
+                                    Home
+                                </p>
                             </div>
                         </form>
                     </section>
