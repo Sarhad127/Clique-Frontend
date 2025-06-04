@@ -35,8 +35,8 @@ function Login() {
                                     placeholder="Enter your password"
                                     required
                                 />
+                                <label htmlFor="password">Password</label>
                                 <div>
-                                    <label htmlFor="password">Password</label>
                                     <div className="forgot-password">
                                         <button
                                             type="button"
