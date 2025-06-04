@@ -1,7 +1,12 @@
 *{
     margin: 0;
 }
-
+.Clique-login-title,
+.clique-logo {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
 .main-container {
     display: flex;
     background: linear-gradient(to bottom, rgba(234, 234, 234, 0.5), rgba(105, 105, 105, 0.23));
@@ -37,6 +42,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    cursor: pointer;
 }
 
 .Clique-login-title span {

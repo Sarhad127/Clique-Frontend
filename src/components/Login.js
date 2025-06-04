@@ -1,14 +1,54 @@
 import './styles/Login.css'
 import CliqueIcon from './icons/Clique-icon.png'
 import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 function Login() {
     const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMsg, setErrorMsg]  = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const payload = {
+            email: email,
+            password: password
+        };
+        console.log(payload)
+        try {
+            const response = await fetch('http://localhost:8080/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const token = data.token;
+                localStorage.setItem('token', token);
+                console.log(token)
+                navigate('/Clique');
+            } else {
+                const errorData = await response.json();
+                if (errorData.error === "INVALID_CREDENTIALS") {
+                    setErrorMsg(errorData.error || "Invalid credentials");
+                } else {
+                    setErrorMsg("Login failed. Please try again.");
+                }
+            }
+        } catch (error) {
+            setErrorMsg("Login failed. Please try again later.");
+            console.error("Login error:", error);
+        }
+    };
 
     return(
         <>
             <div className="main-container">
-            <div className="Clique-login-title">
+            <div className="Clique-login-title" onClick={() => navigate('/home')}>
                 <img src={CliqueIcon} alt="Clique Logo" className="clique-logo" />
                 <span>Clique</span>
             </div>
@@ -16,13 +56,15 @@ function Login() {
                     <div className="login-title">Login</div>
 
                     <section className="login-form">
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div className="input-group">
                                 <input
-                                    type="text"
-                                    id="usernameOrEmail"
-                                    name="usernameOrEmail"
-                                    placeholder="Username or Email"
+                                    type="email"
+                                    id="Email"
+                                    name="Email"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     required
                                 />
                             </div>
@@ -32,6 +74,8 @@ function Login() {
                                     id="password"
                                     name="password"
                                     placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
                                 <div>
@@ -47,17 +91,13 @@ function Login() {
 
                                 </div>
                             </div>
+                            {errorMsg && <p style={{ color: 'red', marginBottom: '10px' }}>{errorMsg}</p>}
                             <div className="button-group">
                                 <button type="submit" className="login-button">Log In</button>
                             </div>
                             <div className="create-account-link-container">
                                 <p className="create-account-link" onClick={() => navigate('/register')}>
                                     Create new account
-                                </p>
-                            </div>
-                            <div className="create-account-link-container">
-                                <p className="create-account-link" onClick={() => navigate('/home')}>
-                                    Home
                                 </p>
                             </div>
                         </form>

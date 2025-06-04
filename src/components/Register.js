@@ -1,15 +1,51 @@
 import CliqueIcon from "./icons/Clique-icon.png";
 import './styles/Register.css'
 import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 function Register() {
     const navigate = useNavigate();
+
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [error, setError] = useState(null);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (password !== confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+        setError(null);
+        try {
+            const response = await fetch("http://localhost:8080/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body:JSON.stringify({ email, username, password}),
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                setError(errorData.message || "Registration failed");
+                return;
+            }
+            const data = await response.json();
+
+            localStorage.setItem("token", data.token);
+            navigate('/login')
+        } catch (err) {
+            setError("Network error. Please try again later.");
+        }
+    }
 
     return(
         <>
             <div className="main-container">
 
-                <div className="Clique-login-title">
+                <div className="Clique-login-title" onClick={() => navigate('/home')}>
                     <img src={CliqueIcon} alt="Clique Logo" className="clique-logo" />
                     <span>Clique</span>
                 </div>
@@ -18,13 +54,15 @@ function Register() {
                     <div className="register-title">Register</div>
                     <section className="login-form">
 
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div className="input-group">
                                 <input
                                     type="text"
                                     id="Email"
                                     name="Email"
                                     placeholder="Email"
+                                    value={email}
+                                    onChange={(e)=> setEmail(e.target.value)}
                                     required
                                 />
                             </div>
@@ -34,6 +72,8 @@ function Register() {
                                     id="Username"
                                     name="Username"
                                     placeholder="Username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
                                     required
                                 />
                             </div>
@@ -43,6 +83,8 @@ function Register() {
                                     id="password"
                                     name="password"
                                     placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
                                 <div>
@@ -54,19 +96,20 @@ function Register() {
                                     id="confirmPassword"
                                     name="confirmPassword"
                                     placeholder="Confirm Password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
                                     required
                                 />
                                 <div>
                                 </div>
                             </div>
+
+                            {error && <p style={{ color: "red" }}>{error}</p>}
+
                             <div className="button-group">
                                 <button type="submit" className="Register-button">Sign up</button>
                             </div>
-                            <div className="create-account-link-container">
-                                <p className="create-account-link" onClick={() => navigate('/home')}>
-                                    Home
-                                </p>
-                            </div>
+
                         </form>
                     </section>
 
