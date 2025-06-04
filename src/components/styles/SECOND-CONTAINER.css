@@ -21,7 +21,7 @@
     display: flex;
     background-color: #2f3136;
     border-bottom: 1px solid #202225;
-    padding: 0 16px;
+    padding: 10px 0 0 0;
 }
 
 .all-chats-tabs button {

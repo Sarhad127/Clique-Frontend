@@ -41,6 +41,7 @@ function Clique() {
                     <div className="Clique-logo-sidebar">
                         <img src={CliqueIcon} alt="Clique Logo" className="clique-logo" />
                     </div>
+                    <hr className="sidebar-divider" />
                     <nav className="sidebar-nav-icons">
                         <div
                             className={`nav-icon-container ${serverSection === 'allChats' ? 'active' : ''}`}
@@ -64,6 +65,7 @@ function Clique() {
                             <span>Profile</span>
                         </div>
                     </nav>
+                    <hr className="sidebar-divider-second" />
                     <div className="logout-icon">
                         <img src={Logout} alt="Logout logo" className="nav-icon" onClick={handleLogout}/>
                         <span>Log out</span>
