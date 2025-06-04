@@ -35,7 +35,19 @@ function Login() {
                                     placeholder="Enter your password"
                                     required
                                 />
-                                <label htmlFor="password">Password</label>
+                                <div>
+                                    <label htmlFor="password">Password</label>
+                                    <div className="forgot-password">
+                                        <button
+                                            type="button"
+                                            className="forgot-password-link"
+                                            onClick={() => navigate('/forgot-password')}
+                                        >
+                                            Forgotten password?
+                                        </button>
+                                    </div>
+
+                                </div>
                             </div>
                             <div className="button-group">
                                 <button type="submit" className="login-button">Log In</button>

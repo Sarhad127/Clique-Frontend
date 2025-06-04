@@ -12,7 +12,8 @@
 
 .main-login {
     width: 400px;
-    height: 600px;
+    min-height: 350px;
+    height: auto;
     padding: 2rem;
     border-radius: 8px;
     background-color: whitesmoke;
@@ -107,4 +108,23 @@
 
 .register-button:hover {
     background-color: #d1d5db;
+}
+
+.forgot-password {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.forgot-password-link {
+    background: none;
+    border: none;
+    color: #3b82f6;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0;
+}
+
+.forgot-password-link:hover {
+    color: #2563eb;
 }
