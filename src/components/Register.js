@@ -52,10 +52,7 @@ function Register() {
                 setError(errorData.message || "Registration failed");
                 return;
             }
-            const data = await response.json();
-
-            localStorage.setItem("token", data.token);
-            navigate('/login')
+            navigate('/login');
         } catch (err) {
             setError("Network error. Please try again later.");
         }
