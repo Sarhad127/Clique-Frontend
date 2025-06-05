@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
 
 const ChatBox = ({ user, friendId }) => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
+    const [isConnected, setIsConnected] = useState(false);
+    const [connectionStatus, setConnectionStatus] = useState("Disconnected");
+
+    const stompClientRef = useRef(null);
 
     useEffect(() => {
-        console.log("Fetching messages for friendId:", friendId);
         if (friendId) {
             const fetchMessages = async () => {
                 try {
@@ -19,11 +24,15 @@ const ChatBox = ({ user, friendId }) => {
                             },
                         }
                     );
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
                     const data = await response.json();
-                    console.log("Fetched messages:", data);
                     setMessages(data);
                 } catch (error) {
-                    console.error("Error fetching messages:", error);
+                    console.error("Failed to fetch messages:", error);
                 }
             };
 
@@ -31,8 +40,59 @@ const ChatBox = ({ user, friendId }) => {
         }
     }, [friendId, user.id]);
 
-    const handleSendMessage = async () => {
-        if (!newMessage.trim()) return;
+    useEffect(() => {
+        if (!user?.id) return;
+
+        setConnectionStatus("Connecting...");
+        const socket = new SockJS("http://localhost:8080/ws");
+
+        const token = localStorage.getItem("token");
+        const stompClient = new Client({
+            webSocketFactory: () => socket,
+            connectHeaders: {
+                Authorization: `Bearer ${token}`,
+            },
+            reconnectDelay: 5000,
+            onConnect: () => {
+                console.log("WebSocket connected");
+                setIsConnected(true);
+                setConnectionStatus("Connected");
+
+                stompClient.subscribe(`/topic/messages/${user.id}`, (message) => {
+                    console.log("Received message in subscription:", message.body);
+                    const received = JSON.parse(message.body);
+                    setMessages((prev) => [...prev, received]);
+                });
+
+                console.log("Subscribed to /topic/messages/" + user.id);
+            },
+
+            onStompError: (frame) => {
+                console.error("STOMP error:", frame.headers.message, frame.body);
+                setConnectionStatus("Error");
+            },
+            onWebSocketError: (error) => {
+                console.error("WebSocket error:", error);
+                setConnectionStatus("WebSocket Error");
+            },
+            onWebSocketClose: () => {
+                setIsConnected(false);
+                setConnectionStatus("Disconnected");
+            },
+        });
+
+        stompClient.activate();
+        stompClientRef.current = stompClient;
+
+        return () => {
+            stompClient.deactivate();
+            setIsConnected(false);
+            setConnectionStatus("Disconnected");
+        };
+    }, [user?.id]);
+
+    const handleSendMessage = () => {
+        if (!newMessage.trim() || !isConnected) return;
 
         const message = {
             senderId: user.id,
@@ -41,37 +101,31 @@ const ChatBox = ({ user, friendId }) => {
             timestamp: new Date().toISOString(),
         };
 
-        console.log("Sending message:", message);
-
         try {
-            const response = await fetch("http://localhost:8080/messages", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
+            stompClientRef.current.publish({
+                destination: "/app/chat.send",
                 body: JSON.stringify(message),
             });
-
-            if (response.ok) {
-                const sentMessage = await response.json();
-                setMessages((prevMessages) => [...prevMessages, sentMessage]);
-                setNewMessage("");
-            } else {
-                console.error("Error sending message:", response);
-            }
+            setMessages((prev) => [...prev, message]);
+            setNewMessage("");
         } catch (error) {
-            console.error("Error sending message:", error);
+            console.error("Failed to send message:", error);
         }
     };
 
     return (
         <div className="default-chat-box">
+            <div className="connection-status">
+                Status: {connectionStatus} | WebSocket: {isConnected ? "Connected" : "Disconnected"}
+            </div>
+
             <div className="chat-messages">
                 {messages.map((message, index) => (
-                    <div key={index} className={`message ${message.userId === user.id ? "outgoing" : "incoming"}`}>
+                    <div key={index} className={`message ${message.senderId === user.id ? "outgoing" : "incoming"}`}>
                         <div>{message.content}</div>
-                        <div className="message-time">{new Date(message.timestamp).toLocaleTimeString()}</div>
+                        <div className="message-time">
+                            {new Date(message.timestamp).toLocaleTimeString()}
+                        </div>
                     </div>
                 ))}
             </div>
@@ -83,6 +137,7 @@ const ChatBox = ({ user, friendId }) => {
                     className="chat-input"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
                 />
                 <button className="send-button" onClick={handleSendMessage}>
                     Send
