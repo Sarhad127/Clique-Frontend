@@ -70,7 +70,12 @@ const ChatBox = ({ user, friendId }) => {
                 stompClient.subscribe(`/topic/messages/${user.id}`, (message) => {
                     console.log("Received message in subscription:", message.body);
                     const received = JSON.parse(message.body);
-                    setMessages((prev) => [...prev, received]);
+                    if (
+                        (received.senderId === friendId && received.receiverId === user.id) ||
+                        (received.receiverId === friendId && received.senderId === user.id)
+                    ) {
+                        setMessages((prev) => [...prev, received]);
+                    }
                 });
 
                 console.log("Subscribed to /topic/messages/" + user.id);
