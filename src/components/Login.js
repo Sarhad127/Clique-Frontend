@@ -11,6 +11,8 @@ function Login() {
     const [password, setPassword] = useState('');
     const [errorMsg, setErrorMsg]  = useState('');
     const { fetchUser } = useContext(UserContext);
+    const [showPassword, setShowPassword] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,8 +33,11 @@ function Login() {
             if (response.ok) {
                 const data = await response.json();
                 const token = data.token;
-                localStorage.setItem('token', token);
-                console.log(token)
+                if (rememberMe) {
+                    localStorage.setItem('token', token);
+                } else {
+                    sessionStorage.setItem('token', token);
+                }
                 await fetchUser();
                 navigate('/Clique');
             } else {
@@ -83,7 +88,7 @@ function Login() {
                             </div>
                             <div className="input-group">
                                 <input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     id="password"
                                     name="password"
                                     placeholder="Password"
@@ -91,17 +96,32 @@ function Login() {
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
-                                <div>
-                                    <div className="forgot-password">
-                                        <button
-                                            type="button"
-                                            className="forgot-password-link"
-                                            onClick={() => navigate('/forgot-password')}
-                                        >
-                                            Forgotten password?
-                                        </button>
-                                    </div>
-
+                                <label className="checkbox-label">
+                                    <input
+                                        type="checkbox"
+                                        checked={showPassword}
+                                        onChange={() => setShowPassword(!showPassword)}
+                                    />
+                                    Show Password
+                                </label>
+                                <div className="remember-me">
+                                    <label className="checkbox-label-2">
+                                        <input
+                                            type="checkbox"
+                                            checked={rememberMe}
+                                            onChange={() => setRememberMe(!rememberMe)}
+                                        />
+                                        Remember Me
+                                    </label>
+                                </div>
+                                <div className="forgot-password">
+                                    <button
+                                        type="button"
+                                        className="forgot-password-link"
+                                        onClick={() => navigate('/forgot-password')}
+                                    >
+                                        Forgotten password?
+                                    </button>
                                 </div>
                             </div>
                             {errorMsg && <p style={{ color: 'red', marginBottom: '10px' }}>{errorMsg}</p>}
@@ -115,7 +135,6 @@ function Login() {
                             </div>
                         </form>
                     </section>
-
                 </div>
             </div>
         </>

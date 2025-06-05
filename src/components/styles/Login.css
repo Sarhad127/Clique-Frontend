@@ -149,3 +149,30 @@
     font-weight: 500;
     color: rgba(35, 35, 35, 0.78);
 }
+
+.checkbox-label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 10px 0 0 0 !important;
+    padding: 0 !important;
+    color: #444;
+}
+
+.checkbox-label-2 {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 6px 0 0 0 !important;
+    padding: 0 !important;
+    color: #444;
+}
+
+.remember-me {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+}
