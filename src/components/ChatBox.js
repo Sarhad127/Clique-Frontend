@@ -66,7 +66,7 @@ const ChatBox = ({ user, friendId }) => {
     };
 
     return (
-        <div className="chat-box">
+        <div className="default-chat-box">
             <div className="chat-messages">
                 {messages.map((message, index) => (
                     <div key={index} className={`message ${message.userId === user.id ? "outgoing" : "incoming"}`}>
