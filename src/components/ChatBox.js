@@ -8,7 +8,7 @@ const ChatBox = ({ user, friendId }) => {
     const [isConnected, setIsConnected] = useState(false);
     const [connectionStatus, setConnectionStatus] = useState("Disconnected");
     const stompClientRef = useRef(null);
-
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -27,7 +27,7 @@ const ChatBox = ({ user, friendId }) => {
                             method: "GET",
                             headers: {
                                 "Content-Type": "application/json",
-                                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                                Authorization: `Bearer ${token}`,
                             },
                         }
                     );
@@ -54,8 +54,6 @@ const ChatBox = ({ user, friendId }) => {
 
         setConnectionStatus("Connecting...");
         const socket = new SockJS("http://localhost:8080/ws");
-
-        const token = localStorage.getItem("token");
         const stompClient = new Client({
             webSocketFactory: () => socket,
             connectHeaders: {
