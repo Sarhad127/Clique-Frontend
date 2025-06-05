@@ -13,6 +13,7 @@ import Profile from './icons/profile.png';
 import {useNavigate} from "react-router-dom";
 import {useContext, useState} from "react";
 import { UserContext } from "./UserProvider"
+import AddFriendContainer from "./AddFriendContainer";
 
 function Clique() {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ function Clique() {
     const [serverSection, setServerSection] = useState('allChats');
     const [allChatsTab, setAllChatsTab] = useState('chat');
     const { user } = useContext(UserContext);
+    const [showAddFriend, setShowAddFriend] = useState(false);
 
     function handleLogout() {
         localStorage.removeItem('token')
@@ -155,13 +157,16 @@ function Clique() {
                                 <h3 className="friends-title">Friends</h3>
                                 <button
                                     className="add-friend-btn"
-                                    onClick={() => alert("Add friend clicked!")}
+                                    onClick={() => setShowAddFriend((prev) => !prev)}
                                     aria-label="Add Friend"
                                 >
                                     +
                                 </button>
                             </div>
                             <div className="friends-container">
+                                {showAddFriend && (
+                                    <AddFriendContainer token={localStorage.getItem("token")} />
+                                )}
                                 <ul>
                                     {user?.friends?.length > 0 ? (
                                         user.friends.map((friend) => (

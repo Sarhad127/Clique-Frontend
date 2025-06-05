@@ -147,7 +147,34 @@
     margin: 0;
 }
 
+.add-friend-container {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f4f4f4;
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
 
+.add-friend-container input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-friend-container button {
+    padding: 0.5rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-friend-container button:hover {
+    background-color: #45a049;
+}
 
 .add-friend-btn {
     width: 36px;
