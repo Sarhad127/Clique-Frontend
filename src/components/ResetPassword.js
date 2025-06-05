@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import CliqueIcon from "./icons/Clique-icon.png";
+import './styles/Register.css'
 
 function ResetPassword() {
     const navigate = useNavigate();
@@ -20,6 +22,12 @@ function ResetPassword() {
         }
     }, [token]);
 
+    const validatePassword = (password) => {
+        const hasCapital = /[A-Z]/.test(password);
+        const hasMinLength = password.length >= 6;
+        return hasCapital && hasMinLength;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -30,6 +38,11 @@ function ResetPassword() {
 
         if (newPassword !== confirmPassword) {
             setError("Passwords do not match.");
+            return;
+        }
+
+        if (!validatePassword(newPassword)) {
+            setError("Password must be at least 6 characters long and contain at least one capital letter.");
             return;
         }
 
@@ -64,26 +77,30 @@ function ResetPassword() {
     };
 
     return (
-        <div className="main-container" style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
-            <h2>Reset Password</h2>
-
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            {success && <p style={{ color: "green" }}>{success}</p>}
+        <div className="main-container">
+            <div className="Clique-login-title" onClick={() => navigate('/home')}>
+                <img src={CliqueIcon} alt="Clique Logo" className="clique-logo" />
+                <span>Clique</span>
+            </div>
+            <div className="home-page">
+            <h2 className="register-title">Reset Password</h2>
 
             {!success && token && (
-                <form onSubmit={handleSubmit}>
-                    <div className="input-group" style={{ marginBottom: 10 }}>
+                <form onSubmit={handleSubmit} className="reset-form">
+                    <div className="input-group">
                         <input
                             type="password"
+                            className="reset-input"
                             placeholder="New Password"
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                             required
                         />
                     </div>
-                    <div className="input-group" style={{ marginBottom: 10 }}>
+                    <div className="input-group">
                         <input
                             type="password"
+                            className="reset-input"
                             placeholder="Confirm New Password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -91,11 +108,20 @@ function ResetPassword() {
                         />
                     </div>
 
-                    <button type="submit" disabled={loading}>
-                        {loading ? "Resetting..." : "Reset Password"}
-                    </button>
+                  <div className="reset-button">
+                      <button
+                          type="submit"
+                          className="Register-button-2"
+                          disabled={loading}
+                      >
+                          {loading ? "Resetting..." : "Reset Password"}
+                      </button>
+                  </div>
+                    {error && <p className="error-message">{error}</p>}
+                    {success && <p className="success-message">{success}</p>}
                 </form>
             )}
+            </div>
         </div>
     );
 }

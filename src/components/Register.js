@@ -12,14 +12,34 @@ function Register() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState(null);
 
+    const validatePassword = (password) => {
+        const hasCapital = /[A-Z]/.test(password);
+        const hasMinLength = password.length >= 6;
+        return hasCapital && hasMinLength;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validatePassword(password)) {
+            setError("Password must be at least 6 characters long and contain at least one capital letter.");
+            return;
+        }
+
         if (password !== confirmPassword) {
             setError("Passwords do not match");
             return;
         }
         setError(null);
         try {
+            const emailCheckResponse = await fetch(`http://localhost:8080/auth/check-email?email=${encodeURIComponent(email)}`);
+            const emailCheckData = await emailCheckResponse.json();
+
+            if (!emailCheckData.available) {
+                setError("Email is already registered");
+                return;
+            }
+
             const response = await fetch("http://localhost:8080/auth/signup", {
                 method: "POST",
                 headers: {
@@ -57,7 +77,7 @@ function Register() {
                         <form onSubmit={handleSubmit}>
                             <div className="input-group">
                                 <input
-                                    type="text"
+                                    type="email"
                                     id="Email"
                                     name="Email"
                                     placeholder="Email"
