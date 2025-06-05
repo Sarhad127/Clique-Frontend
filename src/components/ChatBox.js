@@ -9,6 +9,14 @@ const ChatBox = ({ user, friendId }) => {
     const [connectionStatus, setConnectionStatus] = useState("Disconnected");
     const stompClientRef = useRef(null);
 
+    const messagesEndRef = useRef(null);
+
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+        }
+    };
+
     useEffect(() => {
         if (friendId) {
             const fetchMessages = async () => {
@@ -30,6 +38,8 @@ const ChatBox = ({ user, friendId }) => {
 
                     const data = await response.json();
                     setMessages(data);
+
+                    setTimeout(scrollToBottom, 100);
                 } catch (error) {
                     console.error("Failed to fetch messages:", error);
                 }
@@ -90,6 +100,10 @@ const ChatBox = ({ user, friendId }) => {
         };
     }, [user?.id]);
 
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
     const handleSendMessage = () => {
         if (!newMessage.trim() || !isConnected) return;
 
@@ -114,13 +128,18 @@ const ChatBox = ({ user, friendId }) => {
 
     return (
         <div className="default-chat-box">
-            {/*<div className="connection-status">*/}
-            {/*    Status: {connectionStatus} | WebSocket: {isConnected ? "Connected" : "Disconnected"}*/}
-            {/*</div>*/}
-
-            <div className="chat-messages">
+            <div
+                className="chat-messages"
+                ref={messagesEndRef}
+                style={{ overflowY: "auto"}}
+            >
                 {messages.map((message, index) => (
-                    <div key={index} className={`message ${message.senderId === user.id ? "outgoing" : "incoming"}`}>
+                    <div
+                        key={index}
+                        className={`message ${
+                            message.senderId === user.id ? "outgoing" : "incoming"
+                        }`}
+                    >
                         <div>{message.content}</div>
                         <div className="message-time">
                             {new Date(message.timestamp).toLocaleTimeString()}
