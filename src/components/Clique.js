@@ -20,8 +20,10 @@ function Clique() {
     const [activeSection, setActiveSection] = useState('allChats')
     const [serverSection, setServerSection] = useState('allChats');
     const [allChatsTab, setAllChatsTab] = useState('chat');
-    const { user } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const [showAddFriend, setShowAddFriend] = useState(false);
+    const [isEditingUsername, setIsEditingUsername] = useState(false);
+    const [newUsername, setNewUsername] = useState(user?.username || "");
 
     function handleLogout() {
         localStorage.removeItem('token')
@@ -37,6 +39,29 @@ function Clique() {
         setActiveSection('profile');
     }
 
+    async function saveUsername() {
+        try {
+            const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+            const response = await fetch("http://localhost:8080/user/username", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+                body: JSON.stringify({ username: newUsername }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to update username");
+            }
+
+            const updatedUser = await response.json();
+            setUser(updatedUser);
+            setIsEditingUsername(false);
+        } catch (error) {
+            alert(error.message);
+        }
+    }
 
     return (
         <div className="clique-page">
@@ -215,7 +240,41 @@ function Clique() {
                                 <div className="profile-details">
                                     <div className="detail-item">
                                         <label>Username</label>
-                                        <div className="detail-value">{user?.username || "Loading..."}</div>
+                                        <div className="detail-value" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                            {!isEditingUsername ? (
+                                                <>
+                                                    <span>{user?.username || "Loading..."}</span>
+                                                    <button
+                                                        className="edit-username-btn"
+                                                        onClick={() => {
+                                                            setNewUsername(user?.username || "");
+                                                            setIsEditingUsername(true);
+                                                        }}
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <input
+                                                        type="text"
+                                                        value={newUsername}
+                                                        onChange={(e) => setNewUsername(e.target.value)}
+                                                        maxLength={30}
+                                                        autoFocus
+                                                    />
+                                                    <button className="save-username-btn" onClick={saveUsername}>
+                                                        Save
+                                                    </button>
+                                                    <button
+                                                        className="cancel-username-btn"
+                                                        onClick={() => setIsEditingUsername(false)}
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </>
+                                            )}
+                                        </div>
                                     </div>
 
                                     <div className="detail-item">
@@ -269,7 +328,6 @@ function Clique() {
                 <div className="FOURTH-CONTAINER">
 
                 </div>
-
             </div>
         </div>
     );
