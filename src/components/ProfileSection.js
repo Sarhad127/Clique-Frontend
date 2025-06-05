@@ -1,11 +1,8 @@
+import './styles/Profile.css';
 
 const ProfileSection = ({ user, isEditingUsername, setIsEditingUsername, newUsername, setNewUsername, saveUsername }) => {
     return (
         <div className="profile-info">
-            <div className="profile-header">
-                <h2>My Profile</h2>
-            </div>
-
             <div className="profile-content">
                 <div className="avatar-section">
                     {user?.avatarUrl ? (
@@ -70,11 +67,6 @@ const ProfileSection = ({ user, isEditingUsername, setIsEditingUsername, newUser
                         <label>Member Since</label>
                         <div className="detail-value">June 2023</div>
                     </div>
-                </div>
-
-                <div className="profile-actions">
-                    <button className="edit-profile-btn">Edit Profile</button>
-                    <button className="change-password-btn">Change Password</button>
                 </div>
             </div>
         </div>

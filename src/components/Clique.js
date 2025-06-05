@@ -132,7 +132,6 @@ function Clique() {
                             <div className="all-chats-content">
                                 {allChatsTab === "chat" && (
                                     <div>
-                                        <h2>Direct Messages</h2>
                                         {user?.directMessages?.length > 0 ? (
                                             user.directMessages.map((chat) => (
                                                 <div key={chat.id} className="chat-item" onClick={() => handleFriendClick(chat.id)}>
@@ -152,14 +151,13 @@ function Clique() {
                                                 </div>
                                             ))
                                         ) : (
-                                            <div>No direct messages</div>
+                                            <div></div>
                                         )}
                                     </div>
                                 )}
 
                                 {allChatsTab === "groups" && (
                                     <div>
-                                        <h2>Group Chats</h2>
                                         {user?.groupChats?.length > 0 ? (
                                             user.groupChats.map((group) => (
                                                 <div key={group.id} className="chat-item">
@@ -179,7 +177,7 @@ function Clique() {
                                                 </div>
                                             ))
                                         ) : (
-                                            <div>No group chats</div>
+                                            <div></div>
                                         )}
                                     </div>
                                 )}
@@ -215,7 +213,7 @@ function Clique() {
                             selectedFriendId ? (
                                 <ChatBox user={user} friendId={selectedFriendId} />
                             ) : (
-                                <div>Select a friend to start chatting.</div>
+                                <div></div>
                             )
                     )}
                 </div>

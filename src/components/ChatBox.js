@@ -7,7 +7,6 @@ const ChatBox = ({ user, friendId }) => {
     const [newMessage, setNewMessage] = useState("");
     const [isConnected, setIsConnected] = useState(false);
     const [connectionStatus, setConnectionStatus] = useState("Disconnected");
-
     const stompClientRef = useRef(null);
 
     useEffect(() => {
@@ -115,9 +114,9 @@ const ChatBox = ({ user, friendId }) => {
 
     return (
         <div className="default-chat-box">
-            <div className="connection-status">
-                Status: {connectionStatus} | WebSocket: {isConnected ? "Connected" : "Disconnected"}
-            </div>
+            {/*<div className="connection-status">*/}
+            {/*    Status: {connectionStatus} | WebSocket: {isConnected ? "Connected" : "Disconnected"}*/}
+            {/*</div>*/}
 
             <div className="chat-messages">
                 {messages.map((message, index) => (

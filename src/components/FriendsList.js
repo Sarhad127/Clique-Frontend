@@ -47,7 +47,6 @@ const FriendsList = ({
                                     }}
                                 />
                                 <span>{friend.username || friend.email}</span>
-                                <div className="status-indicator"></div>
                             </li>
                         ))
                     ) : (
