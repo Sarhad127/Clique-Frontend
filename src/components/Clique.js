@@ -173,13 +173,13 @@ function Clique() {
                                             <li key={friend.id} className="friend-item">
                                                 <img
                                                     src={friend.avatarUrl || `https://i.pravatar.cc/40?u=${friend.id}`}
-                                                    alt={friend.usernameForController || friend.email || "Friend"}
+                                                    alt={friend.username || friend.email || "Friend"}
                                                     onError={(e) => {
                                                         e.target.onerror = null;
-                                                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(friend.usernameForController || friend.email)}&background=random&size=40`;
+                                                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(friend.username || friend.email)}&background=random&size=40`;
                                                     }}
                                                 />
-                                                <span>{friend.usernameForController || friend.email}</span>
+                                                <span>{friend.username || friend.email}</span>
                                                 <div className="status-indicator"></div>
                                             </li>
                                         ))
