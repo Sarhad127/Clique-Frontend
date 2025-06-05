@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import AddFriendContainer from "./AddFriendContainer";
 
 const FriendsList = ({
                          user,
                          showAddFriend,
                          setShowAddFriend,
-                         onFriendClick
+                         onFriendClick,
                      }) => {
+    const [searchTerm, setSearchTerm] = useState("");
+
     const handleFriendClick = (friendId) => {
         console.log("Friend clicked:", friendId);
         if (onFriendClick) {
@@ -15,6 +17,11 @@ const FriendsList = ({
             console.error("onFriendClick handler not provided");
         }
     };
+
+    const filteredFriends = user?.friends?.filter((friend) => {
+        const name = friend.username || friend.email || "";
+        return name.toLowerCase().includes(searchTerm.toLowerCase());
+    });
 
     return (
         <div className="friends-list">
@@ -28,11 +35,22 @@ const FriendsList = ({
                     +
                 </button>
             </div>
+
+            <div className="search-bar">
+                <input
+                    type="text"
+                    placeholder="Search friends..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="friend-search-input"
+                />
+            </div>
+
             <div className="friends-container">
                 {showAddFriend && <AddFriendContainer token={localStorage.getItem("token")} />}
                 <ul>
-                    {user?.friends?.length > 0 ? (
-                        user.friends.map((friend) => (
+                    {filteredFriends?.length > 0 ? (
+                        filteredFriends.map((friend) => (
                             <li
                                 key={friend.id}
                                 className="friend-item"
@@ -43,14 +61,16 @@ const FriendsList = ({
                                     alt={friend.username || friend.email || "Friend"}
                                     onError={(e) => {
                                         e.target.onerror = null;
-                                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(friend.username || friend.email)}&background=random&size=40`;
+                                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                            friend.username || friend.email
+                                        )}&background=random&size=40`;
                                     }}
                                 />
                                 <span>{friend.username || friend.email}</span>
                             </li>
                         ))
                     ) : (
-                        <li>No friends available</li>
+                        <li>No friends found</li>
                     )}
                 </ul>
             </div>

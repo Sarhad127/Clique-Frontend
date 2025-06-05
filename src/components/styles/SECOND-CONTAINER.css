@@ -253,3 +253,26 @@
 .status-dnd {
     background-color: #ed4245;
 }
+
+.friend-search-input {
+    width: 90%;
+    max-width: 250px;
+    padding: 8px 12px;
+    margin: 10px auto;
+    border-radius: 6px;
+    border: 1px solid #4f545c;
+    background-color: rgba(30, 31, 34, 0.77);
+    color: #dcddde;
+    font-size: 14px;
+    outline: none;
+    display: block;
+    transition: border 0.2s ease;
+}
+
+.friend-search-input::placeholder {
+    color: #72767d;
+}
+
+.friend-search-input:focus {
+    border-color: #72767d;
+}
