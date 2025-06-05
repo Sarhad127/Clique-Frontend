@@ -10,24 +10,27 @@ import AllChats from './icons/all-chats.png';
 import Friends from './icons/friends.png';
 import Profile from './icons/profile.png';
 
-import {useNavigate} from "react-router-dom";
-import {useContext, useState} from "react";
-import { UserContext } from "./UserProvider"
-import AddFriendContainer from "./AddFriendContainer";
+import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { UserContext } from "./UserProvider";
+import FriendsList from "./FriendsList";
+import ProfileSection from "./ProfileSection";
+import ChatBox from "./ChatBox";
 
 function Clique() {
     const navigate = useNavigate();
-    const [activeSection, setActiveSection] = useState('allChats')
+    const [activeSection, setActiveSection] = useState('allChats');
     const [serverSection, setServerSection] = useState('allChats');
     const [allChatsTab, setAllChatsTab] = useState('chat');
     const { user, setUser } = useContext(UserContext);
     const [showAddFriend, setShowAddFriend] = useState(false);
     const [isEditingUsername, setIsEditingUsername] = useState(false);
     const [newUsername, setNewUsername] = useState(user?.username || "");
+    const [selectedFriendId, setSelectedFriendId] = useState(null);
 
     function handleLogout() {
-        localStorage.removeItem('token')
-        sessionStorage.removeItem('token')
+        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate('/home');
     }
 
@@ -38,6 +41,12 @@ function Clique() {
     function handleProfileClick() {
         setActiveSection('profile');
     }
+
+    const handleFriendClick = (friendId) => {
+        console.log("Friend clicked:", friendId);
+        setSelectedFriendId(friendId);
+        setActiveSection('chat');
+    };
 
     async function saveUsername() {
         try {
@@ -97,7 +106,7 @@ function Clique() {
                     </nav>
                     <hr className="sidebar-divider-second" />
                     <div className="logout-icon">
-                        <img src={Logout} alt="Logout logo" className="nav-icon" onClick={handleLogout}/>
+                        <img src={Logout} alt="Logout logo" className="nav-icon" onClick={handleLogout} />
                         <span>Log out</span>
                     </div>
                 </div>
@@ -126,7 +135,7 @@ function Clique() {
                                         <h2>Direct Messages</h2>
                                         {user?.directMessages?.length > 0 ? (
                                             user.directMessages.map((chat) => (
-                                                <div key={chat.id} className="chat-item">
+                                                <div key={chat.id} className="chat-item" onClick={() => handleFriendClick(chat.id)}>
                                                     <img
                                                         src={chat.avatarUrl || `https://i.pravatar.cc/40?u=${chat.id}`}
                                                         alt={chat.username || "User"}
@@ -143,7 +152,7 @@ function Clique() {
                                                 </div>
                                             ))
                                         ) : (
-                                            <div></div>
+                                            <div>No direct messages</div>
                                         )}
                                     </div>
                                 )}
@@ -170,158 +179,44 @@ function Clique() {
                                                 </div>
                                             ))
                                         ) : (
-                                            <div></div>
+                                            <div>No group chats</div>
                                         )}
                                     </div>
                                 )}
                             </div>
                         </div>
                     )}
+
                     {serverSection === "friends" && (
-                        <div className="friends-list">
-                            <div className="friends-header">
-                                <h3 className="friends-title">Friends</h3>
-                                <button
-                                    className="add-friend-btn"
-                                    onClick={() => setShowAddFriend((prev) => !prev)}
-                                    aria-label="Add Friend"
-                                >
-                                    +
-                                </button>
-                            </div>
-                            <div className="friends-container">
-                                {showAddFriend && (
-                                    <AddFriendContainer token={localStorage.getItem("token")} />
-                                )}
-                                <ul>
-                                    {user?.friends?.length > 0 ? (
-                                        user.friends.map((friend) => (
-                                            <li key={friend.id} className="friend-item">
-                                                <img
-                                                    src={friend.avatarUrl || `https://i.pravatar.cc/40?u=${friend.id}`}
-                                                    alt={friend.username || friend.email || "Friend"}
-                                                    onError={(e) => {
-                                                        e.target.onerror = null;
-                                                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(friend.username || friend.email)}&background=random&size=40`;
-                                                    }}
-                                                />
-                                                <span>{friend.username || friend.email}</span>
-                                                <div className="status-indicator"></div>
-                                            </li>
-                                        ))
-                                    ) : (
-                                        <li></li>
-                                    )}
-                                </ul>
-                            </div>
-                        </div>
+                        <FriendsList
+                            user={user}
+                            showAddFriend={showAddFriend}
+                            setShowAddFriend={setShowAddFriend}
+                            onFriendClick={(friendId) => {
+                                console.log("Friend clicked from child:", friendId);
+                                setSelectedFriendId(friendId);
+                                setActiveSection('chat');
+                            }}
+                        />
                     )}
                 </div>
 
                 <div className="THIRD-CONTAINER">
                     {activeSection === "profile" ? (
-                        <div className="profile-info">
-                            <div className="profile-header">
-                                <h2>My Profile</h2>
-                            </div>
-
-                            <div className="profile-content">
-                                <div className="avatar-section">
-                                    {user?.avatarUrl ? (
-                                        <img src={user.avatarUrl} alt="Avatar" className="profile-avatar" />
-                                    ) : (
-                                        <div className="avatar-placeholder">
-                                            {user?.username?.charAt(0).toUpperCase() || 'U'}
-                                        </div>
-                                    )}
-                                    <button className="edit-avatar-btn">Change Avatar</button>
-                                </div>
-
-                                <div className="profile-details">
-                                    <div className="detail-item">
-                                        <label>Username</label>
-                                        <div className="detail-value" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                                            {!isEditingUsername ? (
-                                                <>
-                                                    <span>{user?.username || "Loading..."}</span>
-                                                    <button
-                                                        className="edit-username-btn"
-                                                        onClick={() => {
-                                                            setNewUsername(user?.username || "");
-                                                            setIsEditingUsername(true);
-                                                        }}
-                                                    >
-                                                        Edit
-                                                    </button>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <input
-                                                        type="text"
-                                                        value={newUsername}
-                                                        onChange={(e) => setNewUsername(e.target.value)}
-                                                        maxLength={30}
-                                                        autoFocus
-                                                    />
-                                                    <button className="save-username-btn" onClick={saveUsername}>
-                                                        Save
-                                                    </button>
-                                                    <button
-                                                        className="cancel-username-btn"
-                                                        onClick={() => setIsEditingUsername(false)}
-                                                    >
-                                                        Cancel
-                                                    </button>
-                                                </>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <div className="detail-item">
-                                        <label>Email</label>
-                                        <div className="detail-value">{user?.email || "Loading..."}</div>
-                                    </div>
-
-                                    <div className="detail-item">
-                                        <label>Member Since</label>
-                                        <div className="detail-value">June 2023</div>
-                                    </div>
-                                </div>
-
-                                <div className="profile-actions">
-                                    <button className="edit-profile-btn">Edit Profile</button>
-                                    <button className="change-password-btn">Change Password</button>
-                                </div>
-                            </div>
-                        </div>
+                        <ProfileSection
+                            user={user}
+                            isEditingUsername={isEditingUsername}
+                            setIsEditingUsername={setIsEditingUsername}
+                            newUsername={newUsername}
+                            setNewUsername={setNewUsername}
+                            saveUsername={saveUsername}
+                        />
                     ) : (
-                        <div className="default-chat-box">
-                            <div className="chat-container">
-                                <div className="chat-messages">
-                                    <div className="message incoming">
-                                        Hello! This is a message from someone else.
-                                        <div className="message-time">Today at 2:30 PM</div>
-                                    </div>
-                                    <div className="message outgoing">
-                                        Hi! This is your reply.
-                                        <div className="message-time">Today at 2:32 PM</div>
-                                    </div>
-                                    <div className="message incoming">
-                                        How are you doing today?
-                                        <div className="message-time">Today at 2:33 PM</div>
-                                    </div>
-                                </div>
-
-                                <div className="chat-input-area">
-                                    <input
-                                        type="text"
-                                        placeholder="Type your message..."
-                                        className="chat-input"
-                                    />
-                                    <button className="send-button">Send</button>
-                                </div>
-                            </div>
-                        </div>
+                            selectedFriendId ? (
+                                <ChatBox user={user} friendId={selectedFriendId} />
+                            ) : (
+                                <div>Select a friend to start chatting.</div>
+                            )
                     )}
                 </div>
 
