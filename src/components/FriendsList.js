@@ -70,7 +70,7 @@ const FriendsList = ({
                             </li>
                         ))
                     ) : (
-                        <li>No friends found</li>
+                        <li></li>
                     )}
                 </ul>
             </div>
