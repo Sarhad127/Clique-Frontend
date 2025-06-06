@@ -1,12 +1,8 @@
 .default-chat-box {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 100px);
-    max-height: none;
-    width: 95%;
-    margin: auto;
+    height: 100%;
     background-color: white;
-    border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
