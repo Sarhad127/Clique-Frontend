@@ -1,10 +1,15 @@
 *{
     margin: 0;
 }
-
+.Clique-login-title,
+.clique-logo {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
 .main-container {
     display: flex;
-    background-color: rgba(66, 62, 62, 0.23);
+    background: linear-gradient(to bottom, rgba(234, 234, 234, 0.5), rgba(105, 105, 105, 0.23));
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -15,27 +20,29 @@
     height: 600px;
     padding: 2rem;
     border-radius: 8px;
-    background-color: whitesmoke;
+    background-color: white;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 .login-title {
     text-align: center;
-    font-size: 45px;
-    font-family: Century, sans-serif
+    font-size: 1.6rem;
+    font-family: Cambria, sans-serif;
+    font-weight: 700;
 }
 
 .Clique-login-title {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 2%;
     margin: 2rem;
-    font-family: "Adobe Hebrew", sans-serif;
-    font-size: 2.2rem;
+    font-family: "Adobe Devanagari", sans-serif;
+    font-size: 2.5rem;
     font-weight: 700;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    cursor: pointer;
 }
 
 .Clique-login-title span {
@@ -45,5 +52,127 @@
 .clique-logo {
     width: 40px;
     height: auto;
-    border-radius: 20%;
+    border-radius: 22%;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 5rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.2rem;
+}
+
+.input-group label{
+    margin-bottom: 0.5rem;
+    font-family: Calibri, sans-serif;
+}
+
+.input-group input{
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.login-button {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-button {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.login-button:hover {
+    background-color: #2563eb;
+}
+
+.create-account-link-container {
+    display: flex;
+    justify-content: center;
+}
+
+.create-account-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-family: Calibri, sans-serif;
+}
+
+.create-account-link:hover {
+    color: #2563eb;
+}
+
+.forgot-password {
+    display: flex;
+    margin-top: 0.6rem;
+    justify-content: flex-end;
+}
+
+.forgot-password-link {
+    background: none;
+    border: none;
+    color: #3b82f6;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0;
+}
+
+.forgot-password-link:hover {
+    color: #2563eb;
+}
+.login-form label {
+    margin-top: 2px;
+    margin-left: 2px;
+    font-family: Calibri, sans-serif;
+    font-weight: 500;
+    color: rgba(35, 35, 35, 0.78);
+}
+
+.checkbox-label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 10px 0 0 0 !important;
+    padding: 0 !important;
+    color: #444;
+}
+
+.checkbox-label-2 {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 6px 0 0 0 !important;
+    padding: 0 !important;
+    color: #444;
+}
+
+.remember-me {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
 }

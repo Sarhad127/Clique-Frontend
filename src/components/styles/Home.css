@@ -2,6 +2,12 @@
     margin: 0;
 }
 
+.slider {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
 .home-page {
     width: 400px;
     height: 600px;
@@ -29,21 +35,21 @@
 }
 
 .login-btn {
-    background-color: #4a90e2;
+    background-color: #3678c5;
     color: white;
 }
 
 .login-btn:hover {
-    background-color: #357abd;
+    background-color: #498bc9;
 }
 
 .register-btn {
-    background-color: #50c878;
+    background-color: #3eb265;
     color: white;
 }
 
 .register-btn:hover {
-    background-color: #3da85a;
+    background-color: #60be7a;
 }
 
 .slider-wrapper {

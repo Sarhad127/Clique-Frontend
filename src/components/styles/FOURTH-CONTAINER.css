@@ -1,0 +1,41 @@
+.FOURTH-CONTAINER {
+    width: 290px;
+    background-color: whitesmoke;
+    color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.friend-details {
+    margin-top: 20px;
+    text-align: center;
+}
+.friend-details-avatar {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+.friend-details h3 {
+    margin: 0;
+    margin-bottom: 6px;
+}
+.friend-details p {
+    margin: 0;
+    color: #666;
+}
+.friend-details button {
+    margin-top: 15px;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+    background-color: #4a90e2;
+    color: white;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+.friend-details button:hover {
+    background-color: #357ABD;
+}
