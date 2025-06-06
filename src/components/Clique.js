@@ -9,6 +9,7 @@ import Logout from './icons/logout.png';
 import AllChats from './icons/all-chats.png';
 import Friends from './icons/friends.png';
 import Profile from './icons/profile.png';
+import FriendDetails from "./FriendDetails";
 
 import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
@@ -27,6 +28,9 @@ function Clique() {
     const [isEditingUsername, setIsEditingUsername] = useState(false);
     const [newUsername, setNewUsername] = useState(user?.username || "");
     const [selectedFriendId, setSelectedFriendId] = useState(null);
+    const selectedFriend = user?.friends?.find(friend => friend.id === selectedFriendId);
+    const [description, setDescription] = useState(user?.description || "");
+    const [isEditingDescription, setIsEditingDescription] = useState(false);
 
     function handleLogout() {
         localStorage.removeItem('token');
@@ -71,6 +75,30 @@ function Clique() {
             alert(error.message);
         }
     }
+
+    const saveDescription = async (desc) => {
+        try {
+            const response = await fetch('http://localhost:8080/user/description', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token") || sessionStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({ description: desc }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setDescription(data.description);
+                console.log("Description saved:", data.description);
+            } else {
+                console.error("Failed to save description:", data.message || data);
+            }
+        } catch (error) {
+            console.error("Error while saving description:", error);
+        }
+    };
 
     return (
         <div className="clique-page">
@@ -212,6 +240,11 @@ function Clique() {
                             newUsername={newUsername}
                             setNewUsername={setNewUsername}
                             saveUsername={saveUsername}
+                            description={description}
+                            setDescription={setDescription}
+                            isEditingDescription={isEditingDescription}
+                            setIsEditingDescription={setIsEditingDescription}
+                            saveDescription={saveDescription}
                         />
                     ) : (
                             selectedFriendId ? (
@@ -223,7 +256,17 @@ function Clique() {
                 </div>
 
                 <div className="FOURTH-CONTAINER">
-
+                    {selectedFriend ? (
+                        <FriendDetails
+                            friend={selectedFriend}
+                            onStartChat={(friendId) => {
+                                console.log("Start chat with", friendId);
+                                setActiveSection("chat");
+                            }}
+                        />
+                    ) : (
+                        <div>Select a friend to see details</div>
+                    )}
                 </div>
             </div>
         </div>

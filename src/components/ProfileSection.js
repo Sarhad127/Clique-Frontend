@@ -1,6 +1,26 @@
+import React, { useState } from "react";
 import './styles/Profile.css';
 
-const ProfileSection = ({ user, isEditingUsername, setIsEditingUsername, newUsername, setNewUsername, saveUsername }) => {
+const ProfileSection = ({
+                            user,
+                            isEditingUsername,
+                            setIsEditingUsername,
+                            newUsername,
+                            setNewUsername,
+                            saveUsername,
+                            description,
+                            setDescription,
+                            isEditingDescription,
+                            setIsEditingDescription,
+                            saveDescription,
+                        }) => {
+
+    const [tempDescription, setTempDescription] = useState(description || "");
+
+    React.useEffect(() => {
+        setTempDescription(description || "");
+    }, [description]);
+
     return (
         <div className="profile-info">
             <div className="profile-content">
@@ -66,6 +86,57 @@ const ProfileSection = ({ user, isEditingUsername, setIsEditingUsername, newUser
                     <div className="detail-item">
                         <label>Member Since</label>
                         <div className="detail-value">June 2023</div>
+                    </div>
+
+                    <div className="detail-item">
+                        <label>Description</label>
+                        <div
+                            className="detail-value"
+                            style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+                        >
+                            {!isEditingDescription ? (
+                                <>
+                                    <p style={{ whiteSpace: "pre-wrap" }}>{description || "No description yet."}</p>
+                                    <button
+                                        className="edit-description-btn"
+                                        onClick={() => setIsEditingDescription(true)}
+                                    >
+                                        Edit
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                  <textarea
+                      rows={4}
+                      value={tempDescription}
+                      onChange={(e) => setTempDescription(e.target.value)}
+                      maxLength={500}
+                      autoFocus
+                      style={{ resize: "vertical", padding: "8px" }}
+                  />
+                                    <div style={{ display: "flex", gap: "8px" }}>
+                                        <button
+                                            className="save-description-btn"
+                                            onClick={() => {
+                                                saveDescription(tempDescription);
+                                                setIsEditingDescription(false);
+                                            }}
+                                        >
+                                            Save
+                                        </button>
+                                        <button
+                                            className="cancel-description-btn"
+                                            onClick={() => {
+                                                setTempDescription(description || "");
+                                                setIsEditingDescription(false);
+                                            }}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
