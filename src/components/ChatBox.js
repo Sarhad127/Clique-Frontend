@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
+import './styles/ChatBox.css';
 
 const ChatBox = ({ user, friendId }) => {
     const [messages, setMessages] = useState([]);
