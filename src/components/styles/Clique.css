@@ -1,5 +1,5 @@
 .clique-page {
-    background: linear-gradient(to bottom, rgba(234, 234, 234, 0.5), rgba(105, 105, 105, 0.23));
+    background: linear-gradient(to bottom, rgba(204, 204, 204, 0.5), rgba(178, 178, 178, 0.23));
     height: 100vh;
     width: 100vw;
     box-sizing: border-box;
@@ -9,7 +9,62 @@
 }
 
 .clique-main-container {
+    gap: 20px;
     display: flex;
     flex: 1;
     background-color: transparent;
+}
+
+.TOP-NAVBAR {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: #387ac2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    color: white;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.navbar-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.navbar-username {
+    font-size: 16px;
+}
+
+.navbar-logout {
+    background-color: #ff5e5e;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.navbar-logout:hover {
+    background-color: #e04848;
 }

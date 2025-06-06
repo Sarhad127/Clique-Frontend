@@ -74,6 +74,10 @@ function Clique() {
 
     return (
         <div className="clique-page">
+            <div className="TOP-NAVBAR">
+                <div className="navbar-right">
+                </div>
+            </div>
             <div className="clique-main-container">
 
                 <div className="FIRST-CONTAINER">

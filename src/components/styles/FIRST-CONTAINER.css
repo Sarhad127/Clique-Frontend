@@ -6,15 +6,17 @@
 
 .FIRST-CONTAINER {
     width: 80px;
-    background-color: #202225;
+    background-color: whitesmoke;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
+    height: calc(100vh - 60px);
+    margin-top: 60px;
     position: relative;
     justify-content: space-between;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
+
 
 .sidebar-divider {
     width: 60%;
@@ -27,7 +29,7 @@
 .sidebar-divider-second {
     width: 60%;
     border: none;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid black;
     margin: 1rem auto;
     opacity: 0.6;
     padding-top: 20px;
@@ -68,17 +70,17 @@
 .nav-icon {
     width: 28px;
     height: 28px;
-    filter: invert(10%);
+    filter: invert(80%);
     margin-bottom: 6px;
 }
 
 .sidebar-nav-icons span,
 .logout-icon span {
-    color: white;
+    color: rgba(0, 0, 0, 0.79);
     font-size: 11px;
     font-weight: 600;
     text-align: center;
-    font-family: Calibri, sans-serif;
+    font-family: "Adobe Caslon Pro";
     user-select: none;
 }
 
@@ -98,5 +100,5 @@
 .logout-icon img {
     width: 28px;
     height: 28px;
-    filter: invert(10%);
+    filter: invert(80%);
 }
