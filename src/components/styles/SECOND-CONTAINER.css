@@ -98,7 +98,7 @@
 }
 
 .chat-item:hover {
-    background-color: #387ac2;
+    background-color: #dadada;
 }
 
 .chat-item-avatar {
@@ -238,7 +238,7 @@
 }
 
 .friend-item:hover {
-    background-color: #387ac2;
+    background-color: #dadada;
 }
 
 .friend-item img {
