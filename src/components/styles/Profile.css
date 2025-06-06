@@ -55,10 +55,11 @@
 }
 
 .profile-details {
-    background-color: #2f3136;
+    background-color: whitesmoke;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 .detail-item {
@@ -72,11 +73,11 @@
 .detail-item label {
     display: block;
     font-size: 12px;
-    color: #b9bbbe;
+    color: black;
     margin-bottom: 5px;
 }
 
 .detail-value {
     font-size: 16px;
-    color: white;
+    color: black;
 }
