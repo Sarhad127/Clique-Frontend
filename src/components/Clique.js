@@ -31,6 +31,9 @@ function Clique() {
     const selectedFriend = user?.friends?.find(friend => friend.id === selectedFriendId);
     const [description, setDescription] = useState(user?.description || "");
     const [isEditingDescription, setIsEditingDescription] = useState(false);
+    const [chatList, setChatList] = useState(user?.directMessages || []);
+    const [selectedFriends, setSelectedFriend] = useState(null);
+    const [activeChatId, setActiveChatId] = useState(null);
 
     function handleLogout() {
         localStorage.removeItem('token');
@@ -40,6 +43,10 @@ function Clique() {
 
     function handleServerSectionChange(section) {
         setServerSection(section);
+        if (section === 'friends') {
+            setActiveSection('');
+            setSelectedFriendId(null);
+        }
     }
 
     function handleProfileClick() {
@@ -50,6 +57,8 @@ function Clique() {
         console.log("Friend clicked:", friendId);
         setSelectedFriendId(friendId);
         setActiveSection('chat');
+        setSelectedFriend(null);
+        setActiveChatId(friendId);
     };
 
     async function saveUsername() {
@@ -164,10 +173,14 @@ function Clique() {
                             <div className="all-chats-content">
                                 {allChatsTab === "chat" && (
                                     <div>
-                                        {user?.directMessages?.length > 0 ? (
-                                            user.directMessages.map((chat) => (
-                                                <div key={chat.id} className="chat-item" onClick={() => handleFriendClick(chat.id)}>
-                                                    <img
+                                        {chatList.length > 0 ? (
+                                            chatList.map((chat) => (
+                                                <div
+                                                    key={chat.id}
+                                                    className={`chat-item ${activeChatId === chat.id ? 'active-chat' : ''}`}
+                                                    onClick={() => handleFriendClick(chat.id)}
+                                                >
+                                                <img
                                                         src={chat.avatarUrl || `https://i.pravatar.cc/40?u=${chat.id}`}
                                                         alt={chat.username || "User"}
                                                         className="chat-item-avatar"
@@ -223,9 +236,9 @@ function Clique() {
                             showAddFriend={showAddFriend}
                             setShowAddFriend={setShowAddFriend}
                             onFriendClick={(friendId) => {
-                                console.log("Friend clicked from child:", friendId);
-                                setSelectedFriendId(friendId);
-                                setActiveSection('chat');
+                                const friend = user.friends.find(f => f.id === friendId);
+                                if (!friend) return;
+                                setSelectedFriend(friend);
                             }}
                         />
                     )}
@@ -256,16 +269,35 @@ function Clique() {
                 </div>
 
                 <div className="FOURTH-CONTAINER">
-                    {selectedFriend ? (
+                    {selectedFriends ? (
                         <FriendDetails
-                            friend={selectedFriend}
+                            friend={selectedFriends}
                             onStartChat={(friendId) => {
-                                console.log("Start chat with", friendId);
+                                const friend = user.friends.find(f => f.id === friendId);
+                                if (!friend) return;
+
+                                if (!chatList.some(chat => chat.id === friend.id)) {
+                                    setChatList(prev => [
+                                        ...prev,
+                                        {
+                                            id: friend.id,
+                                            username: friend.username,
+                                            avatarUrl: friend.avatarUrl || `https://i.pravatar.cc/40?u=${friend.id}`,
+                                            lastMessagePreview: ""
+                                        }
+                                    ]);
+                                }
+
+                                setServerSection("allChats");
+                                setAllChatsTab("chat");
+                                setSelectedFriendId(friendId);
                                 setActiveSection("chat");
+                                setSelectedFriend(null);
+                                setActiveChatId(friendId);
                             }}
                         />
                     ) : (
-                        <div>Select a friend to see details</div>
+                        <div></div>
                     )}
                 </div>
             </div>

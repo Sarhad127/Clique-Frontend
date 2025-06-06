@@ -81,26 +81,32 @@
     border-radius: 3px;
 }
 
+.chat-item.active-chat {
+    background-color: #bdbdbd;
+    color: white;
+}
+
 .chat-item {
     display: flex;
     align-items: center;
-    padding: 8px;
-    border-radius: 4px;
-    margin-bottom: 8px;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 16px;
     transition: background-color 0.2s ease;
+    background-color: whitesmoke;
     cursor: pointer;
 }
 
 .chat-item:hover {
-    background-color: #3b3d44;
+    background-color: #387ac2;
 }
 
 .chat-item-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    margin-right: 12px;
     object-fit: cover;
+    border: 2px solid #202225;
 }
 
 .chat-item-info {
@@ -108,7 +114,7 @@
 }
 
 .chat-item-name {
-    color: #ffffff;
+    color: black;
     font-weight: 500;
     margin-bottom: 4px;
 }
