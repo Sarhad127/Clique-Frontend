@@ -204,7 +204,7 @@ function Clique() {
                                                 return (
                                                     <div
                                                         key={chat.id}
-                                                        className={`chat-item ${activeChatId === chat.id ? 'active-chat' : ''}`}
+                                                        className={`chat-item ${participants.some(p => p.id === activeChatId) ? 'active-chat' : ''}`}
                                                         onClick={() => handleFriendClick(otherParticipant.id)}
                                                     >
                                                         <img
@@ -218,9 +218,7 @@ function Clique() {
                                                         />
                                                         <div className="chat-item-info">
                                                             <div className="chat-item-name">{otherParticipant.username}</div>
-                                                            <div className="chat-item-preview">
-                                                                {lastMessage ? lastMessage.content : "No messages yet"}
-                                                            </div>
+                                                            <div className="chat-item-preview">{lastMessage ? lastMessage.content : "No messages yet"}</div>
                                                         </div>
                                                     </div>
                                                 );
