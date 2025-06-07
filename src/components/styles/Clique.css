@@ -9,7 +9,7 @@
 }
 
 .clique-main-container {
-    gap: 5px;
+    gap: 1px;
     display: flex;
     flex: 1;
     background-color: transparent;

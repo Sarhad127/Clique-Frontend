@@ -6,7 +6,7 @@
 
 .FIRST-CONTAINER {
     width: 80px;
-    background-color: whitesmoke;
+    background-color: #36393F;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,17 +67,17 @@
 .nav-icon {
     width: 28px;
     height: 28px;
-    filter: invert(80%);
+    filter: invert(10%);
     margin-bottom: 6px;
 }
 
 .sidebar-nav-icons span,
 .logout-icon span {
-    color: rgba(0, 0, 0, 0.79);
+    color: rgba(255, 255, 255, 0.73);
     font-size: 11px;
     font-weight: 600;
     text-align: center;
-    font-family: "Adobe Caslon Pro";
+    font-family: Calibri, sans-serif;
     user-select: none;
 }
 
@@ -97,5 +97,5 @@
 .logout-icon img {
     width: 28px;
     height: 28px;
-    filter: invert(80%);
+    filter: invert(10%);
 }

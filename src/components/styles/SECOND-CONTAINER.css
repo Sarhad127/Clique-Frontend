@@ -11,14 +11,14 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: whitesmoke;
+    background-color: #2F3136;
     overflow: hidden;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .all-chats-tabs {
     display: flex;
-    background-color: whitesmoke;
+    background-color: #2F3136;
     border-bottom: 1px solid #202225;
     padding: 10px 0 0 0;
 }
@@ -32,20 +32,20 @@
     border-bottom: 2px solid transparent;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: black;
+    color: white;
     font-weight: 500;
     position: relative;
     margin: 0 8px;
 }
 
 .all-chats-tabs button:hover {
-    color: black;
-    border-bottom-color: #4f545c;
+    color: white;
+    border-bottom-color: #3d82d2;
 }
 
 .all-chats-tabs .active-tab {
-    color: black;
-    border-bottom-color: #5865f2;
+    color: white;
+    border-bottom-color: #3d82d2;
 }
 
 .all-chats-tabs .active-tab::after {
@@ -55,12 +55,13 @@
     left: 0;
     right: 0;
     height: 2px;
-    background-color: #5865f2;
+    color: white;
+    border-bottom-color: #3d82d2;
 }
 
 .all-chats-content {
     flex: 1;
-    padding: 16px;
+    padding: 16px 8px 8px 8px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #202225 transparent;
@@ -76,7 +77,7 @@
 }
 
 .chat-item.active-chat {
-    background-color: #bdbdbd;
+    background-color: #424348;
     color: white;
 }
 
@@ -85,14 +86,14 @@
     align-items: center;
     gap: 12px;
     padding: 8px 12px;
-    border-radius: 16px;
+    border-radius: 6px;
     transition: background-color 0.2s ease;
-    background-color: whitesmoke;
+    background-color: #2F3136;
     cursor: pointer;
 }
 
 .chat-item:hover {
-    background-color: #dadada;
+    background-color: #424348;
 }
 
 .chat-item-avatar {
@@ -108,7 +109,7 @@
 }
 
 .chat-item-name {
-    color: black;
+    color: white;
     font-weight: 500;
     margin-bottom: 4px;
 }
@@ -120,7 +121,7 @@
 
 .friends-list {
     position: relative;
-    background-color: whitesmoke;
+    background-color: #2F3136;
     height: calc(100%);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     display: flex;
@@ -130,8 +131,7 @@
 
 .friends-header {
     padding: 16px;
-    background-color: whitesmoke;
-    border-radius: 12px;
+    background-color: #2F3136;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -139,13 +139,12 @@
 
 .friends-title {
     font-weight: 600;
-    color: black;
+    color: white;
     font-size: 16px;
     margin: 0;
 }
 
 .add-friend-container {
-    margin-top: 1rem;
     padding: 1rem;
     background-color: #f4f4f4;
     border-top: 1px solid #ccc;
@@ -178,7 +177,7 @@
     height: 36px;
     border-radius: 50%;
     background-color: transparent;
-    color: black;
+    color: white;
     border: none;
     font-size: 24px;
     display: flex;
@@ -217,6 +216,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    color: white;
 }
 
 .friend-item {
@@ -224,14 +224,14 @@
     align-items: center;
     gap: 12px;
     padding: 8px 12px;
-    border-radius: 16px;
+    border-radius: 6px;
     transition: background-color 0.2s ease;
-    background-color: whitesmoke;
+    background-color: #2F3136;
     cursor: pointer;
 }
 
 .friend-item:hover {
-    background-color: #dadada;
+    background-color: #424348;
 }
 
 .friend-item img {
@@ -239,11 +239,11 @@
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #202225;
+    border: 2px solid #2F3136;
 }
 
 .friend-item span {
-    color: black;
+    color: white;
     font-size: 15px;
     font-weight: 500;
 }
@@ -268,7 +268,7 @@
     border-radius: 6px;
     border: 1px solid #4f545c;
     background-color: transparent;
-    color: black;
+    color: white;
     font-size: 14px;
     outline: none;
     display: block;
@@ -276,9 +276,9 @@
 }
 
 .friend-search-input::placeholder {
-    color: #72767d;
+    color: white;
 }
 
 .friend-search-input:focus {
-    border-color: #72767d;
+    border-color: white;
 }
