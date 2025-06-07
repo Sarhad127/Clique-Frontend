@@ -17,6 +17,7 @@ import { UserContext } from "./UserProvider";
 import FriendsList from "./FriendsList";
 import ProfileSection from "./ProfileSection";
 import ChatBox from "./ChatBox";
+import GroupChats from "./GroupChats";
 
 function Clique() {
     const navigate = useNavigate();
@@ -224,36 +225,12 @@ function Clique() {
                                                 );
                                             })
                                         ) : (
-                                            <div>No chats found.</div>
-                                        )}
-                                    </div>
-                                )}
-
-                                {allChatsTab === "groups" && (
-                                    <div>
-                                        {user?.groupChats?.length > 0 ? (
-                                            user.groupChats.map((group) => (
-                                                <div key={group.id} className="chat-item">
-                                                    <img
-                                                        src={group.avatarUrl || `https://i.pravatar.cc/40?u=${group.id}`}
-                                                        alt={group.name || "Group"}
-                                                        className="chat-item-avatar"
-                                                        onError={(e) => {
-                                                            e.target.onerror = null;
-                                                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(group.name || "Group")}&background=random&size=40`;
-                                                        }}
-                                                    />
-                                                    <div className="chat-item-info">
-                                                        <div className="chat-item-name">{group.name}</div>
-                                                        <div className="chat-item-preview">{group.lastMessagePreview}</div>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
                                             <div></div>
                                         )}
                                     </div>
                                 )}
+
+                                {allChatsTab === "groups" && <GroupChats groupChats={user?.groupChats} user={user} />}
                             </div>
                         </div>
                     )}

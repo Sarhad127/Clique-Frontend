@@ -1,0 +1,31 @@
+.group-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2F3136;
+}
+
+.create-group-button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    background-color: green;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: Calibri, sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    user-select: none;
+}
+
+.create-group-button:hover {
+    background-color: #497749;
+}
+
+.create-group-button:active {
+    background-color: #3a5a3a;
+}
