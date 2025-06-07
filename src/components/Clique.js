@@ -268,28 +268,41 @@ function Clique() {
                     {selectedFriends ? (
                         <FriendDetails
                             friend={selectedFriends}
-                            onStartChat={(friendId) => {
+                            onStartChat={async (friendId) => {
                                 const friend = user.friends.find(f => f.id === friendId);
                                 if (!friend) return;
-
-                                if (!chatList.some(chat => chat.id === friend.id)) {
-                                    setChatList(prev => [
-                                        ...prev,
-                                        {
-                                            id: friend.id,
-                                            username: friend.username,
-                                            avatarUrl: friend.avatarUrl || `https://i.pravatar.cc/40?u=${friend.id}`,
-                                            lastMessagePreview: ""
+                                try {
+                                    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+                                    const response = await fetch(`http://localhost:8080/api/chats/start?friendId=${friendId}`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Authorization': `Bearer ${token}`
                                         }
-                                    ]);
+                                    });
+                                    if (!response.ok) {
+                                        throw new Error('Failed to create chat');
+                                    }
+                                    const chatData = await response.json();
+                                    if (!chatList.some(chat => chat.id === chatData.id)) {
+                                        setChatList(prev => [
+                                            ...prev,
+                                            {
+                                                id: chatData.id,
+                                                username: friend.username,
+                                                avatarUrl: friend.avatarUrl || `https://i.pravatar.cc/40?u=${friend.id}`,
+                                                lastMessagePreview: chatData.lastMessage || "",
+                                            }
+                                        ]);
+                                    }
+                                    setServerSection("allChats");
+                                    setAllChatsTab("chat");
+                                    setSelectedFriendId(friendId);
+                                    setActiveSection("chat");
+                                    setSelectedFriend(null);
+                                    setActiveChatId(friendId);
+                                } catch (error) {
+                                    console.error("Error starting chat:", error);
                                 }
-
-                                setServerSection("allChats");
-                                setAllChatsTab("chat");
-                                setSelectedFriendId(friendId);
-                                setActiveSection("chat");
-                                setSelectedFriend(null);
-                                setActiveChatId(friendId);
                             }}
                         />
                     ) : (
