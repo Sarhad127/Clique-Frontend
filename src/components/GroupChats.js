@@ -1,12 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import './styles/GroupChats.css';
 
-export default function GroupChats({ groupChats, user, onGroupCreated }) {
-    console.log("User in GroupChats:", user.id);
+export default function GroupChats({onGroupCreated }) {
+    const [showInput, setShowInput] = useState(false);
+    const [groupTitle, setGroupTitle] = useState("");
+    const [groupChats, setGroupChats] = useState([]);
 
-    const createGroup = async () => {
-        const groupTitle = prompt("Enter group name:");
-        if (!groupTitle) return;
+    const fetchGroups = async () => {
+        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+        try {
+            const response = await fetch("http://localhost:8080/api/groups", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setGroupChats(data);
+            } else {
+                console.error("Failed to fetch groups:", response.status);
+            }
+        } catch (error) {
+            console.error("Error fetching groups:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchGroups();
+    }, []);
+
+    const handleCreateClick = async () => {
+        if (!groupTitle.trim()) return;
+
         const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         try {
             const response = await fetch("http://localhost:8080/api/groups", {
@@ -25,6 +52,9 @@ export default function GroupChats({ groupChats, user, onGroupCreated }) {
                 const newGroup = await response.json();
                 console.log("Group created:", newGroup);
                 if (onGroupCreated) onGroupCreated(newGroup);
+                setGroupChats((prev) => [...prev, newGroup]);
+                setGroupTitle("");
+                setShowInput(false);
             } else {
                 console.error("Failed to create group:", response.status);
             }
@@ -38,21 +68,33 @@ export default function GroupChats({ groupChats, user, onGroupCreated }) {
             <div className="group-header">
                 <button
                     className="create-group-button"
-                    onClick={createGroup}
-                    aria-label="Add Friend"
+                    onClick={() => setShowInput(true)}
+                    aria-label="Add Group"
                 >
                     Create Group
                 </button>
             </div>
 
-            {groupChats && groupChats.length > 0 && (
-                groupChats.map((group) => (
-                    <div key={group.id}>
-                        <h4>{group.title}</h4>
-                        {/* Add more info if needed */}
-                    </div>
-                ))
+            {showInput && (
+                <div className="create-group-container">
+                    <input
+                        type="text"
+                        value={groupTitle}
+                        onChange={(e) => setGroupTitle(e.target.value)}
+                        placeholder="Enter group name"
+                    />
+                    <button onClick={handleCreateClick}>Create</button>
+                </div>
             )}
+
+            <div className="group-list">
+                {groupChats.map((group) => (
+                    <div className="group-card" key={group.id}>
+                        <h4>{group.title}</h4>
+                        <p>Users: {Array.from(group.userIds).join(", ")}</p>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
