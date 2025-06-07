@@ -12,7 +12,7 @@ import Profile from './icons/profile.png';
 import FriendDetails from "./FriendDetails";
 
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import { UserContext } from "./UserProvider";
 import FriendsList from "./FriendsList";
 import ProfileSection from "./ProfileSection";
@@ -109,6 +109,30 @@ function Clique() {
         }
     };
 
+    useEffect(() => {
+        async function fetchChats() {
+            try {
+                const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+                const response = await fetch("http://localhost:8080/api/chats", {
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error("Failed to fetch chats");
+                }
+                const chats = await response.json();
+                console.log(chats)
+                setChatList(chats);
+            } catch (error) {
+                console.error("Error fetching chats:", error);
+            }
+        }
+        if (user) {
+            fetchChats();
+        }
+    }, [user]);
+
     return (
         <div className="clique-page">
             <div className="clique-main-container">
@@ -170,29 +194,39 @@ function Clique() {
                                 {allChatsTab === "chat" && (
                                     <div>
                                         {chatList.length > 0 ? (
-                                            chatList.map((chat) => (
-                                                <div
-                                                    key={chat.id}
-                                                    className={`chat-item ${activeChatId === chat.id ? 'active-chat' : ''}`}
-                                                    onClick={() => handleFriendClick(chat.id)}
-                                                >
-                                                <img
-                                                        src={chat.avatarUrl || `https://i.pravatar.cc/40?u=${chat.id}`}
-                                                        alt={chat.username || "User"}
-                                                        className="chat-item-avatar"
-                                                        onError={(e) => {
-                                                            e.target.onerror = null;
-                                                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(chat.username || "User")}&background=random&size=40`;
-                                                        }}
-                                                    />
-                                                    <div className="chat-item-info">
-                                                        <div className="chat-item-name">{chat.username}</div>
-                                                        <div className="chat-item-preview">{chat.lastMessagePreview}</div>
+                                            chatList.map((chat) => {
+                                                const participants = chat.participants || [];
+                                                const messages = chat.messages || [];
+                                                if (!Array.isArray(participants) || participants.length === 0) return null;
+                                                const otherParticipant = participants.find(p => p.id !== user.id);
+                                                if (!otherParticipant) return null;
+                                                const lastMessage = messages[messages.length - 1];
+                                                return (
+                                                    <div
+                                                        key={chat.id}
+                                                        className={`chat-item ${activeChatId === chat.id ? 'active-chat' : ''}`}
+                                                        onClick={() => handleFriendClick(otherParticipant.id)}
+                                                    >
+                                                        <img
+                                                            src={otherParticipant.avatarUrl || `https://i.pravatar.cc/40?u=${otherParticipant.id}`}
+                                                            alt={otherParticipant.username || "User"}
+                                                            className="chat-item-avatar"
+                                                            onError={(e) => {
+                                                                e.target.onerror = null;
+                                                                e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(otherParticipant.username || "User")}&background=random&size=40`;
+                                                            }}
+                                                        />
+                                                        <div className="chat-item-info">
+                                                            <div className="chat-item-name">{otherParticipant.username}</div>
+                                                            <div className="chat-item-preview">
+                                                                {lastMessage ? lastMessage.content : "No messages yet"}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ))
+                                                );
+                                            })
                                         ) : (
-                                            <div></div>
+                                            <div>No chats found.</div>
                                         )}
                                     </div>
                                 )}
