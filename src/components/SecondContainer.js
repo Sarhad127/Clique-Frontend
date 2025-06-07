@@ -13,6 +13,7 @@ function SecondContainer({
                              showAddFriend,
                              setShowAddFriend,
                              setSelectedFriend,
+                             onGroupSelected,
                          }) {
     return (
         <div className="SECOND-CONTAINER">
@@ -85,7 +86,7 @@ function SecondContainer({
                             <GroupChats
                                 groupChats={user?.groupChats}
                                 user={user}
-                                onGroupSelected={setSelectedGroupChat}
+                                onGroupSelected={onGroupSelected}
                             />
                         )}
                     </div>

@@ -15,6 +15,7 @@ import {saveUsername, saveDescription, fetchChats} from './api';
 import FirstContainer from "./FirstContainer";
 import SecondContainer from "./SecondContainer";
 import FourthContainer from "./FourthContainer";
+import GroupChatBox from "./GroupChatBox";
 
 function Clique() {
     const navigate = useNavigate();
@@ -34,6 +35,7 @@ function Clique() {
     const [activeChatId, setActiveChatId] = useState(null);
     const [selectedGroupChat, setSelectedGroupChat] = useState(null);
     const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const [selectedGroupId, setSelectedGroupId] = useState(null);
 
     function handleLogout() {
         localStorage.removeItem('token');
@@ -102,8 +104,12 @@ function Clique() {
                     chatList={chatList}
                     user={user}
                     handleFriendClick={handleFriendClick}
-                    selectedGroupChat={selectedGroupChat}
-                    setSelectedGroupChat={setSelectedGroupChat}
+                    onGroupSelected={(group) => {
+                        setSelectedGroupChat(group);
+                        setSelectedGroupId(group.id);
+                        setSelectedFriendId(null);
+                        setActiveSection("chat");
+                    }}
                     showAddFriend={showAddFriend}
                     setShowAddFriend={setShowAddFriend}
                     setSelectedFriend={setSelectedFriend}
@@ -124,12 +130,16 @@ function Clique() {
                             setIsEditingDescription={setIsEditingDescription}
                             saveDescription={handleSaveDescription}
                         />
+                    ) : selectedFriendId ? (
+                        <ChatBox user={user} friendId={selectedFriendId} />
+                    ) : selectedGroupId ? (
+                        <GroupChatBox
+                            user={user}
+                            groupId={selectedGroupId}
+                            onClose={() => setSelectedGroupId(null)}
+                        />
                     ) : (
-                            selectedFriendId ? (
-                                <ChatBox user={user} friendId={selectedFriendId} />
-                            ) : (
-                                <div></div>
-                            )
+                        <div></div>
                     )}
                 </div>
 
