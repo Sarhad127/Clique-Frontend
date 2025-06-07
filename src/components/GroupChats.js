@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './styles/GroupChats.css';
 
-export default function GroupChats({onGroupCreated, onGroupSelected  }) {
+export default function GroupChats({ onGroupCreated, onGroupSelected }) {
     const [showInput, setShowInput] = useState(false);
     const [groupTitle, setGroupTitle] = useState("");
     const [groupChats, setGroupChats] = useState([]);
@@ -50,7 +50,6 @@ export default function GroupChats({onGroupCreated, onGroupSelected  }) {
 
             if (response.ok) {
                 const newGroup = await response.json();
-                console.log("Group created:", newGroup);
                 if (onGroupCreated) onGroupCreated(newGroup);
                 setGroupChats((prev) => [...prev, newGroup]);
                 setGroupTitle("");
@@ -95,8 +94,8 @@ export default function GroupChats({onGroupCreated, onGroupSelected  }) {
                         onClick={() => onGroupSelected(group)}
                         style={{ cursor: "pointer" }}
                     >
-                    <h4>{group.title}</h4>
-                        <p>Users: {Array.from(group.userIds).join(", ")}</p>
+                        <h4>{group.title}</h4>
+                        <p>Users: {group.userIds.join(", ")}</p>
                     </div>
                 ))}
             </div>

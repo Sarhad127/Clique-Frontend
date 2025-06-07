@@ -9,7 +9,6 @@ const ProfileSection = ({
                             setNewUsername,
                             saveUsername,
                             description,
-                            setDescription,
                             isEditingDescription,
                             setIsEditingDescription,
                             saveDescription,

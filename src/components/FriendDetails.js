@@ -1,4 +1,5 @@
 import React from "react";
+import './styles/FriendDetails.css';
 
 const FriendDetails = ({ friend, onStartChat }) => {
     if (!friend) return null;
@@ -13,20 +14,19 @@ const FriendDetails = ({ friend, onStartChat }) => {
                     e.target.onerror = null;
                     e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(friend.username || friend.email)}&background=random&size=100`;
                 }}
-                style={{ borderRadius: '50%', width: '100px', height: '100px' }}
             />
             <h3>{friend.username || "No username"}</h3>
             <p>{friend.email || "No email"}</p>
 
             {friend.description && (
-                <p style={{ fontStyle: 'italic', marginTop: '8px' }}>
+                <p className="description">
                     {friend.description}
                 </p>
             )}
 
             <button
                 onClick={() => onStartChat(friend.id)}
-                style={{ marginTop: "10px", padding: "8px 16px", cursor: "pointer" }}
+                className="start-chat-btn"
             >
                 Start Chat
             </button>
