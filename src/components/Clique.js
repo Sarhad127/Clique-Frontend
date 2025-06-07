@@ -35,6 +35,7 @@ function Clique() {
     const [chatList, setChatList] = useState(user?.directMessages || []);
     const [selectedFriends, setSelectedFriend] = useState(null);
     const [activeChatId, setActiveChatId] = useState(null);
+    const [selectedGroupChat, setSelectedGroupChat] = useState(null);
 
     function handleLogout() {
         localStorage.removeItem('token');
@@ -230,7 +231,7 @@ function Clique() {
                                     </div>
                                 )}
 
-                                {allChatsTab === "groups" && <GroupChats groupChats={user?.groupChats} user={user} />}
+                                {allChatsTab === "groups" && <GroupChats groupChats={user?.groupChats} user={user} onGroupSelected={setSelectedGroupChat}/>}
                             </div>
                         </div>
                     )}
@@ -314,6 +315,16 @@ function Clique() {
                                 }
                             }}
                         />
+                    ) : selectedGroupChat ? (
+                        <div className="group-details">
+                            <h3>{selectedGroupChat.title}</h3>
+                            <p>Group Members:</p>
+                            <ul>
+                                {selectedGroupChat.userIds.map((id, index) => (
+                                    <li key={index}>{id}</li>
+                                ))}
+                            </ul>
+                        </div>
                     ) : (
                         <div></div>
                     )}
