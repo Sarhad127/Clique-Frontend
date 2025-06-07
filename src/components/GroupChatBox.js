@@ -38,7 +38,6 @@ const GroupChatBox = ({ user, groupId }) => {
 
                     const data = await response.json();
                     setMessages(data);
-
                     setTimeout(scrollToBottom, 100);
                 } catch (error) {
                     console.error("Failed to fetch group messages:", error);
@@ -134,13 +133,26 @@ const GroupChatBox = ({ user, groupId }) => {
                 {messages.map((message, index) => (
                     <div
                         key={index}
-                        className={`message ${
-                            message.senderId === user.id ? "outgoing" : "incoming"
-                        }`}
+                        className={`message ${message.senderId === user.id ? "outgoing" : "incoming"}`}
                     >
-                        <div>{message.content}</div>
-                        <div className="message-time">
-                            {new Date(message.timestamp).toLocaleTimeString()}
+                        <div className="avatar" style={{
+                            backgroundColor: !message.senderAvatarUrl ? message.senderAvatarColor : 'transparent',
+                        }}>
+                            {message.senderAvatarUrl ? (
+                                <img
+                                    src={message.senderAvatarUrl}
+                                    alt={`${message.senderUsername}'s avatar`}
+                                    className="avatar-image"
+                                />
+                            ) : (
+                                <span className="avatar-initials">{message.senderAvatarInitials}</span>
+                            )}
+                        </div>
+
+                        <div className="message-content">
+                            <div className="username">{message.senderUsername}</div>
+                            <div>{message.content}</div>
+                            <div className="message-time">{new Date(message.timestamp).toLocaleTimeString()}</div>
                         </div>
                     </div>
                 ))}

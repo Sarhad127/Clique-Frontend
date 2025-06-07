@@ -4,8 +4,6 @@ import './styles/SECOND-CONTAINER.css';
 import './styles/THIRD-CONTAINER.css';
 import './styles/FOURTH-CONTAINER.css';
 
-import FriendDetails from "./FriendDetails";
-
 import { useNavigate } from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import { UserContext } from "./UserProvider";
@@ -27,12 +25,12 @@ function Clique() {
     const [isEditingUsername, setIsEditingUsername] = useState(false);
     const [newUsername, setNewUsername] = useState(user?.username || "");
     const [selectedFriendId, setSelectedFriendId] = useState(null);
-    const selectedFriend = user?.friends?.find(friend => friend.id === selectedFriendId);
+    user?.friends?.find(friend => friend.id === selectedFriendId);
     const [description, setDescription] = useState(user?.description || "");
     const [isEditingDescription, setIsEditingDescription] = useState(false);
     const [chatList, setChatList] = useState(user?.directMessages || []);
     const [selectedFriends, setSelectedFriend] = useState(null);
-    const [activeChatId, setActiveChatId] = useState(null);
+    const [, setActiveChatId] = useState(null);
     const [selectedGroupChat, setSelectedGroupChat] = useState(null);
     const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     const [selectedGroupId, setSelectedGroupId] = useState(null);

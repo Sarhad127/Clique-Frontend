@@ -9,7 +9,6 @@ function SecondContainer({
                              chatList,
                              user,
                              handleFriendClick,
-                             setSelectedGroupChat,
                              showAddFriend,
                              setShowAddFriend,
                              setSelectedFriend,
