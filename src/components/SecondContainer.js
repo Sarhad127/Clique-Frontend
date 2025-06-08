@@ -1,6 +1,7 @@
 import React from "react";
 import GroupChats from "./GroupChats";
 import FriendsList from "./FriendsList";
+import { Trash2 } from 'lucide-react';
 
 function SecondContainer({
                              serverSection,
@@ -13,6 +14,7 @@ function SecondContainer({
                              setShowAddFriend,
                              setSelectedFriend,
                              onGroupSelected,
+                             handleDeleteChat
                          }) {
     return (
         <div className="SECOND-CONTAINER">
@@ -47,11 +49,20 @@ function SecondContainer({
                                         return (
                                             <div
                                                 key={chat.id}
-                                                className={`chat-item ${
-                                                    participants.some((p) => p.id === chat.id) ? "active-chat" : ""
-                                                }`}
+                                                className={`chat-item ${participants.some((p) => p.id === chat.id) ? "active-chat" : ""}`}
                                                 onClick={() => handleFriendClick(otherParticipant.id)}
+                                                style={{ position: "relative" }}
                                             >
+                                                <div
+                                                    className="chat-item-trash"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDeleteChat(chat.id);
+                                                    }}
+                                                    title="Delete Chat"
+                                                >
+                                                    <Trash2 size={12} />
+                                                </div>
                                                 <img
                                                     src={
                                                         otherParticipant.avatarUrl ||

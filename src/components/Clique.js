@@ -9,7 +9,7 @@ import {useContext, useEffect, useState} from "react";
 import { UserContext } from "./UserProvider";
 import ProfileSection from "./ProfileSection";
 import ChatBox from "./ChatBox";
-import {saveUsername, saveDescription, fetchChats} from './api';
+import {saveUsername, saveDescription, fetchChats, deleteChat} from './api';
 import FirstContainer from "./FirstContainer";
 import SecondContainer from "./SecondContainer";
 import FourthContainer from "./FourthContainer";
@@ -48,6 +48,19 @@ function Clique() {
         setActiveChatId(friendId);
         setSelectedGroupChat(null);
     };
+
+    async function handleDeleteChat(chatId) {
+        if (window.confirm("Are you sure you want to delete this chat?")) {
+            try {
+                await deleteChat(chatId, token);
+                setChatList(prevChats => prevChats.filter(chat => chat.id !== chatId));
+                console.log("Deleted chat with ID:", chatId);
+            } catch (error) {
+                console.error("Error deleting chat:", error);
+                alert("Failed to delete chat. Please try again.");
+            }
+        }
+    }
 
     async function handleSaveUsername() {
         try {
@@ -117,6 +130,7 @@ function Clique() {
                     setShowAddFriend={setShowAddFriend}
                     setSelectedFriend={setSelectedFriend}
                     setSelectedGroupChat={setSelectedGroupChat}
+                    handleDeleteChat={handleDeleteChat}
                 />
 
                 <div className="THIRD-CONTAINER">

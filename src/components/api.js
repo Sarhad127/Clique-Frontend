@@ -343,3 +343,20 @@ export async function loginUser(email, password) {
 
     return response.json();
 }
+
+export async function deleteChat(chatId, token) {
+    const response = await fetch(`http://localhost:8080/api/chats/${chatId}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(`Failed to delete chat (status ${response.status})`);
+    }
+    if (response.status === 204) {
+        return null;
+    }
+    return response.json();
+}
