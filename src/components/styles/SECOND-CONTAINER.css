@@ -126,6 +126,10 @@
 .chat-item-preview {
     color: #b9bbbe;
     font-size: 13px;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .friends-list {
@@ -182,26 +186,26 @@
 }
 
 .add-friend-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: transparent;
+    background-color: rgba(24, 119, 242, 0.73);
     color: white;
     border: none;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 5px;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
     transition: background-color 0.2s ease;
 }
-
 .add-friend-btn:hover {
-    background-color: transparent;
+    background-color: rgba(20, 93, 191, 0.6);
 }
-
+.add-friend-btn:focus {
+    transition: transform 0.1s ease;
+}
 .add-friend-btn:active {
-    background-color: transparent;
+    transform: scale(0.98);
 }
 
 .friends-container {

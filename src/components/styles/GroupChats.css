@@ -88,11 +88,12 @@
     transition: background-color 0.2s ease;
     user-select: none;
 }
-
 .create-group-button:hover {
     background-color: #497749;
 }
-
+.create-group-button:focus {
+    transition: transform 0.1s ease;
+}
 .create-group-button:active {
-    background-color: #3a5a3a;
+    transform: scale(0.98);
 }

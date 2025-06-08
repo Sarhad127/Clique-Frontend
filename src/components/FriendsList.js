@@ -31,8 +31,22 @@ const FriendsList = ({
                     className="add-friend-btn"
                     onClick={() => setShowAddFriend((prev) => !prev)}
                     aria-label="Add Friend"
+                    type="button"
                 >
-                    +
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        fill="white"
+                        viewBox="0 0 24 24"
+                        style={{ marginRight: 8, verticalAlign: "middle" }}
+                        aria-hidden="true"
+                    >
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" />
+                        <path d="M6 20v-2c0-2 4-3 6-3s6 1 6 3v2H6z" />
+                        <path d="M19 8h-2v3h-3v2h3v3h2v-3h3v-2h-3z" />
+                    </svg>
+                    Add Friend
                 </button>
             </div>
 

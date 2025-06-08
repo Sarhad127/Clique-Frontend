@@ -38,7 +38,7 @@ export default function GroupChats({ onGroupCreated, onGroupSelected}) {
             <div className="group-header">
                 <button
                     className="create-group-button"
-                    onClick={() => setShowInput(true)}
+                    onClick={() => setShowInput(prev => !prev)}
                     aria-label="Add Group"
                 >
                     Create Group

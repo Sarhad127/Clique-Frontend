@@ -69,6 +69,9 @@ function SecondContainer({
                                                 <div className="chat-item-info">
                                                     <div className="chat-item-name">{otherParticipant.username}</div>
                                                     <div className="chat-item-preview">
+                                                         <span className="message-time-preview">
+                                                                {new Date(lastMessage.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                              </span>
                                                         {lastMessage ? lastMessage.content : "No messages yet"}
                                                     </div>
                                                 </div>
