@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import './styles/GroupChats.css';
 import { fetchGroups,createGroup,fetchGroupMessages } from './api';
 
-export default function GroupChats({ onGroupCreated, onGroupSelected}) {
+export default function GroupChats({ user, onGroupCreated, onGroupSelected}) {
     const [showInput, setShowInput] = useState(false);
     const [groupTitle, setGroupTitle] = useState("");
     const [groupChats, setGroupChats] = useState([]);
@@ -106,9 +106,12 @@ export default function GroupChats({ onGroupCreated, onGroupSelected}) {
                                 {group.lastMessage && (
                                     <div className="last-message-preview">
                                         <div className="last-message-time">{formatDateTime(group.lastMessage.timestamp)}</div>
-                                        <small>
-                                            <strong>{group.lastMessage.senderUsername}:</strong> {group.lastMessage.content}
-                                        </small>
+                                        <div className="last-message-text">
+                                          <span className="sender-name">
+                                            {group.lastMessage.senderId === user.id ? "You" : group.lastMessage.senderUsername}:
+                                          </span>{" "}
+                                            {group.lastMessage.content}
+                                        </div>
                                     </div>
                                 )}
                             </div>

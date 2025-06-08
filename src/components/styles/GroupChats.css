@@ -147,7 +147,7 @@
 
 .last-message-preview {
     color: #555;
-    font-size: 0.85rem;
+    font-size: 0.80rem;
     margin-top: 6px;
     white-space: nowrap;
     overflow: hidden;
@@ -158,4 +158,19 @@
     color: #888;
     font-size: 0.75rem;
     margin-top: 2px;
+}
+
+.last-message-text {
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    color: rgba(185, 187, 190, 0.73);
+    font-size: 0.70rem;
+    text-overflow: ellipsis;
+}
+
+.sender-name {
+    font-size: 0.80rem;
+    font-weight: bold;
+    color: #b9bbbe;
 }
