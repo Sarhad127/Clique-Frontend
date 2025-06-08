@@ -72,18 +72,27 @@ const FourthContainer = ({
                 <div className="group-details">
                     <h3>{selectedGroupChat.title}</h3>
                     <p>Members</p>
+
                     <ul className="group-member-list">
                         {(selectedGroupChat.members && selectedGroupChat.members.length > 0) ? (
-                            selectedGroupChat.members.map((member) => (
-                                <li key={member.id} className="group-member">
-                                    <img
-                                        src={member.avatarUrl || `https://i.pravatar.cc/40?u=${member.id}`}
-                                        alt={member.username}
-                                        className="group-member-avatar"
-                                    />
-                                    <span>{member.username}</span>
-                                </li>
-                            ))
+                            selectedGroupChat.members.map((member) => {
+                                const isFriend = user.friends?.some(friend => friend.id === member.id);
+                                return (
+                                    <li key={member.id} className="group-member flex-align-center gap-8">
+                                        <img
+                                            src={member.avatarUrl || `https://i.pravatar.cc/40?u=${member.id}`}
+                                            alt={member.username}
+                                            className="group-member-avatar"
+                                        />
+                                        <span>{member.username}</span>
+                                        {!isFriend && (
+                                            <button className="add-friend-button">
+                                                Add as friend
+                                            </button>
+                                        )}
+                                    </li>
+                                );
+                            })
                         ) : (
                             <li>No members found.</li>
                         )}
