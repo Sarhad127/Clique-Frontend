@@ -97,3 +97,51 @@
 .create-group-button:active {
     transform: scale(0.98);
 }
+
+.group-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.group-title {
+    margin: 0;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.group-avatars {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.avatar-small {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 6px;
+    margin-top: 6px;
+    object-fit: cover;
+}
+
+.last-message-preview {
+    color: #555;
+    font-size: 0.85rem;
+    margin-top: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.last-message-time {
+    color: #888;
+    font-size: 0.75rem;
+    margin-top: 2px;
+}
