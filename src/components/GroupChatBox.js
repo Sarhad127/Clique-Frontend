@@ -116,7 +116,6 @@ const GroupChatBox = ({ user, groupId }) => {
                 destination: "/app/group-chat.send",
                 body: JSON.stringify(message),
             });
-            setMessages((prev) => [...prev, message]);
             setNewMessage("");
         } catch (error) {
             console.error("Failed to send group message:", error);

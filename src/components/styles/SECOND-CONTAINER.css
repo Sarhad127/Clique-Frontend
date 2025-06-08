@@ -272,6 +272,7 @@
     font-size: 14px;
     outline: none;
     display: block;
+    margin-bottom: 20px;
     transition: border 0.2s ease;
 }
 

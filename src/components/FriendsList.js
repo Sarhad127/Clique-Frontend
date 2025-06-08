@@ -45,7 +45,7 @@ const FriendsList = ({
                     className="friend-search-input"
                 />
             </div>
-
+            <hr/>
             <div className="friends-container">
                 {showAddFriend && <AddFriendContainer token={localStorage.getItem("token")} />}
                 <ul>

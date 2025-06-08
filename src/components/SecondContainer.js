@@ -76,7 +76,7 @@ function SecondContainer({
                                         );
                                     })
                                 ) : (
-                                    <div>No chats available</div>
+                                    <div></div>
                                 )}
                             </div>
                         )}

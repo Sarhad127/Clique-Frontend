@@ -89,10 +89,7 @@ export default function GroupChats({ onGroupCreated, onGroupSelected, user }) {
             <div className="group-list">
                 {groupChats.map(group => (
                     (() => {
-                        const members = group.userIds.map(id => {
-                            if (id === user.id) return user;
-                            return user.friends?.find(f => f.id === id) || { id, username: "Unknown", avatarUrl: null };
-                        });
+                        const members = group.members || [];
 
                         return (
                             <div
