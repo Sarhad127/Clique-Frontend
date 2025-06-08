@@ -52,8 +52,14 @@
     width: 100%;
 }
 .nav-icon-container:hover {
-    transform: scale(1.05);
     transition: transform 0.1s ease;
+}
+
+.nav-icon-container:focus {
+    transition: transform 0.1s ease;
+}
+.nav-icon-container:active {
+    transform: scale(0.96);
 }
 
 .nav-icon-container {

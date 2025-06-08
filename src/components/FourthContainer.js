@@ -101,7 +101,7 @@ const FourthContainer = ({
                     <div className="invite-container">
                         <input
                             type="text"
-                            placeholder="Enter username or email to invite"
+                            placeholder="Enter email to invite"
                             value={inviteInput}
                             onChange={(e) => setInviteInput(e.target.value)}
                             className="invite-input"

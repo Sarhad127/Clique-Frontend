@@ -100,9 +100,15 @@
 
 .chat-item:hover {
     background-color: #535457;
-    transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+}
+
+.chat-item:focus {
+    transition: transform 0.1s ease;
+}
+.chat-item:active {
+    transform: scale(0.99);
 }
 
 .chat-item-avatar {
@@ -185,6 +191,13 @@
     background-color: #45a049;
 }
 
+.add-friend-container button:focus {
+    transition: transform 0.1s ease;
+}
+.add-friend-container button:active {
+    transform: scale(0.99);
+}
+
 .add-friend-btn {
     background-color: rgba(24, 119, 242, 0.73);
     color: white;
@@ -246,6 +259,14 @@
 .friend-item:hover {
     background-color: #424348;
 }
+
+.friend-item:focus {
+    transition: transform 0.1s ease;
+}
+.friend-item:active {
+    transform: scale(0.99);
+}
+
 
 .friend-item img {
     width: 40px;

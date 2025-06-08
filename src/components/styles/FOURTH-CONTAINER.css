@@ -112,7 +112,7 @@
     flex-grow: 1;
     min-width: 0;
     padding: 0.5rem 0.75rem;
-    font-size: 1rem;
+    font-size: 0.8rem;
     border: 1.8px solid #ccc;
     border-radius: 6px;
     transition: border-color 0.25s ease;
@@ -128,7 +128,7 @@
     flex-shrink: 0;
     width: 80px;
     padding: 0.5rem 0;
-    background-color: #4a90e2;
+    background-color: #2978d3;
     color: white;
     border: none;
     border-radius: 6px;
@@ -139,8 +139,16 @@
 }
 
 .invite-button:hover {
-    background-color: #357abd;
+    background-color: #4a84c7;
 }
+
+.invite-button:focus {
+    transition: transform 0.1s ease;
+}
+.invite-button:active {
+    transform: scale(0.98);
+}
+
 
 .flex-align-center {
     display: flex;
@@ -156,12 +164,15 @@
     padding: 4px 8px;
     font-size: 0.8rem;
     cursor: pointer;
-    background-color: #007bff;
+    background-color: #2978d3;
     color: white;
     border: none;
     border-radius: 4px;
 }
 
-.add-friend-button:hover {
-    background-color: #0056b3;
+.add-friend-button:focus {
+    transition: transform 0.1s ease;
+}
+.add-friend-button:active {
+    transform: scale(0.98);
 }

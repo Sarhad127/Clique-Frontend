@@ -31,6 +31,13 @@
     cursor: pointer;
 }
 
+.create-group-container button:focus {
+    transition: transform 0.1s ease;
+}
+.create-group-container button:active {
+    transform: scale(0.98);
+}
+
 .group-list {
     margin-top: 1rem;
     display: flex;
@@ -67,10 +74,17 @@
 
 .group-card:hover {
     background-color: #535457;
-    transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     cursor: pointer;
 }
+
+.group-card:focus {
+    transition: transform 0.1s ease;
+}
+.group-card:active {
+    transform: scale(0.99);
+}
+
 
 .create-group-button {
     padding: 8px 16px;
