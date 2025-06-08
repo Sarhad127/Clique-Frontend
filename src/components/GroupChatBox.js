@@ -149,9 +149,9 @@ const GroupChatBox = ({ user, groupId }) => {
                             )}
                         </div>
 
-                        <div className="message-content">
+                        <div className="message-details">
                             <div className="username">{message.senderUsername}</div>
-                            <div>{message.content}</div>
+                            <div className="message-content">{message.content}</div>
                             <div className="message-time">{new Date(message.timestamp).toLocaleTimeString()}</div>
                         </div>
                     </div>

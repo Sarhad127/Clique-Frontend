@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './styles/GroupChats.css';
 
-export default function GroupChats({ onGroupCreated, onGroupSelected }) {
+export default function GroupChats({ onGroupCreated, onGroupSelected, user }) {
     const [showInput, setShowInput] = useState(false);
     const [groupTitle, setGroupTitle] = useState("");
     const [groupChats, setGroupChats] = useState([]);
@@ -87,16 +87,44 @@ export default function GroupChats({ onGroupCreated, onGroupSelected }) {
             )}
 
             <div className="group-list">
-                {groupChats.map((group) => (
-                    <div
-                        className="group-card"
-                        key={group.id}
-                        onClick={() => onGroupSelected(group)}
-                        style={{ cursor: "pointer" }}
-                    >
-                        <h4>{group.title}</h4>
-                        <p>Users: {group.userIds.join(", ")}</p>
-                    </div>
+                {groupChats.map(group => (
+                    (() => {
+                        const members = group.userIds.map(id => {
+                            if (id === user.id) return user;
+                            return user.friends?.find(f => f.id === id) || { id, username: "Unknown", avatarUrl: null };
+                        });
+
+                        return (
+                            <div
+                                className="group-card"
+                                key={group.id}
+                                onClick={() => onGroupSelected && onGroupSelected({ ...group, members })}
+                                style={{ cursor: "pointer" }}
+                            >
+                                <h4>{group.title}</h4>
+
+                                <div className="group-avatars">
+                                    {members.map(member => (
+                                        <img
+                                            key={member.id}
+                                            src={member.avatarUrl || "/default-avatar.png"}
+                                            alt={member.username || "User avatar"}
+                                            className="avatar-small"
+                                            title={member.username}
+                                            style={{
+                                                width: 16,
+                                                height: 16,
+                                                borderRadius: "50%",
+                                                marginRight: 6,
+                                                marginTop: 6,
+                                                objectFit: "cover",
+                                            }}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    })()
                 ))}
             </div>
         </div>

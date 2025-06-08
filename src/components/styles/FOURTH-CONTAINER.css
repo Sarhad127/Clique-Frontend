@@ -39,3 +39,105 @@
 .friend-details button:hover {
     background-color: #357ABD;
 }
+
+.group-member-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.group-member {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid #ddd;
+    cursor: default;
+    transition: background-color 0.2s ease;
+}
+
+.group-member:hover {
+    background-color: #f0f0f0;
+}
+
+.group-member-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+    border: 1.5px solid #bbb;
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+}
+
+.group-member span {
+    font-size: 1rem;
+    color: #333;
+    font-weight: 500;
+    user-select: none;
+}
+
+.group-details h3 {
+    margin: 10px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    border-bottom: 2px solid #4a90e2;
+    text-align: center;
+    padding-bottom: 6px;
+}
+
+.group-details p {
+    margin: 10px;
+    color: #444;
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    opacity: 0.85;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.invite-container {
+    margin: 20px;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    width: 250px;
+}
+
+.invite-input {
+    flex-grow: 1;
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border: 1.8px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.25s ease;
+}
+
+.invite-input:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+.invite-button {
+    flex-shrink: 0;
+    width: 80px;
+    padding: 0.5rem 0;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.invite-button:hover {
+    background-color: #357abd;
+}

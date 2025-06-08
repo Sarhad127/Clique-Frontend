@@ -71,22 +71,35 @@ const FourthContainer = ({
             ) : selectedGroupChat ? (
                 <div className="group-details">
                     <h3>{selectedGroupChat.title}</h3>
-                    <p>Group Members:</p>
-                    <ul>
-                        {selectedGroupChat.userIds.map((id, index) => (
-                            <li key={index}>{id}</li>
-                        ))}
+                    <p>Members</p>
+                    <ul className="group-member-list">
+                        {(selectedGroupChat.members && selectedGroupChat.members.length > 0) ? (
+                            selectedGroupChat.members.map((member) => (
+                                <li key={member.id} className="group-member">
+                                    <img
+                                        src={member.avatarUrl || `https://i.pravatar.cc/40?u=${member.id}`}
+                                        alt={member.username}
+                                        className="group-member-avatar"
+                                    />
+                                    <span>{member.username}</span>
+                                </li>
+                            ))
+                        ) : (
+                            <li>No members found.</li>
+                        )}
                     </ul>
 
-                    {/* Invite user input + button */}
-                    <div style={{ marginTop: "1rem" }}>
+                    <div className="invite-container">
                         <input
                             type="text"
                             placeholder="Enter username or email to invite"
                             value={inviteInput}
                             onChange={(e) => setInviteInput(e.target.value)}
+                            className="invite-input"
                         />
-                        <button onClick={handleInvite}>Invite</button>
+                        <button onClick={handleInvite} className="invite-button">
+                            Invite
+                        </button>
                     </div>
                 </div>
             ) : (
