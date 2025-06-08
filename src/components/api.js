@@ -112,3 +112,234 @@ export async function inviteUserToGroup(groupId, userIdentifier, token) {
     return JSON.parse(text);
 }
 
+export async function fetchMessages(userId, friendId, token) {
+    try {
+        const response = await fetch(
+            `http://localhost:8080/messages?userId=${userId}&friendId=${friendId}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function addFriend(identifier, token) {
+    if (!identifier.trim()) {
+        throw new Error("Please enter a username or email.");
+    }
+
+    try {
+        const response = await fetch(
+            `http://localhost:8080/friends/add?identifier=${encodeURIComponent(identifier)}`,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        const message = await response.text();
+
+        if (!response.ok) {
+            throw new Error(message || "Failed to add friend");
+        }
+
+        return message;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function sendForgotPasswordEmail(email) {
+    if (!email) {
+        throw new Error("Please enter your email");
+    }
+
+    try {
+        const response = await fetch("http://localhost:8080/auth/forgot-password", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+        });
+
+        if (!response.ok) {
+            const data = await response.json();
+            throw new Error(data || "Error sending reset email");
+        }
+
+        return "Password reset email sent. Please check your inbox.";
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function fetchGroupMessages(groupId, token) {
+    if (!groupId) throw new Error("Group ID is required");
+
+    const response = await fetch(`http://localhost:8080/messages/group?groupId=${groupId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response.json();
+}
+
+export async function fetchGroups(token) {
+    const response = await fetch("http://localhost:8080/api/groups", {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch groups, status: ${response.status}`);
+    }
+
+    return response.json();
+}
+
+export async function createGroup(groupTitle, token) {
+    if (!groupTitle.trim()) throw new Error("Group title cannot be empty");
+
+    const response = await fetch("http://localhost:8080/api/groups", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+            title: groupTitle,
+            userIds: [],
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error(`Failed to create group, status: ${response.status}`);
+    }
+
+    return response.json();
+}
+
+export async function updateAvatar({ avatarUrl, avatarColor, avatarInitials }, token) {
+    const response = await fetch("http://localhost:8080/user/avatar", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+            avatarUrl: avatarUrl.trim(),
+            avatarColor: avatarColor.trim(),
+            avatarInitials: avatarInitials.trim(),
+        }),
+    });
+
+    if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Failed to update avatar");
+    }
+
+    return response.json();
+}
+
+export async function checkEmailAvailability(email) {
+    const response = await fetch(`http://localhost:8080/auth/check-email?email=${encodeURIComponent(email)}`);
+
+    if (!response.ok) {
+        throw new Error("Failed to check email availability");
+    }
+
+    return response.json();
+}
+
+export async function registerUser({ email, username, password }) {
+    const response = await fetch("http://localhost:8080/auth/signup", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, username, password }),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Registration failed");
+    }
+
+    return response.json();
+}
+
+export async function resetPassword(token, newPassword) {
+    const response = await fetch("http://localhost:8080/auth/reset-password", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token, newPassword }),
+    });
+
+    if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Failed to reset password.");
+    }
+
+    return response.json();
+}
+
+export async function fetchUser(token) {
+    const response = await fetch("http://localhost:8080/user", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("Unauthorized or failed to fetch user");
+    }
+
+    return response.json();
+}
+
+export async function loginUser(email, password) {
+    const payload = { email, password };
+    const response = await fetch('http://localhost:8080/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        const error = new Error('Login failed');
+        error.code = errorData.error;
+        throw error;
+    }
+
+    return response.json();
+}

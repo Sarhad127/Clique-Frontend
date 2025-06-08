@@ -5,31 +5,6 @@
     background-color: #2F3136;
 }
 
-.create-group-button {
-    padding: 8px 16px;
-    border-radius: 6px;
-    background-color: green;
-    color: white;
-    border: none;
-    font-size: 16px;
-    font-weight: 600;
-    font-family: Calibri, sans-serif;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    user-select: none;
-}
-
-.create-group-button:hover {
-    background-color: #497749;
-}
-
-.create-group-button:active {
-    background-color: #3a5a3a;
-}
-
 .create-group-container {
     margin: 10px 0;
     padding: 10px;
@@ -60,7 +35,23 @@
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 0.5rem;
+}
+
+.group-avatars {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.avatar-small {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 6px;
+    margin-top: 6px;
+    object-fit: cover;
 }
 
 .group-card {
@@ -69,5 +60,39 @@
     color: rgba(255, 255, 255, 0.84);
     font-size: 16px;
     font-family: Arial, sans-serif;
-    background-color: #424348;
+    background-color: rgba(66, 67, 72, 0.78);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.group-card:hover {
+    background-color: #535457;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.create-group-button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    background-color: green;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: Calibri, sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    user-select: none;
+}
+
+.create-group-button:hover {
+    background-color: #497749;
+}
+
+.create-group-button:active {
+    background-color: #3a5a3a;
 }

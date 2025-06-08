@@ -1,33 +1,18 @@
 import React, { useState } from "react";
+import { addFriend } from './api';
 
 const AddFriendContainer = ({ token }) => {
     const [identifier, setIdentifier] = useState("");
     const [statusMessage, setStatusMessage] = useState("");
 
     const handleAddFriend = async () => {
-        if (!identifier.trim()) {
-            setStatusMessage("Please enter a username or email.");
-            return;
-        }
-
         try {
-            const response = await fetch(`http://localhost:8080/friends/add?identifier=${encodeURIComponent(identifier)}`, {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            const message = await response.text();
-            if (response.ok) {
-                setStatusMessage(message);
-                setIdentifier("");
-            } else {
-                setStatusMessage(message);
-            }
+            const message = await addFriend(identifier, token);
+            setStatusMessage(message);
+            setIdentifier("");
         } catch (error) {
+            setStatusMessage(error.message || "Could not reach server.");
             console.error("Error adding friend:", error);
-            setStatusMessage("Could not reach server.");
         }
     };
 

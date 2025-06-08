@@ -1,6 +1,7 @@
 import CliqueIcon from "./icons/Clique-icon.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { sendForgotPasswordEmail } from './api';
 
 function ForgotPassword() {
     const navigate = useNavigate();
@@ -12,29 +13,12 @@ function ForgotPassword() {
         e.preventDefault();
         setMessage(null);
 
-        if (!email) {
-            setMessage({ type: "error", text: "Please enter your email" });
-            return;
-        }
-
         setLoading(true);
         try {
-            const response = await fetch("http://localhost:8080/auth/forgot-password", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email }),
-            });
-
-            if (!response.ok) {
-                const data = await response.json();
-                setMessage({ type: "error", text: data || "Error sending reset email" });
-            } else {
-                setMessage({ type: "success", text: "Password reset email sent. Please check your inbox." });
-            }
+            const successMsg = await sendForgotPasswordEmail(email);
+            setMessage({ type: "success", text: successMsg });
         } catch (error) {
-            setMessage({ type: "error", text: "Network error, try again later." });
+            setMessage({ type: "error", text: error.message || "Network error, try again later." });
         }
         setLoading(false);
     };

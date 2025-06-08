@@ -85,15 +85,24 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    margin-top: 5px;
     padding: 8px 12px;
     border-radius: 6px;
-    transition: background-color 0.2s ease;
     background-color: #2F3136;
     cursor: pointer;
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    background-color: rgba(66, 67, 72, 0.78);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .chat-item:hover {
-    background-color: #424348;
+    background-color: #535457;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }
 
 .chat-item-avatar {

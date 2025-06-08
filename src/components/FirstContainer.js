@@ -1,5 +1,5 @@
 import React from "react";
-import CliqueIcon from "./icons/Clique-icon.png";
+import CliqueIcon from "./icons/Clique-icon-2.png";
 import Logout from './icons/logout.png';
 import AllChats from './icons/all-chats.png';
 import Friends from './icons/friends.png';
@@ -10,17 +10,29 @@ function FirstContainer({
                             setServerSection,
                             activeSection,
                             setActiveSection,
-                            handleLogout
+                            handleLogout,
+                            setSelectedFriend,
+                            setSelectedGroupChat,
+                            setSelectedFriendId,
+                            setSelectedGroupId
                         }) {
     const handleServerSectionChange = (section) => {
         setServerSection(section);
         if (section === 'friends') {
             setActiveSection('');
+            setSelectedFriend(null);
+            setSelectedFriendId(null);
+            setSelectedGroupChat(null);
+            setSelectedGroupId(null);
         }
+        setSelectedFriend(null);
+        setSelectedGroupChat(null);
     };
 
     const handleProfileClick = () => {
         setActiveSection('profile');
+        setSelectedFriend(null);
+        setSelectedGroupChat(null);
     };
 
     return (

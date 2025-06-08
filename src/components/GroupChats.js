@@ -1,62 +1,33 @@
 import React, { useState, useEffect } from "react";
 import './styles/GroupChats.css';
+import { fetchGroups,createGroup } from './api';
 
-export default function GroupChats({ onGroupCreated, onGroupSelected, user }) {
+export default function GroupChats({ onGroupCreated, onGroupSelected}) {
     const [showInput, setShowInput] = useState(false);
     const [groupTitle, setGroupTitle] = useState("");
     const [groupChats, setGroupChats] = useState([]);
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
-    const fetchGroups = async () => {
-        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const loadGroups = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/groups", {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setGroupChats(data);
-            } else {
-                console.error("Failed to fetch groups:", response.status);
-            }
+            const data = await fetchGroups(token);
+            setGroupChats(data);
         } catch (error) {
             console.error("Error fetching groups:", error);
         }
     };
 
     useEffect(() => {
-        fetchGroups();
+        loadGroups();
     }, []);
 
     const handleCreateClick = async () => {
-        if (!groupTitle.trim()) return;
-
-        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         try {
-            const response = await fetch("http://localhost:8080/api/groups", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    title: groupTitle,
-                    userIds: []
-                })
-            });
-
-            if (response.ok) {
-                const newGroup = await response.json();
-                if (onGroupCreated) onGroupCreated(newGroup);
-                setGroupChats((prev) => [...prev, newGroup]);
-                setGroupTitle("");
-                setShowInput(false);
-            } else {
-                console.error("Failed to create group:", response.status);
-            }
+            const newGroup = await createGroup(groupTitle, token);
+            if (onGroupCreated) onGroupCreated(newGroup);
+            setGroupChats((prev) => [...prev, newGroup]);
+            setGroupTitle("");
+            setShowInput(false);
         } catch (error) {
             console.error("Error creating group:", error);
         }
@@ -108,14 +79,6 @@ export default function GroupChats({ onGroupCreated, onGroupSelected, user }) {
                                             alt={member.username || "User avatar"}
                                             className="avatar-small"
                                             title={member.username}
-                                            style={{
-                                                width: 16,
-                                                height: 16,
-                                                borderRadius: "50%",
-                                                marginRight: 6,
-                                                marginTop: 6,
-                                                objectFit: "cover",
-                                            }}
                                         />
                                     ))}
                                 </div>

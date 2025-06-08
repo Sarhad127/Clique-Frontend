@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import './styles/ChatBox.css';
+import { fetchGroupMessages } from './api';
 
 const GroupChatBox = ({ user, groupId }) => {
     const [messages, setMessages] = useState([]);
@@ -17,26 +18,24 @@ const GroupChatBox = ({ user, groupId }) => {
             messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
         }
     };
+
+    function formatDateTime(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleDateString(undefined, {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        }) + ", " + date.toLocaleTimeString(undefined, {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
     useEffect(() => {
         if (groupId) {
-            const fetchMessages = async () => {
+            const loadGroupMessages = async () => {
                 try {
-                    const response = await fetch(
-                        `http://localhost:8080/messages/group?groupId=${groupId}`,
-                        {
-                            method: "GET",
-                            headers: {
-                                "Content-Type": "application/json",
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }
-                    );
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const data = await response.json();
+                    const data = await fetchGroupMessages(groupId, token);
                     setMessages(data);
                     setTimeout(scrollToBottom, 100);
                 } catch (error) {
@@ -44,9 +43,9 @@ const GroupChatBox = ({ user, groupId }) => {
                 }
             };
 
-            fetchMessages();
+            loadGroupMessages();
         }
-    }, [groupId]);
+    }, [groupId, token]);
 
     useEffect(() => {
         if (!user?.id) return;
@@ -129,32 +128,56 @@ const GroupChatBox = ({ user, groupId }) => {
                 ref={messagesEndRef}
                 style={{ overflowY: "auto"}}
             >
-                {messages.map((message, index) => (
-                    <div
-                        key={index}
-                        className={`message ${message.senderId === user.id ? "outgoing" : "incoming"}`}
-                    >
-                        <div className="avatar" style={{
-                            backgroundColor: !message.senderAvatarUrl ? message.senderAvatarColor : 'transparent',
-                        }}>
-                            {message.senderAvatarUrl ? (
-                                <img
-                                    src={message.senderAvatarUrl}
-                                    alt={`${message.senderUsername}'s avatar`}
-                                    className="avatar-image"
-                                />
-                            ) : (
-                                <span className="avatar-initials">{message.senderAvatarInitials}</span>
+                {messages.map((message, index) => {
+                    const isOutgoing = message.senderId === user.id;
+
+                    return (
+                        <div
+                            key={index}
+                            className={`message ${isOutgoing ? "outgoing" : "incoming"}`}
+                        >
+                            {!isOutgoing && (
+                                <div className="avatar" style={{
+                                    backgroundColor: !message.senderAvatarUrl ? message.senderAvatarColor : 'transparent',
+                                }}>
+                                    {message.senderAvatarUrl ? (
+                                        <img
+                                            src={message.senderAvatarUrl}
+                                            alt={`${message.senderUsername}'s avatar`}
+                                            className="avatar-image"
+                                        />
+                                    ) : (
+                                        <span className="avatar-initials">{message.senderAvatarInitials}</span>
+                                    )}
+                                </div>
+                            )}
+
+                            <div className="message-details">
+                                <div className="message-header">
+                                    <div className="username">{message.senderUsername}</div>
+                                    <div className="message-time">{formatDateTime(message.timestamp)}</div>
+                                </div>
+                                <div className="message-content">{message.content}</div>
+                            </div>
+
+                            {isOutgoing && (
+                                <div className="avatar" style={{
+                                    backgroundColor: !message.senderAvatarUrl ? message.senderAvatarColor : 'transparent',
+                                }}>
+                                    {message.senderAvatarUrl ? (
+                                        <img
+                                            src={message.senderAvatarUrl}
+                                            alt={`${message.senderUsername}'s avatar`}
+                                            className="avatar-image"
+                                        />
+                                    ) : (
+                                        <span className="avatar-initials">{message.senderAvatarInitials}</span>
+                                    )}
+                                </div>
                             )}
                         </div>
-
-                        <div className="message-details">
-                            <div className="username">{message.senderUsername}</div>
-                            <div className="message-content">{message.content}</div>
-                            <div className="message-time">{new Date(message.timestamp).toLocaleTimeString()}</div>
-                        </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
             <div className="chat-input-area">

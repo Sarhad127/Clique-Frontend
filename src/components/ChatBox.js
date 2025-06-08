@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import './styles/ChatBox.css';
+import { fetchMessages } from './api';
 
 const ChatBox = ({ user, friendId }) => {
     const [messages, setMessages] = useState([]);
@@ -20,33 +21,17 @@ const ChatBox = ({ user, friendId }) => {
 
     useEffect(() => {
         if (friendId) {
-            const fetchMessages = async () => {
+            const loadMessages = async () => {
                 try {
-                    const response = await fetch(
-                        `http://localhost:8080/messages?userId=${user.id}&friendId=${friendId}`,
-                        {
-                            method: "GET",
-                            headers: {
-                                "Content-Type": "application/json",
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }
-                    );
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const data = await response.json();
+                    const data = await fetchMessages(user.id, friendId, token);
                     setMessages(data);
-
                     setTimeout(scrollToBottom, 100);
                 } catch (error) {
                     console.error("Failed to fetch messages:", error);
                 }
             };
 
-            fetchMessages();
+            loadMessages();
         }
     }, [friendId, user.id]);
 

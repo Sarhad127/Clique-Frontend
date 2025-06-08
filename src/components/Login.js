@@ -1,75 +1,61 @@
 import './styles/Login.css'
 import CliqueIcon from './icons/Clique-icon.png'
-import {useNavigate} from "react-router-dom";
-import {useState} from "react";
-import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
 import { UserContext } from "./UserProvider";
+import { loginUser } from './api';
 
 function Login() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errorMsg, setErrorMsg]  = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
     const { fetchUser } = useContext(UserContext);
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const payload = {
-            email: email,
-            password: password
-        };
-        console.log(payload)
+        setErrorMsg('');
+
         try {
-            const response = await fetch('http://localhost:8080/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
+            const data = await loginUser(email, password);
+            const token = data.token;
 
-            if (response.ok) {
-                const data = await response.json();
-                const token = data.token;
-                if (rememberMe) {
-                    localStorage.setItem('token', token);
-                } else {
-                    sessionStorage.setItem('token', token);
-                }
-                await fetchUser();
-                navigate('/Clique');
+            if (rememberMe) {
+                localStorage.setItem('token', token);
             } else {
-                const errorData = await response.json();
-
-                switch (errorData.error) {
-                    case "EMAIL_NOT_FOUND":
-                        setErrorMsg("Email not found. Please register first.");
-                        break;
-                    case "WRONG_PASSWORD":
-                        setErrorMsg("Incorrect password. Please try again.");
-                        break;
-                    case "ACCOUNT_NOT_VERIFIED":
-                        setErrorMsg("Account not verified. Please check your email.");
-                        break;
-                    default:
-                        setErrorMsg("Login failed. Please try again.");
-                }
+                sessionStorage.setItem('token', token);
             }
+
+            await fetchUser();
+            navigate('/Clique');
+
         } catch (error) {
-            setErrorMsg("Login failed. Please try again later.");
+            switch (error.code) {
+                case "EMAIL_NOT_FOUND":
+                    setErrorMsg("Email not found. Please register first.");
+                    break;
+                case "WRONG_PASSWORD":
+                    setErrorMsg("Incorrect password. Please try again.");
+                    break;
+                case "ACCOUNT_NOT_VERIFIED":
+                    setErrorMsg("Account not verified. Please check your email.");
+                    break;
+                default:
+                    setErrorMsg("Login failed. Please try again.");
+            }
             console.error("Login error:", error);
         }
     };
 
-    return(
+    return (
         <>
             <div className="main-container">
-            <div className="Clique-login-title" onClick={() => navigate('/home')}>
-                <img src={CliqueIcon} alt="Clique Logo" className="clique-logo" />
-                <span>Clique</span>
-            </div>
+                <div className="Clique-login-title" onClick={() => navigate('/home')}>
+                    <img src={CliqueIcon} alt="Clique Logo" className="clique-logo" />
+                    <span>Clique</span>
+                </div>
                 <div className="main-login">
                     <div className="login-title">Login</div>
 
@@ -140,4 +126,5 @@ function Login() {
         </>
     )
 }
+
 export default Login;

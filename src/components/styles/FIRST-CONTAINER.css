@@ -26,7 +26,7 @@
 .sidebar-divider-second {
     width: 60%;
     border: none;
-    border-top: 1px solid black;
+    border-top: 1px solid #ccc;
     margin: 1rem auto;
     opacity: 0.6;
     padding-top: 20px;
@@ -67,7 +67,7 @@
 .nav-icon {
     width: 28px;
     height: 28px;
-    filter: invert(10%);
+    filter: invert(1%);
     margin-bottom: 6px;
 }
 
@@ -97,5 +97,5 @@
 .logout-icon img {
     width: 28px;
     height: 28px;
-    filter: invert(10%);
+    filter: invert(1%);
 }

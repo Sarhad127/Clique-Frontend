@@ -46,6 +46,7 @@ function Clique() {
         setActiveSection('chat');
         setSelectedFriend(null);
         setActiveChatId(friendId);
+        setSelectedGroupChat(null);
     };
 
     async function handleSaveUsername() {
@@ -92,6 +93,10 @@ function Clique() {
                     activeSection={activeSection}
                     setActiveSection={setActiveSection}
                     handleLogout={handleLogout}
+                    setSelectedFriend={setSelectedFriend}
+                    setSelectedGroupChat={setSelectedGroupChat}
+                    setSelectedFriendId={setSelectedFriendId}
+                    setSelectedGroupId={setSelectedGroupId}
                 />
 
                 <SecondContainer
@@ -111,6 +116,7 @@ function Clique() {
                     showAddFriend={showAddFriend}
                     setShowAddFriend={setShowAddFriend}
                     setSelectedFriend={setSelectedFriend}
+                    setSelectedGroupChat={setSelectedGroupChat}
                 />
 
                 <div className="THIRD-CONTAINER">

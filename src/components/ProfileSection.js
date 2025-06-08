@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import './styles/Profile.css';
+import { updateAvatar } from './api';
 
 const ProfileSection = ({
                             user,
@@ -33,32 +34,19 @@ const ProfileSection = ({
     }, [user?.avatarUrl, user?.avatarColor, user?.avatarInitials]);
 
     const onSaveAvatar = async () => {
-
         setLoadingAvatar(true);
         setErrorAvatar(null);
 
         try {
             const token = localStorage.getItem("token");
-
-            const response = await fetch("http://localhost:8080/user/avatar", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
+            const data = await updateAvatar(
+                {
+                    avatarUrl: newAvatarUrl,
+                    avatarColor: newAvatarColor,
+                    avatarInitials: newAvatarInitials,
                 },
-                body: JSON.stringify({
-                    avatarUrl: newAvatarUrl.trim(),
-                    avatarColor: newAvatarColor.trim(),
-                    avatarInitials: newAvatarInitials.trim(),
-                }),
-            });
-
-            if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.message || "Failed to update avatar");
-            }
-
-            const data = await response.json();
+                token
+            );
 
             setUser((prevUser) => ({
                 ...prevUser,
@@ -94,7 +82,7 @@ const ProfileSection = ({
 
                     {!isEditingAvatar ? (
                         <button
-                            className="edit-avatar-btn"
+                            className="button button-primary"
                             onClick={() => setIsEditingAvatar(true)}
                         >
                             Change Avatar
@@ -125,14 +113,14 @@ const ProfileSection = ({
                                 disabled={loadingAvatar}
                             />
                             <button
-                                className="save-avatar-btn"
+                                className="button button-primary"
                                 onClick={onSaveAvatar}
                                 disabled={loadingAvatar}
                             >
                                 {loadingAvatar ? "Saving..." : "Save"}
                             </button>
                             <button
-                                className="cancel-avatar-btn"
+                                className="button button-secondary"
                                 onClick={() => {
                                     setNewAvatarUrl(user?.avatarUrl || "");
                                     setNewAvatarColor(user?.avatarColor || "");
@@ -144,7 +132,6 @@ const ProfileSection = ({
                             >
                                 Cancel
                             </button>
-                            {errorAvatar && <div className="error-message">{errorAvatar}</div>}
                         </div>
                     )}
                 </div>
@@ -160,7 +147,7 @@ const ProfileSection = ({
                                 <>
                                     <span>{user?.username || "Loading..."}</span>
                                     <button
-                                        className="edit-username-btn"
+                                        className="button button-primary"
                                         onClick={() => {
                                             setNewUsername(user?.username || "");
                                             setIsEditingUsername(true);
@@ -173,16 +160,17 @@ const ProfileSection = ({
                                 <>
                                     <input
                                         type="text"
+                                        className="profile-input"
                                         value={newUsername}
                                         onChange={(e) => setNewUsername(e.target.value)}
                                         maxLength={30}
                                         autoFocus
                                     />
-                                    <button className="save-username-btn" onClick={saveUsername}>
+                                    <button className="button button-primary" onClick={saveUsername}>
                                         Save
                                     </button>
                                     <button
-                                        className="cancel-username-btn"
+                                        className="button button-secondary"
                                         onClick={() => setIsEditingUsername(false)}
                                     >
                                         Cancel
@@ -203,20 +191,23 @@ const ProfileSection = ({
                     </div>
 
                     <div className="detail-item">
-                        <label>Description</label>
+                        <label>Description
+                            <button
+                                className="button button-primary"
+                                onClick={() => setIsEditingDescription(true)}
+                            >
+                                Edit
+                            </button>
+                        </label>
                         <div
                             className="detail-value"
                             style={{ display: "flex", flexDirection: "column", gap: "8px" }}
                         >
                             {!isEditingDescription ? (
                                 <>
-                                    <p style={{ whiteSpace: "pre-wrap" }}>{description || "No description yet."}</p>
-                                    <button
-                                        className="edit-description-btn"
-                                        onClick={() => setIsEditingDescription(true)}
-                                    >
-                                        Edit
-                                    </button>
+                                    <div className="description-with-edit">
+                                        <p className="description-text">{description || "No description yet."}</p>
+                                    </div>
                                 </>
                             ) : (
                                 <>
@@ -230,7 +221,7 @@ const ProfileSection = ({
                   />
                                     <div style={{ display: "flex", gap: "8px" }}>
                                         <button
-                                            className="save-description-btn"
+                                            className="button button-primary"
                                             onClick={() => {
                                                 saveDescription(tempDescription);
                                                 setIsEditingDescription(false);
@@ -239,7 +230,7 @@ const ProfileSection = ({
                                             Save
                                         </button>
                                         <button
-                                            className="cancel-description-btn"
+                                            className="button button-secondary"
                                             onClick={() => {
                                                 setTempDescription(description || "");
                                                 setIsEditingDescription(false);

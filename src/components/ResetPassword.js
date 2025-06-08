@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import CliqueIcon from "./icons/Clique-icon.png";
 import './styles/Register.css'
+import { resetPassword } from './api';
 
 function ResetPassword() {
     const navigate = useNavigate();
@@ -50,28 +51,12 @@ function ResetPassword() {
         setLoading(true);
 
         try {
-            const response = await fetch("http://localhost:8080/auth/reset-password", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ token, newPassword }),
-            });
-
-            if (!response.ok) {
-                const data = await response.json();
-                setError(data.message || "Failed to reset password.");
-                setLoading(false);
-                return;
-            }
-
+            await resetPassword(token, newPassword);
             setSuccess("Password reset successful! You can now log in.");
-            setLoading(false);
-
             setTimeout(() => navigate("/login"), 3000);
-
         } catch (err) {
-            setError("Network error. Please try again later.");
+            setError(err.message || "Network error. Please try again later.");
+        } finally {
             setLoading(false);
         }
     };
