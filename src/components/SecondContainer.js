@@ -71,13 +71,31 @@ function SecondContainer({
                                                     <div className="chat-item-preview">
                                                         {lastMessage && (
                                                             <span className="message-time-preview">
-                                                              {new Date(lastMessage.timestamp).toLocaleTimeString([], {
-                                                                  hour: '2-digit',
-                                                                  minute: '2-digit',
+                                                              {new Date(lastMessage.timestamp).toLocaleDateString(undefined, {
+                                                                  year: "numeric",
+                                                                  month: "short",
+                                                                  day: "numeric",
+                                                                  hour: "2-digit",
+                                                                  minute: "2-digit",
                                                               })}
                                                             </span>
                                                         )}
-                                                        {lastMessage ? lastMessage.content : "No messages yet"}
+                                                        {lastMessage ? (
+                                                            <span
+                                                                className="message-content-preview"
+                                                                title={
+                                                                    lastMessage.senderId === user.id
+                                                                        ? `You: ${lastMessage.content}`
+                                                                        : `${otherParticipant.username}: ${lastMessage.content}`
+                                                                }
+                                                            >
+                                                              {lastMessage.senderId === user.id
+                                                                  ? `You: ${lastMessage.content}`
+                                                                  : `${otherParticipant.username}: ${lastMessage.content}`}
+                                                            </span>
+                                                        ) : (
+                                                            "No messages yet"
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>

@@ -123,19 +123,33 @@
     flex: 1;
 }
 
-.chat-item-name {
-    color: white;
-    font-weight: 500;
-    margin-bottom: 4px;
-}
-
 .chat-item-preview {
+    display: flex;
+    flex-direction: column;
     color: #b9bbbe;
     font-size: 13px;
     max-width: 200px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.message-content-preview {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: inline-block;
+    font-weight: 500;
+}
+
+.message-time-preview {
+    font-size: 0.75rem;
+    color: #888;
+    align-self: start;
+    text-align: right;
+    user-select: none;
+    margin-right: 8px;
 }
 
 .friends-list {
