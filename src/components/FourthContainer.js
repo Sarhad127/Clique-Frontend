@@ -95,6 +95,7 @@ const FourthContainer = ({
                         {(selectedGroupChat.members && selectedGroupChat.members.length > 0) ? (
                             selectedGroupChat.members.map((member) => {
                                 const isFriend = user.friends?.some(friend => friend.id === member.id);
+                                const isCurrentUser = member.id === user.id;
                                 return (
                                     <li key={member.id} className="group-member flex-align-center gap-8">
                                         <img
@@ -103,7 +104,7 @@ const FourthContainer = ({
                                             className="group-member-avatar"
                                         />
                                         <span>{member.username}</span>
-                                        {!isFriend && (
+                                        {!isFriend && !isCurrentUser && (
                                             <button className="add-friend-button">
                                                 Add as friend
                                             </button>
