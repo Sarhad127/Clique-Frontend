@@ -169,10 +169,36 @@
     border: none;
     border-radius: 4px;
 }
-
 .add-friend-button:focus {
     transition: transform 0.1s ease;
 }
 .add-friend-button:active {
     transform: scale(0.98);
+}
+
+.leave-group-container {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    display: flex;
+    justify-content: flex-end;
+    width: auto;
+    margin-top: 0;
+}
+.leave-group-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.leave-group-button:hover {
+    background-color: #c0392b;
+}
+.leave-group-button:active {
+    background-color: #992d22;
 }

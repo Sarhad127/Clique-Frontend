@@ -360,3 +360,21 @@ export async function deleteChat(chatId, token) {
     }
     return response.json();
 }
+
+export async function leaveGroup(groupId, token) {
+    const response = await fetch(`http://localhost:8080/api/groups/${groupId}/leave`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(`Failed to leave group (status ${response.status})`);
+    }
+
+    if (response.status === 204) {
+        return null;
+    }
+    return response.json();
+}

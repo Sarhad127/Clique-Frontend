@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FriendDetails from "./FriendDetails";
-import { startChatWithFriend, inviteUserToGroup } from './api';
+import { startChatWithFriend, inviteUserToGroup, leaveGroup } from './api';
 
 const FourthContainer = ({
                              selectedFriends,
@@ -31,6 +31,24 @@ const FourthContainer = ({
                 console.error("Response status:", error.response.status);
             }
             alert("Failed to invite user.");
+        }
+    };
+
+    const handleLeaveGroup = async () => {
+        if (!selectedGroupChat) return;
+
+        const confirmed = window.confirm("Are you sure you want to leave the group?");
+        if (!confirmed) return;
+
+        try {
+            await leaveGroup(selectedGroupChat.id, token);
+            alert("You have left the group.");
+            setSelectedFriend(null);
+            setServerSection("allChats");
+            setAllChatsTab("chat");
+        } catch (error) {
+            console.error("Failed to leave group:", error);
+            alert("Failed to leave group.");
         }
     };
 
@@ -108,6 +126,15 @@ const FourthContainer = ({
                         />
                         <button onClick={handleInvite} className="invite-button">
                             Invite
+                        </button>
+                    </div>
+                    <div className="leave-group-container" style={{ marginTop: "12px" }}>
+                        <button
+                            onClick={handleLeaveGroup}
+                            className="leave-group-button"
+                            style={{ backgroundColor: "#e74c3c", color: "white" }}
+                        >
+                            Leave Group
                         </button>
                     </div>
                 </div>
