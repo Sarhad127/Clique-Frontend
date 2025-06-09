@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
-import './styles/ChatBox.css';
+import './styles/GroupChatBox.css';
 import { fetchGroupMessages } from './api';
 
 const GroupChatBox = ({ user, groupId, selectedGroupChat }) => {
@@ -131,9 +131,9 @@ const GroupChatBox = ({ user, groupId, selectedGroupChat }) => {
     };
 
     return (
-        <div className="default-chat-box">
+        <div className="default-chat-box-group">
             <div
-                className="chat-messages"
+                className="chat-messages-group"
                 ref={messagesEndRef}
                 style={backgroundStyle}
             >
@@ -143,17 +143,17 @@ const GroupChatBox = ({ user, groupId, selectedGroupChat }) => {
                     return (
                         <div
                             key={index}
-                            className={`message ${isOutgoing ? "outgoing" : "incoming"}`}
+                            className={`messageGroup ${isOutgoing ? "outgoings" : "incomings"}`}
                         >
                             {!isOutgoing && (
-                                <div className="avatar" style={{
+                                <div className="avatars" style={{
                                     backgroundColor: !message.senderAvatarUrl ? message.senderAvatarColor : 'transparent',
                                 }}>
                                     {message.senderAvatarUrl ? (
                                         <img
                                             src={message.senderAvatarUrl}
                                             alt={`${message.senderUsername}'s avatar`}
-                                            className="avatar-image"
+                                            className="avatar-images"
                                         />
                                     ) : (
                                         <span className="avatar-initials">{message.senderAvatarInitials}</span>
@@ -161,23 +161,23 @@ const GroupChatBox = ({ user, groupId, selectedGroupChat }) => {
                                 </div>
                             )}
 
-                            <div className="message-details">
-                                <div className="message-header">
-                                    <div className="username">{message.senderUsername}</div>
-                                    <div className="message-time">{formatDateTime(message.timestamp)}</div>
+                            <div className="message-details-group">
+                                <div className="message-header-group">
+                                    <div className="username-group">{message.senderUsername}</div>
+                                    <div className="message-time-group">{formatDateTime(message.timestamp)}</div>
                                 </div>
-                                <div className="message-content">{message.content}</div>
+                                <div className="message-content-group">{message.content}</div>
                             </div>
 
                             {isOutgoing && (
-                                <div className="avatar" style={{
+                                <div className="avatars" style={{
                                     backgroundColor: !message.senderAvatarUrl ? message.senderAvatarColor : 'transparent',
                                 }}>
                                     {message.senderAvatarUrl ? (
                                         <img
                                             src={message.senderAvatarUrl}
                                             alt={`${message.senderUsername}'s avatar`}
-                                            className="avatar-image"
+                                            className="avatar-images"
                                         />
                                     ) : (
                                         <span className="avatar-initials">{message.senderAvatarInitials}</span>
@@ -189,16 +189,16 @@ const GroupChatBox = ({ user, groupId, selectedGroupChat }) => {
                 })}
             </div>
 
-            <div className="chat-input-area">
+            <div className="chat-input-area-group">
                 <input
                     type="text"
                     placeholder="Type your message..."
-                    className="chat-input"
+                    className="chat-input-group"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
                 />
-                <button className="send-button" onClick={handleSendMessage}>
+                <button className="send-button-group" onClick={handleSendMessage}>
                     Send
                 </button>
             </div>
