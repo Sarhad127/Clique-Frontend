@@ -92,7 +92,7 @@ export async function inviteUserToGroup(groupId, userIdentifier, token) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ userIdentifier }),
+        body: JSON.stringify({ userIdentifier: userIdentifier }),
     });
     const text = await response.text();
 
