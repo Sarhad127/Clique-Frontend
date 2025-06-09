@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import FriendDetails from "./FriendDetails";
-import { startChatWithFriend, inviteUserToGroup, leaveGroup, addFriend } from './api';
+import {startChatWithFriend, inviteUserToGroup, leaveGroup, addFriend, updateGroupBackgroundImage} from './api';
 
 const FourthContainer = ({
                              selectedFriends,
                              selectedGroupChat,
+                             setSelectedGroupChat,
                              user,
                              chatList,
                              setChatList,
@@ -17,6 +18,7 @@ const FourthContainer = ({
                          }) => {
     const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     const [inviteInput, setInviteInput] = useState("");
+    const [backgroundUrlInput, setBackgroundUrlInput] = useState("");
 
     const handleInvite = async () => {
         if (!inviteInput.trim()) return;
@@ -59,6 +61,24 @@ const FourthContainer = ({
         } catch (error) {
             console.error("Error adding friend:", error);
             alert("Failed to add friend.");
+        }
+    };
+
+    const handleUpdateBackground = async () => {
+        if (!backgroundUrlInput.trim()) return;
+
+        try {
+            await updateGroupBackgroundImage(selectedGroupChat.id, backgroundUrlInput.trim(), token);
+            alert("Background updated!");
+
+            setSelectedGroupChat(prev => ({
+                ...prev,
+                backgroundImageUrl: backgroundUrlInput.trim(),
+            }));
+            setBackgroundUrlInput("");
+        } catch (error) {
+            console.error("Error updating background:", error);
+            alert("Failed to update background.");
         }
     };
 
@@ -140,6 +160,22 @@ const FourthContainer = ({
                         />
                         <button onClick={handleInvite} className="invite-button">
                             Invite
+                        </button>
+                    </div>
+                    <div className="background-update-container" style={{ marginTop: "12px" }}>
+                        <input
+                            type="text"
+                            placeholder="Enter background image URL"
+                            value={backgroundUrlInput}
+                            onChange={(e) => setBackgroundUrlInput(e.target.value)}
+                            className="background-url-input"
+                        />
+                        <button
+                            onClick={handleUpdateBackground}
+                            className="background-url-button"
+                            style={{ marginLeft: "8px" }}
+                        >
+                            Set Background
                         </button>
                     </div>
                     <div className="leave-group-container" style={{ marginTop: "12px" }}>

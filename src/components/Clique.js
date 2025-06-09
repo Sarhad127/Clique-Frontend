@@ -155,6 +155,7 @@ function Clique() {
                             user={user}
                             groupId={selectedGroupId}
                             onClose={() => setSelectedGroupId(null)}
+                            selectedGroupChat={selectedGroupChat}
                         />
                     ) : (
                         <div></div>

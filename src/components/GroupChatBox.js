@@ -4,7 +4,7 @@ import { Client } from "@stomp/stompjs";
 import './styles/ChatBox.css';
 import { fetchGroupMessages } from './api';
 
-const GroupChatBox = ({ user, groupId }) => {
+const GroupChatBox = ({ user, groupId, selectedGroupChat }) => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [isConnected, setIsConnected] = useState(false);
@@ -12,6 +12,10 @@ const GroupChatBox = ({ user, groupId }) => {
     const stompClientRef = useRef(null);
     const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     const messagesEndRef = useRef(null);
+
+    const backgroundStyle = selectedGroupChat
+        ? { backgroundImage: `url(${selectedGroupChat.backgroundImageUrl})` }
+        : {};
 
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
@@ -126,7 +130,7 @@ const GroupChatBox = ({ user, groupId }) => {
             <div
                 className="chat-messages"
                 ref={messagesEndRef}
-                style={{ overflowY: "auto"}}
+                style={backgroundStyle}
             >
                 {messages.map((message, index) => {
                     const isOutgoing = message.senderId === user.id;

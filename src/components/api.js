@@ -378,3 +378,20 @@ export async function leaveGroup(groupId, token) {
     }
     return response.json();
 }
+
+export const updateGroupBackgroundImage = async (groupId, imageUrl, token) => {
+    const response = await fetch(`http://localhost:8080/api/groups/${groupId}/background`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ backgroundImageUrl: imageUrl }),
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to update group background.");
+    }
+
+    return await response.json();
+};
