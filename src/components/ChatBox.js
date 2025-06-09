@@ -161,9 +161,11 @@ const ChatBox = ({ user, friendId, friend }) => {
                             message.senderId === user.id ? "outgoing" : "incoming"
                         }`}
                     >
-                        <div>{message.content}</div>
-                        <div className="message-time">
-                            {formatDateTime(message.timestamp)}
+                        <div className="message-header">
+                            <div className="message-content">{message.content}</div>
+                            <div className="message-time">
+                                {formatDateTime(message.timestamp)}
+                            </div>
                         </div>
                     </div>
                 ))}
