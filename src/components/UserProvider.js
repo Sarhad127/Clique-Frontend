@@ -9,7 +9,9 @@ export const UserProvider = ({ children }) => {
     const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
     const fetchUser = async () => {
+        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         if (!token) {
+            setUser(null);
             setLoading(false);
             return;
         }

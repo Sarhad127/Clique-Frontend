@@ -139,16 +139,27 @@ const GroupChatBox = ({ user, groupId, selectedGroupChat }) => {
             >
                 {messages.map((message, index) => {
                     const isOutgoing = message.senderId === user.id;
+                    const previousMessage = messages[index - 1];
+
+                    const showAvatarAndMeta =
+                        !previousMessage ||
+                        previousMessage.senderId !== message.senderId ||
+                        new Date(message.timestamp) - new Date(previousMessage.timestamp) > 2 * 60 * 1000;
 
                     return (
                         <div
                             key={index}
                             className={`messageGroup ${isOutgoing ? "outgoings" : "incomings"}`}
                         >
-                            {!isOutgoing && (
-                                <div className="avatars" style={{
-                                    backgroundColor: !message.senderAvatarUrl ? message.senderAvatarColor : 'transparent',
-                                }}>
+                            {showAvatarAndMeta && !isOutgoing && (
+                                <div
+                                    className="avatars"
+                                    style={{
+                                        backgroundColor: !message.senderAvatarUrl
+                                            ? message.senderAvatarColor
+                                            : 'transparent',
+                                    }}
+                                >
                                     {message.senderAvatarUrl ? (
                                         <img
                                             src={message.senderAvatarUrl}
@@ -162,17 +173,26 @@ const GroupChatBox = ({ user, groupId, selectedGroupChat }) => {
                             )}
 
                             <div className="message-details-group">
-                                <div className="message-header-group">
-                                    <div className="username-group">{message.senderUsername}</div>
-                                    <div className="message-time-group">{formatDateTime(message.timestamp)}</div>
-                                </div>
+                                {showAvatarAndMeta && (
+                                    <div className="message-header-group">
+                                        <div className="username-group">{message.senderUsername}</div>
+                                        <div className="message-time-group">
+                                            {formatDateTime(message.timestamp)}
+                                        </div>
+                                    </div>
+                                )}
                                 <div className="message-content-group">{message.content}</div>
                             </div>
 
-                            {isOutgoing && (
-                                <div className="avatars" style={{
-                                    backgroundColor: !message.senderAvatarUrl ? message.senderAvatarColor : 'transparent',
-                                }}>
+                            {showAvatarAndMeta && isOutgoing && (
+                                <div
+                                    className="avatars"
+                                    style={{
+                                        backgroundColor: !message.senderAvatarUrl
+                                            ? message.senderAvatarColor
+                                            : 'transparent',
+                                    }}
+                                >
                                     {message.senderAvatarUrl ? (
                                         <img
                                             src={message.senderAvatarUrl}

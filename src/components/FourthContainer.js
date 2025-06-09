@@ -88,7 +88,7 @@ const FourthContainer = ({
                 <FriendDetails
                     friend={selectedFriends}
                     onStartChat={async (friendId) => {
-                        const friend = user.friends.find((f) => f.id === friendId);
+                        const friend = user?.friends?.find((f) => f.id === friendId);
                         if (!friend) return;
                         try {
                             const chatData = await startChatWithFriend(friendId, token);
@@ -120,19 +120,40 @@ const FourthContainer = ({
                 <div className="group-details">
                     <h3>{selectedGroupChat.title}</h3>
                     <p>Members</p>
-
                     <ul className="group-member-list">
                         {(selectedGroupChat.members && selectedGroupChat.members.length > 0) ? (
                             selectedGroupChat.members.map((member) => {
-                                const isFriend = user.friends?.some(friend => friend.id === member.id);
-                                const isCurrentUser = member.id === user.id;
+                                const isFriend = Array.isArray(user?.friends) && user.friends.some(friend => friend.id === member.id);
+                                const isCurrentUser = member.id === user?.id;
                                 return (
                                     <li key={member.id} className="group-member flex-align-center gap-8">
-                                        <img
-                                            src={member.avatarUrl || `https://i.pravatar.cc/40?u=${member.id}`}
-                                            alt={member.username}
-                                            className="group-member-avatar"
-                                        />
+                                        {member.avatarUrl ? (
+                                            <img
+                                                src={member.avatarUrl}
+                                                alt={member.username}
+                                                className="group-member-avatar"
+                                            />
+                                        ) : (
+                                            <div
+                                                className="group-member-avatar"
+                                                style={{
+                                                    backgroundColor: member.avatarColor || '#ccc',
+                                                    width: 40,
+                                                    height: 40,
+                                                    borderRadius: '50%',
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    color: '#000',
+                                                    fontWeight: 'bold',
+                                                    fontSize: '16px',
+                                                    userSelect: 'none',
+                                                }}
+                                                title={member.username}
+                                            >
+                                                {member.avatarInitials || member.username?.charAt(0).toUpperCase()}
+                                            </div>
+                                        )}
                                         <span>{member.username}</span>
                                         {!isFriend && !isCurrentUser && (
                                             <button
@@ -149,7 +170,6 @@ const FourthContainer = ({
                             <li>No members found.</li>
                         )}
                     </ul>
-
                     <div className="invite-container">
                         <input
                             type="text"

@@ -41,6 +41,12 @@ function Clique() {
         navigate('/home');
     }
 
+    useEffect(() => {
+        if (user?.description !== undefined) {
+            setDescription(user.description);
+        }
+    }, [user?.description]);
+
     const handleFriendClick = (friendId) => {
         setSelectedFriendId(friendId);
         setActiveSection('chat');
@@ -64,8 +70,12 @@ function Clique() {
 
     async function handleSaveUsername() {
         try {
-            const updatedUser = await saveUsername(newUsername, token);
-            setUser(updatedUser);
+            await saveUsername(newUsername, token);
+            setUser(prevUser => ({
+                ...prevUser,
+                username: newUsername
+            }));
+            console.log(newUsername)
             setIsEditingUsername(false);
         } catch (error) {
             alert(error.message);
@@ -74,10 +84,15 @@ function Clique() {
 
     async function handleSaveDescription(desc) {
         try {
-            const data = await saveDescription(desc, token);
-            setDescription(data.description);
+            await saveDescription(desc, token);
+            setUser(prevUser => ({
+                ...prevUser,
+                description: desc.trim()
+            }));
+            setDescription(desc.trim());
+            setIsEditingDescription(false);
         } catch (error) {
-            console.error("Error while saving description:", error.message);
+            alert(error.message);
         }
     }
 
