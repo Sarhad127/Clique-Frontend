@@ -130,6 +130,15 @@ const GroupChatBox = ({ user, groupId, selectedGroupChat }) => {
         }
     };
 
+    function formatDate(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleDateString(undefined, {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+        });
+    }
+
     return (
         <div className="default-chat-box-group">
             <div
@@ -141,70 +150,79 @@ const GroupChatBox = ({ user, groupId, selectedGroupChat }) => {
                     const isOutgoing = message.senderId === user.id;
                     const previousMessage = messages[index - 1];
 
+                    const currentDate = formatDate(message.timestamp);
+                    const prevDate = previousMessage ? formatDate(previousMessage.timestamp) : null;
+                    const showDateSeparator = index === 0 || currentDate !== prevDate;
+
                     const showAvatarAndMeta =
                         !previousMessage ||
                         previousMessage.senderId !== message.senderId ||
                         new Date(message.timestamp) - new Date(previousMessage.timestamp) > 2 * 60 * 1000;
 
                     return (
-                        <div
-                            key={index}
-                            className={`messageGroup ${isOutgoing ? "outgoings" : "incomings"}`}
-                        >
-                            {showAvatarAndMeta && !isOutgoing && (
-                                <div
-                                    className="avatars"
-                                    style={{
-                                        backgroundColor: !message.senderAvatarUrl
-                                            ? message.senderAvatarColor
-                                            : 'transparent',
-                                    }}
-                                >
-                                    {message.senderAvatarUrl ? (
-                                        <img
-                                            src={message.senderAvatarUrl}
-                                            alt={`${message.senderUsername}'s avatar`}
-                                            className="avatar-images"
-                                        />
-                                    ) : (
-                                        <span className="avatar-initials">{message.senderAvatarInitials}</span>
-                                    )}
+                        <React.Fragment key={index}>
+                            {showDateSeparator && (
+                                <div className="date-separator">
+                                    <hr className="date-line" />
+                                    <span className="date-label">{currentDate}</span>
+                                    <hr className="date-line" />
                                 </div>
                             )}
 
-                            <div className="message-details-group">
-                                {showAvatarAndMeta && (
-                                    <div className="message-header-group">
-                                        <div className="username-group">{message.senderUsername}</div>
-                                        <div className="message-time-group">
-                                            {formatDateTime(message.timestamp)}
-                                        </div>
+                            <div className={`messageGroup ${isOutgoing ? "outgoings" : "incomings"}`}>
+                                {showAvatarAndMeta && !isOutgoing && (
+                                    <div
+                                        className="avatars"
+                                        style={{
+                                            backgroundColor: !message.senderAvatarUrl
+                                                ? message.senderAvatarColor
+                                                : 'transparent',
+                                        }}
+                                    >
+                                        {message.senderAvatarUrl ? (
+                                            <img
+                                                src={message.senderAvatarUrl}
+                                                alt={`${message.senderUsername}'s avatar`}
+                                                className="avatar-images"
+                                            />
+                                        ) : (
+                                            <span className="avatar-initials">{message.senderAvatarInitials}</span>
+                                        )}
                                     </div>
                                 )}
-                                <div className="message-content-group">{message.content}</div>
-                            </div>
 
-                            {showAvatarAndMeta && isOutgoing && (
-                                <div
-                                    className="avatars"
-                                    style={{
-                                        backgroundColor: !message.senderAvatarUrl
-                                            ? message.senderAvatarColor
-                                            : 'transparent',
-                                    }}
-                                >
-                                    {message.senderAvatarUrl ? (
-                                        <img
-                                            src={message.senderAvatarUrl}
-                                            alt={`${message.senderUsername}'s avatar`}
-                                            className="avatar-images"
-                                        />
-                                    ) : (
-                                        <span className="avatar-initials">{message.senderAvatarInitials}</span>
+                                <div className="message-details-group">
+                                    {showAvatarAndMeta && (
+                                        <div className="message-header-group">
+                                            <div className="username-group">{message.senderUsername}</div>
+                                            <div className="message-time-group">{formatDateTime(message.timestamp)}</div>
+                                        </div>
                                     )}
+                                    <div className="message-content-group">{message.content}</div>
                                 </div>
-                            )}
-                        </div>
+
+                                {showAvatarAndMeta && isOutgoing && (
+                                    <div
+                                        className="avatars"
+                                        style={{
+                                            backgroundColor: !message.senderAvatarUrl
+                                                ? message.senderAvatarColor
+                                                : 'transparent',
+                                        }}
+                                    >
+                                        {message.senderAvatarUrl ? (
+                                            <img
+                                                src={message.senderAvatarUrl}
+                                                alt={`${message.senderUsername}'s avatar`}
+                                                className="avatar-images"
+                                            />
+                                        ) : (
+                                            <span className="avatar-initials">{message.senderAvatarInitials}</span>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        </React.Fragment>
                     );
                 })}
             </div>
