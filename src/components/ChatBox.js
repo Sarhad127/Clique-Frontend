@@ -4,7 +4,7 @@ import { Client } from "@stomp/stompjs";
 import './styles/ChatBox.css';
 import { fetchMessages } from './api';
 
-const ChatBox = ({ user, friendId }) => {
+const ChatBox = ({ user, friendId, friend }) => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [isConnected, setIsConnected] = useState(false);
@@ -130,6 +130,25 @@ const ChatBox = ({ user, friendId }) => {
 
     return (
         <div className="default-chat-box">
+            <div className="chat-navbar">
+                <div className="chat-navbar-left">
+                    <img
+                        src={
+                            friend?.avatarUrl ||
+                            `https://i.pravatar.cc/40?u=${friend?.id}`
+                        }
+                        alt={friend?.username || "User"}
+                        className="chat-navbar-avatar"
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                friend?.username || "User"
+                            )}&background=random&size=40`;
+                        }}
+                    />
+                    <span className="chat-navbar-username">{friend?.username}</span>
+                </div>
+            </div>
             <div
                 className="chat-messages"
                 ref={messagesEndRef}

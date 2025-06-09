@@ -244,3 +244,29 @@
     justify-content: flex-end;
     gap: 6px;
 }
+
+.chat-navbar {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ddd;
+}
+
+.chat-navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.chat-navbar-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.chat-navbar-username {
+    font-weight: 600;
+    font-size: 16px;
+}

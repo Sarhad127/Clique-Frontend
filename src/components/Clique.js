@@ -149,7 +149,9 @@ function Clique() {
                             saveDescription={handleSaveDescription}
                         />
                     ) : selectedFriendId ? (
-                        <ChatBox user={user} friendId={selectedFriendId} />
+                        <ChatBox user={user}
+                                 friendId={selectedFriendId}
+                                 friend={user?.friends?.find(friend => friend.id === selectedFriendId)} />
                     ) : selectedGroupId ? (
                         <GroupChatBox
                             user={user}
