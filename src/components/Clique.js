@@ -191,6 +191,7 @@ function Clique() {
                     setActiveSection={setActiveSection}
                     setSelectedFriend={setSelectedFriend}
                     setActiveChatId={setActiveChatId}
+                    setSelectedGroupChat={setSelectedGroupChat}
                 />
             </div>
         </div>
