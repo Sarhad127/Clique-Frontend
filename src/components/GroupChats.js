@@ -22,6 +22,12 @@ export default function GroupChats({ user, onGroupCreated, onGroupSelected}) {
                 })
             );
 
+            groupsWithLastMessage.sort((a, b) => {
+                const timeA = a.lastMessage ? new Date(a.lastMessage.timestamp).getTime() : 0;
+                const timeB = b.lastMessage ? new Date(b.lastMessage.timestamp).getTime() : 0;
+                return timeB - timeA;
+            });
+
             setGroupChats(groupsWithLastMessage);
         } catch (error) {
             console.error("Error fetching groups or messages:", error);
@@ -108,7 +114,7 @@ export default function GroupChats({ user, onGroupCreated, onGroupSelected}) {
                                         <div className="last-message-time">{formatDateTime(group.lastMessage.timestamp)}</div>
                                         <div className="last-message-text">
                                           <span className="sender-name">
-                                            {group.lastMessage.senderId === user.id ? "You" : group.lastMessage.senderUsername}:
+                                             {user && group.lastMessage.senderId === user.id ? "You" : group.lastMessage.senderUsername}
                                           </span>{" "}
                                             {group.lastMessage.content}
                                         </div>

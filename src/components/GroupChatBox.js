@@ -14,7 +14,12 @@ const GroupChatBox = ({ user, groupId, selectedGroupChat }) => {
     const messagesEndRef = useRef(null);
 
     const backgroundStyle = selectedGroupChat
-        ? { backgroundImage: `url(${selectedGroupChat.backgroundImageUrl})` }
+        ? {
+            backgroundImage: `url(${selectedGroupChat.backgroundImageUrl})`,
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+        }
         : {};
 
     const scrollToBottom = () => {

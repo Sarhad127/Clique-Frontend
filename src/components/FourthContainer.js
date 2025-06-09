@@ -165,7 +165,7 @@ const FourthContainer = ({
                     <div className="background-update-container" style={{ marginTop: "12px" }}>
                         <input
                             type="text"
-                            placeholder="Enter background image URL"
+                            placeholder="Enter background URL"
                             value={backgroundUrlInput}
                             onChange={(e) => setBackgroundUrlInput(e.target.value)}
                             className="background-url-input"
@@ -173,9 +173,8 @@ const FourthContainer = ({
                         <button
                             onClick={handleUpdateBackground}
                             className="background-url-button"
-                            style={{ marginLeft: "8px" }}
                         >
-                            Set Background
+                            Set
                         </button>
                     </div>
                     <div className="leave-group-container" style={{ marginTop: "12px" }}>
