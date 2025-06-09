@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FriendDetails from "./FriendDetails";
-import { startChatWithFriend, inviteUserToGroup, leaveGroup } from './api';
+import { startChatWithFriend, inviteUserToGroup, leaveGroup, addFriend } from './api';
 
 const FourthContainer = ({
                              selectedFriends,
@@ -49,6 +49,16 @@ const FourthContainer = ({
         } catch (error) {
             console.error("Failed to leave group:", error);
             alert("Failed to leave group.");
+        }
+    };
+
+    const handleAddFriend = async (memberIdOrEmail) => {
+        try {
+            const message = await addFriend(memberIdOrEmail, token);
+            alert(message || "Friend request sent.");
+        } catch (error) {
+            console.error("Error adding friend:", error);
+            alert("Failed to add friend.");
         }
     };
 
@@ -105,7 +115,10 @@ const FourthContainer = ({
                                         />
                                         <span>{member.username}</span>
                                         {!isFriend && !isCurrentUser && (
-                                            <button className="add-friend-button">
+                                            <button
+                                                className="add-friend-button"
+                                                onClick={() => handleAddFriend(member.username)}
+                                            >
                                                 Add as friend
                                             </button>
                                         )}
