@@ -15,13 +15,16 @@
 }
 
 .profile-info {
-    width: 100vh;
-    height: 100vh;
+    width: 100%;
+    max-width: 900px;
+    min-height: 100vh;
     margin: 0 auto;
     padding: 1.5rem;
     color: var(--text-light);
     background: linear-gradient(135deg, var(--bg-dark) 0%, #2a2a3a 100%);
-
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .profile-content {
@@ -183,8 +186,19 @@
 }
 
 .profile-input,
-.avatar-edit-input input[type="text"], textarea {
+.avatar-edit-input input[type="text"] {
     width: 100%;
+    padding: 0.625rem 0.75rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--text-light);
+    font-size: 0.9375rem;
+    transition: var(--transition);
+}
+
+textarea {
+    max-width: 539px;
     padding: 0.625rem 0.75rem;
     border-radius: var(--border-radius);
     border: 1px solid var(--border-color);
