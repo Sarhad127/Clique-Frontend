@@ -4,19 +4,16 @@ import './styles/SECOND-CONTAINER.css';
 import './styles/THIRD-CONTAINER.css';
 import './styles/FOURTH-CONTAINER.css';
 
-import CliqueIcon from "./icons/Clique-icon.png";
-import Logout from './icons/logout.png';
-import AllChats from './icons/all-chats.png';
-import Friends from './icons/friends.png';
-import Profile from './icons/profile.png';
-import FriendDetails from "./FriendDetails";
-
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import { UserContext } from "./UserProvider";
-import FriendsList from "./FriendsList";
 import ProfileSection from "./ProfileSection";
 import ChatBox from "./ChatBox";
+import {saveUsername, saveDescription, fetchChats, deleteChat} from './api';
+import FirstContainer from "./FirstContainer";
+import SecondContainer from "./SecondContainer";
+import FourthContainer from "./FourthContainer";
+import GroupChatBox from "./GroupChatBox";
 
 function Clique() {
     const navigate = useNavigate();
@@ -28,12 +25,15 @@ function Clique() {
     const [isEditingUsername, setIsEditingUsername] = useState(false);
     const [newUsername, setNewUsername] = useState(user?.username || "");
     const [selectedFriendId, setSelectedFriendId] = useState(null);
-    const selectedFriend = user?.friends?.find(friend => friend.id === selectedFriendId);
+    user?.friends?.find(friend => friend.id === selectedFriendId);
     const [description, setDescription] = useState(user?.description || "");
     const [isEditingDescription, setIsEditingDescription] = useState(false);
     const [chatList, setChatList] = useState(user?.directMessages || []);
     const [selectedFriends, setSelectedFriend] = useState(null);
-    const [activeChatId, setActiveChatId] = useState(null);
+    const [, setActiveChatId] = useState(null);
+    const [selectedGroupChat, setSelectedGroupChat] = useState(null);
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const [selectedGroupId, setSelectedGroupId] = useState(null);
 
     function handleLogout() {
         localStorage.removeItem('token');
@@ -41,204 +41,112 @@ function Clique() {
         navigate('/home');
     }
 
-    function handleServerSectionChange(section) {
-        setServerSection(section);
-        if (section === 'friends') {
-            setActiveSection('');
-            setSelectedFriendId(null);
+    useEffect(() => {
+        if (user?.description !== undefined) {
+            setDescription(user.description);
         }
-    }
-
-    function handleProfileClick() {
-        setActiveSection('profile');
-    }
+    }, [user?.description]);
 
     const handleFriendClick = (friendId) => {
-        console.log("Friend clicked:", friendId);
         setSelectedFriendId(friendId);
         setActiveSection('chat');
         setSelectedFriend(null);
         setActiveChatId(friendId);
+        setSelectedGroupChat(null);
     };
 
-    async function saveUsername() {
-        try {
-            const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-            const response = await fetch("http://localhost:8080/user/username", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
-                },
-                body: JSON.stringify({ username: newUsername }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to update username");
+    async function handleDeleteChat(chatId) {
+        if (window.confirm("Are you sure you want to delete this chat?")) {
+            try {
+                await deleteChat(chatId, token);
+                setChatList(prevChats => prevChats.filter(chat => chat.id !== chatId));
+                console.log("Deleted chat with ID:", chatId);
+            } catch (error) {
+                console.error("Error deleting chat:", error);
+                alert("Failed to delete chat. Please try again.");
             }
+        }
+    }
 
-            const updatedUser = await response.json();
-            setUser(updatedUser);
+    async function handleSaveUsername() {
+        try {
+            await saveUsername(newUsername, token);
+            setUser(prevUser => ({
+                ...prevUser,
+                username: newUsername
+            }));
+            console.log(newUsername)
             setIsEditingUsername(false);
         } catch (error) {
             alert(error.message);
         }
     }
 
-    const saveDescription = async (desc) => {
+    async function handleSaveDescription(desc) {
         try {
-            const response = await fetch('http://localhost:8080/user/description', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("token") || sessionStorage.getItem("token")}`,
-                },
-                body: JSON.stringify({ description: desc }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setDescription(data.description);
-                console.log("Description saved:", data.description);
-            } else {
-                console.error("Failed to save description:", data.message || data);
-            }
+            await saveDescription(desc, token);
+            setUser(prevUser => ({
+                ...prevUser,
+                description: desc.trim()
+            }));
+            setDescription(desc.trim());
+            setIsEditingDescription(false);
         } catch (error) {
-            console.error("Error while saving description:", error);
+            alert(error.message);
         }
-    };
+    }
+
+    useEffect(() => {
+        async function loadChats() {
+            try {
+                const chats = await fetchChats(token);
+                setChatList(chats);
+            } catch (error) {
+                console.error("Error fetching chats:", error.message);
+            }
+        }
+
+        if (user) {
+            loadChats();
+        }
+    }, [user]);
 
     return (
         <div className="clique-page">
             <div className="clique-main-container">
 
-                <div className="FIRST-CONTAINER">
-                    <div className="Clique-logo-sidebar">
-                        <img src={CliqueIcon} alt="Clique Logo" className="clique-logo" />
-                    </div>
-                    <hr className="sidebar-divider" />
-                    <nav className="sidebar-nav-icons">
-                        <div
-                            className={`nav-icon-container ${serverSection === 'allChats' ? 'active' : ''}`}
-                            onClick={() => handleServerSectionChange('allChats')}
-                        >
-                            <img src={AllChats} alt="All Chats" className="nav-icon" />
-                            <span>All chats</span>
-                        </div>
-                        <div
-                            className={`nav-icon-container ${serverSection === 'friends' ? 'active' : ''}`}
-                            onClick={() => handleServerSectionChange('friends')}
-                        >
-                            <img src={Friends} alt="Friends" className="nav-icon" />
-                            <span>Friends</span>
-                        </div>
-                        <div
-                            className={`nav-icon-container ${activeSection === 'profile' ? 'active' : ''}`}
-                            onClick={handleProfileClick}
-                        >
-                            <img src={Profile} alt="Profile" className="nav-icon" />
-                            <span>Profile</span>
-                        </div>
-                    </nav>
-                    <hr className="sidebar-divider-second" />
-                    <div className="logout-icon">
-                        <img src={Logout} alt="Logout logo" className="nav-icon" onClick={handleLogout} />
-                        <span>Log out</span>
-                    </div>
-                </div>
+                <FirstContainer
+                    serverSection={serverSection}
+                    setServerSection={setServerSection}
+                    activeSection={activeSection}
+                    setActiveSection={setActiveSection}
+                    handleLogout={handleLogout}
+                    setSelectedFriend={setSelectedFriend}
+                    setSelectedGroupChat={setSelectedGroupChat}
+                    setSelectedFriendId={setSelectedFriendId}
+                    setSelectedGroupId={setSelectedGroupId}
+                />
 
-                <div className="SECOND-CONTAINER">
-                    {serverSection === 'allChats' && (
-                        <div className="all-chats-container">
-                            <div className="all-chats-tabs">
-                                <button
-                                    className={allChatsTab === 'chat' ? 'active-tab' : ''}
-                                    onClick={() => setAllChatsTab('chat')}
-                                >
-                                    Chats
-                                </button>
-                                <button
-                                    className={allChatsTab === 'groups' ? 'active-tab' : ''}
-                                    onClick={() => setAllChatsTab('groups')}
-                                >
-                                    Group Chats
-                                </button>
-                            </div>
-
-                            <div className="all-chats-content">
-                                {allChatsTab === "chat" && (
-                                    <div>
-                                        {chatList.length > 0 ? (
-                                            chatList.map((chat) => (
-                                                <div
-                                                    key={chat.id}
-                                                    className={`chat-item ${activeChatId === chat.id ? 'active-chat' : ''}`}
-                                                    onClick={() => handleFriendClick(chat.id)}
-                                                >
-                                                <img
-                                                        src={chat.avatarUrl || `https://i.pravatar.cc/40?u=${chat.id}`}
-                                                        alt={chat.username || "User"}
-                                                        className="chat-item-avatar"
-                                                        onError={(e) => {
-                                                            e.target.onerror = null;
-                                                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(chat.username || "User")}&background=random&size=40`;
-                                                        }}
-                                                    />
-                                                    <div className="chat-item-info">
-                                                        <div className="chat-item-name">{chat.username}</div>
-                                                        <div className="chat-item-preview">{chat.lastMessagePreview}</div>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <div></div>
-                                        )}
-                                    </div>
-                                )}
-
-                                {allChatsTab === "groups" && (
-                                    <div>
-                                        {user?.groupChats?.length > 0 ? (
-                                            user.groupChats.map((group) => (
-                                                <div key={group.id} className="chat-item">
-                                                    <img
-                                                        src={group.avatarUrl || `https://i.pravatar.cc/40?u=${group.id}`}
-                                                        alt={group.name || "Group"}
-                                                        className="chat-item-avatar"
-                                                        onError={(e) => {
-                                                            e.target.onerror = null;
-                                                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(group.name || "Group")}&background=random&size=40`;
-                                                        }}
-                                                    />
-                                                    <div className="chat-item-info">
-                                                        <div className="chat-item-name">{group.name}</div>
-                                                        <div className="chat-item-preview">{group.lastMessagePreview}</div>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <div></div>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                    {serverSection === "friends" && (
-                        <FriendsList
-                            user={user}
-                            showAddFriend={showAddFriend}
-                            setShowAddFriend={setShowAddFriend}
-                            onFriendClick={(friendId) => {
-                                const friend = user.friends.find(f => f.id === friendId);
-                                if (!friend) return;
-                                setSelectedFriend(friend);
-                            }}
-                        />
-                    )}
-                </div>
+                <SecondContainer
+                    serverSection={serverSection}
+                    setServerSection={setServerSection}
+                    allChatsTab={allChatsTab}
+                    setAllChatsTab={setAllChatsTab}
+                    chatList={chatList}
+                    user={user}
+                    handleFriendClick={handleFriendClick}
+                    onGroupSelected={(group) => {
+                        setSelectedGroupChat(group);
+                        setSelectedGroupId(group.id);
+                        setSelectedFriendId(null);
+                        setActiveSection("chat");
+                    }}
+                    showAddFriend={showAddFriend}
+                    setShowAddFriend={setShowAddFriend}
+                    setSelectedFriend={setSelectedFriend}
+                    setSelectedGroupChat={setSelectedGroupChat}
+                    handleDeleteChat={handleDeleteChat}
+                />
 
                 <div className="THIRD-CONTAINER">
                     {activeSection === "profile" ? (
@@ -248,54 +156,42 @@ function Clique() {
                             setIsEditingUsername={setIsEditingUsername}
                             newUsername={newUsername}
                             setNewUsername={setNewUsername}
-                            saveUsername={saveUsername}
+                            saveUsername={handleSaveUsername}
                             description={description}
                             setDescription={setDescription}
                             isEditingDescription={isEditingDescription}
                             setIsEditingDescription={setIsEditingDescription}
-                            saveDescription={saveDescription}
+                            saveDescription={handleSaveDescription}
                         />
-                    ) : (
-                            selectedFriendId ? (
-                                <ChatBox user={user} friendId={selectedFriendId} />
-                            ) : (
-                                <div></div>
-                            )
-                    )}
-                </div>
-
-                <div className="FOURTH-CONTAINER">
-                    {selectedFriends ? (
-                        <FriendDetails
-                            friend={selectedFriends}
-                            onStartChat={(friendId) => {
-                                const friend = user.friends.find(f => f.id === friendId);
-                                if (!friend) return;
-
-                                if (!chatList.some(chat => chat.id === friend.id)) {
-                                    setChatList(prev => [
-                                        ...prev,
-                                        {
-                                            id: friend.id,
-                                            username: friend.username,
-                                            avatarUrl: friend.avatarUrl || `https://i.pravatar.cc/40?u=${friend.id}`,
-                                            lastMessagePreview: ""
-                                        }
-                                    ]);
-                                }
-
-                                setServerSection("allChats");
-                                setAllChatsTab("chat");
-                                setSelectedFriendId(friendId);
-                                setActiveSection("chat");
-                                setSelectedFriend(null);
-                                setActiveChatId(friendId);
-                            }}
+                    ) : selectedFriendId ? (
+                        <ChatBox user={user}
+                                 friendId={selectedFriendId}
+                                 friend={user?.friends?.find(friend => friend.id === selectedFriendId)} />
+                    ) : selectedGroupId ? (
+                        <GroupChatBox
+                            user={user}
+                            groupId={selectedGroupId}
+                            onClose={() => setSelectedGroupId(null)}
+                            selectedGroupChat={selectedGroupChat}
                         />
                     ) : (
                         <div></div>
                     )}
                 </div>
+
+                <FourthContainer
+                    selectedFriends={selectedFriends}
+                    selectedGroupChat={selectedGroupChat}
+                    user={user}
+                    chatList={chatList}
+                    setChatList={setChatList}
+                    setServerSection={setServerSection}
+                    setAllChatsTab={setAllChatsTab}
+                    setSelectedFriendId={setSelectedFriendId}
+                    setActiveSection={setActiveSection}
+                    setSelectedFriend={setSelectedFriend}
+                    setActiveChatId={setActiveChatId}
+                />
             </div>
         </div>
     );

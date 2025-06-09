@@ -85,15 +85,30 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    margin-top: 5px;
     padding: 8px 12px;
     border-radius: 6px;
-    transition: background-color 0.2s ease;
     background-color: #2F3136;
     cursor: pointer;
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    background-color: rgba(66, 67, 72, 0.78);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .chat-item:hover {
-    background-color: #424348;
+    background-color: #535457;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.chat-item:focus {
+    transition: transform 0.1s ease;
+}
+.chat-item:active {
+    transform: scale(0.99);
 }
 
 .chat-item-avatar {
@@ -108,15 +123,33 @@
     flex: 1;
 }
 
-.chat-item-name {
-    color: white;
-    font-weight: 500;
-    margin-bottom: 4px;
-}
-
 .chat-item-preview {
+    display: flex;
+    flex-direction: column;
     color: #b9bbbe;
     font-size: 13px;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.message-content-preview {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: inline-block;
+    font-weight: 500;
+}
+
+.message-time-preview {
+    font-size: 0.75rem;
+    color: #888;
+    align-self: start;
+    text-align: right;
+    user-select: none;
+    margin-right: 8px;
 }
 
 .friends-list {
@@ -172,27 +205,34 @@
     background-color: #45a049;
 }
 
+.add-friend-container button:focus {
+    transition: transform 0.1s ease;
+}
+.add-friend-container button:active {
+    transform: scale(0.99);
+}
+
 .add-friend-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: transparent;
+    background-color: rgba(24, 119, 242, 0.73);
     color: white;
     border: none;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 5px;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
     transition: background-color 0.2s ease;
 }
-
 .add-friend-btn:hover {
-    background-color: transparent;
+    background-color: rgba(20, 93, 191, 0.6);
 }
-
+.add-friend-btn:focus {
+    transition: transform 0.1s ease;
+}
 .add-friend-btn:active {
-    background-color: transparent;
+    transform: scale(0.98);
 }
 
 .friends-container {
@@ -234,6 +274,14 @@
     background-color: #424348;
 }
 
+.friend-item:focus {
+    transition: transform 0.1s ease;
+}
+.friend-item:active {
+    transform: scale(0.99);
+}
+
+
 .friend-item img {
     width: 40px;
     height: 40px;
@@ -272,6 +320,7 @@
     font-size: 14px;
     outline: none;
     display: block;
+    margin-bottom: 20px;
     transition: border 0.2s ease;
 }
 
@@ -281,4 +330,22 @@
 
 .friend-search-input:focus {
     border-color: white;
+}
+
+.chat-item-trash {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 6px;
+    cursor: pointer;
+    color: whitesmoke;
+    background-color: transparent;
+    padding: 2px 6px;
+    border-radius: 4px;
+    z-index: 2;
+    transition: background-color 0.2s ease;
+}
+
+.chat-item-trash:hover {
+    color: whitesmoke;
 }

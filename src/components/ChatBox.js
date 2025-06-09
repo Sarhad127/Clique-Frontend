@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import './styles/ChatBox.css';
+import { fetchMessages } from './api';
 
-const ChatBox = ({ user, friendId }) => {
+const ChatBox = ({ user, friendId, friend }) => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [isConnected, setIsConnected] = useState(false);
@@ -20,33 +21,17 @@ const ChatBox = ({ user, friendId }) => {
 
     useEffect(() => {
         if (friendId) {
-            const fetchMessages = async () => {
+            const loadMessages = async () => {
                 try {
-                    const response = await fetch(
-                        `http://localhost:8080/messages?userId=${user.id}&friendId=${friendId}`,
-                        {
-                            method: "GET",
-                            headers: {
-                                "Content-Type": "application/json",
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }
-                    );
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const data = await response.json();
+                    const data = await fetchMessages(user.id, friendId, token);
                     setMessages(data);
-
                     setTimeout(scrollToBottom, 100);
                 } catch (error) {
                     console.error("Failed to fetch messages:", error);
                 }
             };
 
-            fetchMessages();
+            loadMessages();
         }
     }, [friendId, user.id]);
 
@@ -130,8 +115,40 @@ const ChatBox = ({ user, friendId }) => {
         }
     };
 
+    function formatDateTime(timestamp) {
+        if (!timestamp) return "";
+        const date = new Date(timestamp);
+        return date.toLocaleDateString(undefined, {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+        }) + ", " + date.toLocaleTimeString(undefined, {
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+    }
+
     return (
         <div className="default-chat-box">
+            <div className="chat-navbar">
+                <div className="chat-navbar-left">
+                    <img
+                        src={
+                            friend?.avatarUrl ||
+                            `https://i.pravatar.cc/40?u=${friend?.id}`
+                        }
+                        alt={friend?.username || "User"}
+                        className="chat-navbar-avatar"
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                friend?.username || "User"
+                            )}&background=random&size=40`;
+                        }}
+                    />
+                    <span className="chat-navbar-username">{friend?.username}</span>
+                </div>
+            </div>
             <div
                 className="chat-messages"
                 ref={messagesEndRef}
@@ -144,9 +161,11 @@ const ChatBox = ({ user, friendId }) => {
                             message.senderId === user.id ? "outgoing" : "incoming"
                         }`}
                     >
-                        <div>{message.content}</div>
-                        <div className="message-time">
-                            {new Date(message.timestamp).toLocaleTimeString()}
+                        <div className="message-header">
+                            <div className="message-content">{message.content}</div>
+                            <div className="message-time">
+                                {formatDateTime(message.timestamp)}
+                            </div>
                         </div>
                     </div>
                 ))}

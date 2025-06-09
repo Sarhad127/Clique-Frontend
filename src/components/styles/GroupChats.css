@@ -1,0 +1,176 @@
+.group-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2F3136;
+}
+
+.create-group-container {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    display: flex;
+    gap: 10px;
+}
+
+.create-group-container input {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.create-group-container button {
+    padding: 6px 12px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.create-group-container button:focus {
+    transition: transform 0.1s ease;
+}
+.create-group-container button:active {
+    transform: scale(0.98);
+}
+
+.group-list {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.group-avatars {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.avatar-small {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 6px;
+    margin-top: 6px;
+    object-fit: cover;
+}
+
+.group-card {
+    padding: 12px;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    background-color: rgba(66, 67, 72, 0.78);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.group-card:hover {
+    background-color: #535457;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.group-card:focus {
+    transition: transform 0.1s ease;
+}
+.group-card:active {
+    transform: scale(0.99);
+}
+
+
+.create-group-button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    background-color: green;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: Calibri, sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    user-select: none;
+}
+.create-group-button:hover {
+    background-color: #497749;
+}
+.create-group-button:focus {
+    transition: transform 0.1s ease;
+}
+.create-group-button:active {
+    transform: scale(0.98);
+}
+
+.group-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.group-title {
+    margin: 0;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.group-avatars {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.avatar-small {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 6px;
+    margin-top: 6px;
+    object-fit: cover;
+}
+
+.last-message-preview {
+    color: #555;
+    font-size: 0.80rem;
+    margin-top: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.last-message-time {
+    color: #888;
+    font-size: 0.75rem;
+    margin-top: 2px;
+}
+
+.last-message-text {
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    color: rgba(185, 187, 190, 0.73);
+    font-size: 0.70rem;
+    text-overflow: ellipsis;
+}
+
+.sender-name {
+    font-size: 0.80rem;
+    font-weight: bold;
+    color: #b9bbbe;
+}

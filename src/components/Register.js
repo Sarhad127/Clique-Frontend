@@ -2,6 +2,7 @@ import CliqueIcon from "./icons/Clique-icon.png";
 import './styles/Register.css'
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
+import { checkEmailAvailability, registerUser } from './api';
 
 function Register() {
     const navigate = useNavigate();
@@ -32,31 +33,20 @@ function Register() {
         }
         setError(null);
         try {
-            const emailCheckResponse = await fetch(`http://localhost:8080/auth/check-email?email=${encodeURIComponent(email)}`);
-            const emailCheckData = await emailCheckResponse.json();
+            const emailCheckData = await checkEmailAvailability(email);
 
             if (!emailCheckData.available) {
                 setError("Email is already registered");
                 return;
             }
 
-            const response = await fetch("http://localhost:8080/auth/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body:JSON.stringify({ email, username, password}),
-            });
-            if (!response.ok) {
-                const errorData = await response.json();
-                setError(errorData.message || "Registration failed");
-                return;
-            }
+            await registerUser({ email, username, password });
+
             navigate('/login');
         } catch (err) {
-            setError("Network error. Please try again later.");
+            setError(err.message || "Network error. Please try again later.");
         }
-    }
+    };
 
     return(
         <>

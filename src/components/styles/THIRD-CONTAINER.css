@@ -1,6 +1,6 @@
 .THIRD-CONTAINER {
     flex: 1;
-    background-color: transparent;
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #2a2a3a 100%);
     display: flex;
     flex-direction: column;
     overflow: hidden;

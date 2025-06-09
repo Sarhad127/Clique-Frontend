@@ -1,0 +1,38 @@
+.friend-details {
+    text-align: center;
+    padding: 16px;
+}
+
+.friend-details-avatar {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.friend-details p.description {
+    font-style: italic;
+    margin-top: 8px;
+}
+
+.friend-details button.start-chat-btn {
+    margin-top: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #2978d3;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.friend-details button.start-chat-btn:hover {
+    background-color: #4a84c7;
+}
+
+.friend-details button.start-chat-btn:focus {
+    transition: transform 0.1s ease;
+}
+.friend-details button.start-chat-btn:active {
+    transform: scale(0.98);
+}

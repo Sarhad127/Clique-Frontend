@@ -39,3 +39,214 @@
 .friend-details button:hover {
     background-color: #357ABD;
 }
+
+.group-member-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.group-member {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid #ddd;
+    cursor: default;
+    transition: background-color 0.2s ease;
+}
+
+.group-member:hover {
+    background-color: #f0f0f0;
+}
+
+.group-member-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+    border: 1.5px solid #bbb;
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+}
+
+.group-member span {
+    font-size: 1rem;
+    color: #333;
+    font-weight: 500;
+    user-select: none;
+}
+
+.group-details h3 {
+    margin: 10px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    border-bottom: 2px solid #4a90e2;
+    text-align: center;
+    padding-bottom: 6px;
+}
+
+.group-details p {
+    margin: 10px;
+    color: #444;
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    opacity: 0.85;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.invite-container {
+    margin: 20px;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    width: 250px;
+}
+
+.invite-input {
+    flex-grow: 1;
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    border: 1.8px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.25s ease;
+}
+
+.invite-input:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+.invite-button {
+    flex-shrink: 0;
+    width: 80px;
+    padding: 0.5rem 0;
+    background-color: #2978d3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.invite-button:hover {
+    background-color: #4a84c7;
+}
+
+.invite-button:focus {
+    transition: transform 0.1s ease;
+}
+.invite-button:active {
+    transform: scale(0.98);
+}
+
+.flex-align-center {
+    display: flex;
+    align-items: center;
+}
+
+.gap-8 {
+    gap: 8px;
+}
+
+.add-friend-button {
+    margin-left: auto;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    background-color: #2978d3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+.add-friend-button:focus {
+    transition: transform 0.1s ease;
+}
+.add-friend-button:active {
+    transform: scale(0.98);
+}
+
+.leave-group-container {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    display: flex;
+    justify-content: flex-end;
+    width: auto;
+    margin-top: 0;
+}
+.leave-group-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.leave-group-button:hover {
+    background-color: #c0392b;
+}
+.leave-group-button:active {
+    background-color: #992d22;
+}
+
+.background-update-container {
+    margin: 20px;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    width: 250px;
+}
+
+.background-url-input {
+    flex-grow: 1;
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    border: 1.8px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.25s ease;
+}
+
+.background-url-input:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+.background-url-button {
+    flex-shrink: 0;
+    width: 80px;
+    padding: 0.5rem 0;
+    background-color: #2978d3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.background-url-button:hover {
+    background-color: #4a84c7;
+}
+
+.background-url-button:focus {
+    transition: transform 0.1s ease;
+}
+.background-url-button:active {
+    transform: scale(0.98);
+}
