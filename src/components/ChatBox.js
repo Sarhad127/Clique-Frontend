@@ -115,6 +115,19 @@ const ChatBox = ({ user, friendId }) => {
         }
     };
 
+    function formatDateTime(timestamp) {
+        if (!timestamp) return "";
+        const date = new Date(timestamp);
+        return date.toLocaleDateString(undefined, {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+        }) + ", " + date.toLocaleTimeString(undefined, {
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+    }
+
     return (
         <div className="default-chat-box">
             <div
@@ -131,7 +144,7 @@ const ChatBox = ({ user, friendId }) => {
                     >
                         <div>{message.content}</div>
                         <div className="message-time">
-                            {new Date(message.timestamp).toLocaleTimeString()}
+                            {formatDateTime(message.timestamp)}
                         </div>
                     </div>
                 ))}
