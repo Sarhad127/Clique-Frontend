@@ -13,6 +13,11 @@ const FriendDetails = ({ friend, onStartChat, onFriendRemoved, chatList, onDelet
             return;
         }
 
+        const confirmed = window.confirm(`Are you sure you want to remove ${friend.username || friend.email} as a friend? This will also delete your chat with them.`);
+        if (!confirmed) {
+            return;
+        }
+
         try {
             await removeFriend(friend.username || friend.email, token);
             const chat = chatList?.find(c => {
