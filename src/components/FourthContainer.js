@@ -1,6 +1,15 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import FriendDetails from "./FriendDetails";
-import {startChatWithFriend, inviteUserToGroup, leaveGroup, addFriend, updateGroupBackgroundImage} from './api';
+import {
+    startChatWithFriend,
+    inviteUserToGroup,
+    leaveGroup,
+    addFriend,
+    updateGroupBackgroundImage,
+    deleteChat
+} from './api';
+import SockJS from "sockjs-client";
+import {Stomp} from "@stomp/stompjs";
 
 const FourthContainer = ({
                              selectedFriends,
@@ -19,6 +28,29 @@ const FourthContainer = ({
     const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     const [inviteInput, setInviteInput] = useState("");
     const [backgroundUrlInput, setBackgroundUrlInput] = useState("");
+
+    useEffect(() => {
+        if (!selectedGroupChat?.id) return;
+
+        const socket = new SockJS("http://localhost:8080/ws");
+        const stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, () => {
+            const groupId = selectedGroupChat.id;
+
+            stompClient.subscribe(`/topic/group-background/${groupId}`, (message) => {
+                const body = JSON.parse(message.body);
+                setSelectedGroupChat((prev) => ({
+                    ...prev,
+                    backgroundImageUrl: body.backgroundImageUrl,
+                }));
+            });
+        });
+
+        return () => {
+            stompClient.disconnect();
+        };
+    }, [selectedGroupChat?.id]);
 
     const handleInvite = async () => {
         if (!inviteInput.trim()) return;
@@ -69,7 +101,6 @@ const FourthContainer = ({
 
         try {
             await updateGroupBackgroundImage(selectedGroupChat.id, backgroundUrlInput.trim(), token);
-            alert("Background updated!");
 
             setSelectedGroupChat(prev => ({
                 ...prev,
@@ -78,7 +109,16 @@ const FourthContainer = ({
             setBackgroundUrlInput("");
         } catch (error) {
             console.error("Error updating background:", error);
-            alert("Failed to update background.");
+        }
+    };
+
+    const handleDeleteChat = async (chatId, token) => {
+        try {
+            await deleteChat(chatId, token);
+            setChatList((prev) => prev.filter(chat => chat.id !== chatId));
+        } catch (error) {
+            console.error("Failed to delete chat:", error);
+            alert("Failed to delete chat.");
         }
     };
 
@@ -87,6 +127,8 @@ const FourthContainer = ({
             {selectedFriends ? (
                 <FriendDetails
                     friend={selectedFriends}
+                    chatList={chatList}
+                    onDeleteChat={handleDeleteChat}
                     onStartChat={async (friendId) => {
                         const friend = user?.friends?.find((f) => f.id === friendId);
                         if (!friend) return;

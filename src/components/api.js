@@ -92,7 +92,7 @@ export async function inviteUserToGroup(groupId, userIdentifier, token) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ userIdentifier }),
+        body: JSON.stringify({ userIdentifier: userIdentifier }),
     });
     const text = await response.text();
 
@@ -358,7 +358,7 @@ export async function deleteChat(chatId, token) {
     if (response.status === 204) {
         return null;
     }
-    return response.json();
+    return response.text();
 }
 
 export async function leaveGroup(groupId, token) {
@@ -395,3 +395,19 @@ export const updateGroupBackgroundImage = async (groupId, imageUrl, token) => {
 
     return await response.json();
 };
+
+export async function removeFriend(identifier, token) {
+    const response = await fetch(`http://localhost:8080/friends/remove?identifier=${encodeURIComponent(identifier)}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to remove friend: ${errorText}`);
+    }
+
+    return response.text();
+}

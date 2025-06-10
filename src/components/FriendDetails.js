@@ -1,8 +1,37 @@
 import React from "react";
 import './styles/FriendDetails.css';
+import {removeFriend} from "./api";
 
-const FriendDetails = ({ friend, onStartChat }) => {
+const FriendDetails = ({ friend, onStartChat, onFriendRemoved, chatList, onDeleteChat }) => {
     if (!friend) return null;
+
+    const handleRemoveFriend = async () => {
+        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+
+        if (!token) {
+            alert("Not authenticated");
+            return;
+        }
+
+        const confirmed = window.confirm(`Are you sure you want to remove ${friend.username || friend.email} as a friend? This will also delete your chat with them.`);
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            await removeFriend(friend.username || friend.email, token);
+            const chat = chatList?.find(c => {
+                const hasParticipant = c.participants?.some(p => p.id === friend.id);
+                return hasParticipant;
+            });
+            if (chat) {
+                await onDeleteChat(chat.id, token);
+            }
+            if (onFriendRemoved) onFriendRemoved(friend.id);
+        } catch (error) {
+            console.error("Error removing friend or deleting chat:", error);
+        }
+    };
 
     return (
         <div className="friend-details">
@@ -23,12 +52,18 @@ const FriendDetails = ({ friend, onStartChat }) => {
                     {friend.description}
                 </p>
             )}
-
             <button
                 onClick={() => onStartChat(friend.id)}
                 className="start-chat-btn"
             >
                 Start Chat
+            </button>
+            <button
+                onClick={handleRemoveFriend}
+                className="remove-friend-btn"
+                style={{ marginTop: "10px", backgroundColor: "#e74c3c", color: "white", border: "none", padding: "8px", borderRadius: "5px" }}
+            >
+                Remove Friend
             </button>
         </div>
     );
