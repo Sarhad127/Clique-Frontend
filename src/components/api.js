@@ -395,3 +395,19 @@ export const updateGroupBackgroundImage = async (groupId, imageUrl, token) => {
 
     return await response.json();
 };
+
+export async function removeFriend(identifier, token) {
+    const response = await fetch(`http://localhost:8080/friends/remove?identifier=${encodeURIComponent(identifier)}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to remove friend: ${errorText}`);
+    }
+
+    return response.json();
+}

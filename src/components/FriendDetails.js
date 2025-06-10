@@ -1,8 +1,25 @@
 import React from "react";
 import './styles/FriendDetails.css';
+import {removeFriend} from "./api";
 
-const FriendDetails = ({ friend, onStartChat }) => {
+const FriendDetails = ({ friend, onStartChat, onFriendRemoved }) => {
     if (!friend) return null;
+
+    const handleRemoveFriend = async () => {
+        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+
+        if (!token) {
+            alert("Not authenticated");
+            return;
+        }
+
+        try {
+            await removeFriend(friend.username || friend.email, token);
+            if (onFriendRemoved) onFriendRemoved(friend.id);
+        } catch (error) {
+            console.error("Error removing friend:", error);
+        }
+    };
 
     return (
         <div className="friend-details">
@@ -23,12 +40,18 @@ const FriendDetails = ({ friend, onStartChat }) => {
                     {friend.description}
                 </p>
             )}
-
             <button
                 onClick={() => onStartChat(friend.id)}
                 className="start-chat-btn"
             >
                 Start Chat
+            </button>
+            <button
+                onClick={handleRemoveFriend}
+                className="remove-friend-btn"
+                style={{ marginTop: "10px", backgroundColor: "#e74c3c", color: "white", border: "none", padding: "8px", borderRadius: "5px" }}
+            >
+                Remove Friend
             </button>
         </div>
     );
