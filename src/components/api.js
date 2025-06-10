@@ -358,7 +358,7 @@ export async function deleteChat(chatId, token) {
     if (response.status === 204) {
         return null;
     }
-    return response.json();
+    return response.text();
 }
 
 export async function leaveGroup(groupId, token) {
@@ -409,5 +409,5 @@ export async function removeFriend(identifier, token) {
         throw new Error(`Failed to remove friend: ${errorText}`);
     }
 
-    return response.json();
+    return response.text();
 }

@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from "react";
 import FriendDetails from "./FriendDetails";
-import {startChatWithFriend, inviteUserToGroup, leaveGroup, addFriend, updateGroupBackgroundImage} from './api';
+import {
+    startChatWithFriend,
+    inviteUserToGroup,
+    leaveGroup,
+    addFriend,
+    updateGroupBackgroundImage,
+    deleteChat
+} from './api';
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
 
@@ -105,11 +112,23 @@ const FourthContainer = ({
         }
     };
 
+    const handleDeleteChat = async (chatId, token) => {
+        try {
+            await deleteChat(chatId, token);
+            setChatList((prev) => prev.filter(chat => chat.id !== chatId));
+        } catch (error) {
+            console.error("Failed to delete chat:", error);
+            alert("Failed to delete chat.");
+        }
+    };
+
     return (
         <div className="FOURTH-CONTAINER">
             {selectedFriends ? (
                 <FriendDetails
                     friend={selectedFriends}
+                    chatList={chatList}
+                    onDeleteChat={handleDeleteChat}
                     onStartChat={async (friendId) => {
                         const friend = user?.friends?.find((f) => f.id === friendId);
                         if (!friend) return;

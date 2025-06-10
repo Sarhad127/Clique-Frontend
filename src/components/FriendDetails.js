@@ -2,7 +2,7 @@ import React from "react";
 import './styles/FriendDetails.css';
 import {removeFriend} from "./api";
 
-const FriendDetails = ({ friend, onStartChat, onFriendRemoved }) => {
+const FriendDetails = ({ friend, onStartChat, onFriendRemoved, chatList, onDeleteChat }) => {
     if (!friend) return null;
 
     const handleRemoveFriend = async () => {
@@ -15,9 +15,16 @@ const FriendDetails = ({ friend, onStartChat, onFriendRemoved }) => {
 
         try {
             await removeFriend(friend.username || friend.email, token);
+            const chat = chatList?.find(c => {
+                const hasParticipant = c.participants?.some(p => p.id === friend.id);
+                return hasParticipant;
+            });
+            if (chat) {
+                await onDeleteChat(chat.id, token);
+            }
             if (onFriendRemoved) onFriendRemoved(friend.id);
         } catch (error) {
-            console.error("Error removing friend:", error);
+            console.error("Error removing friend or deleting chat:", error);
         }
     };
 
