@@ -1,0 +1,351 @@
+.SECOND-CONTAINER {
+    width: 290px;
+    background-color: whitesmoke;
+    color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+}
+
+.all-chats-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #2F3136;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.all-chats-tabs {
+    display: flex;
+    background-color: #2F3136;
+    border-bottom: 1px solid #202225;
+    padding: 10px 0 0 0;
+}
+
+.all-chats-tabs button {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 14px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: white;
+    font-weight: 500;
+    position: relative;
+    margin: 0 8px;
+}
+
+.all-chats-tabs button:hover {
+    color: white;
+    border-bottom-color: #3d82d2;
+}
+
+.all-chats-tabs .active-tab {
+    color: white;
+    border-bottom-color: #3d82d2;
+}
+
+.all-chats-tabs .active-tab::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    color: white;
+    border-bottom-color: #3d82d2;
+}
+
+.all-chats-content {
+    flex: 1;
+    padding: 16px 8px 8px 8px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #202225 transparent;
+}
+
+.all-chats-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.all-chats-content::-webkit-scrollbar-thumb {
+    background-color: #202225;
+    border-radius: 3px;
+}
+
+.chat-item.active-chat {
+    background-color: #424348;
+    color: white;
+}
+
+.chat-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 5px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background-color: #2F3136;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    background-color: rgba(66, 67, 72, 0.78);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-item:hover {
+    background-color: #535457;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.chat-item:focus {
+    transition: transform 0.1s ease;
+}
+.chat-item:active {
+    transform: scale(0.99);
+}
+
+.chat-item-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #202225;
+}
+
+.chat-item-info {
+    flex: 1;
+}
+
+.chat-item-preview {
+    display: flex;
+    flex-direction: column;
+    color: #b9bbbe;
+    font-size: 13px;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.message-content-preview {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: inline-block;
+    font-weight: 500;
+}
+
+.message-time-preview {
+    font-size: 0.75rem;
+    color: #888;
+    align-self: start;
+    text-align: right;
+    user-select: none;
+    margin-right: 8px;
+}
+
+.friends-list {
+    position: relative;
+    background-color: #2F3136;
+    height: calc(100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.friends-header {
+    padding: 16px;
+    background-color: #2F3136;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.friends-title {
+    font-weight: 600;
+    color: white;
+    font-size: 16px;
+    margin: 0;
+}
+
+.add-friend-container {
+    padding: 1rem;
+    background-color: #f4f4f4;
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.add-friend-container input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-friend-container button {
+    padding: 0.5rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-friend-container button:hover {
+    background-color: #45a049;
+}
+
+.add-friend-container button:focus {
+    transition: transform 0.1s ease;
+}
+.add-friend-container button:active {
+    transform: scale(0.99);
+}
+
+.add-friend-btn {
+    background-color: rgba(24, 119, 242, 0.73);
+    color: white;
+    border: none;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+.add-friend-btn:hover {
+    background-color: rgba(20, 93, 191, 0.6);
+}
+.add-friend-btn:focus {
+    transition: transform 0.1s ease;
+}
+.add-friend-btn:active {
+    transform: scale(0.98);
+}
+
+.friends-container {
+    padding: 8px;
+    flex-grow: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #202225 transparent;
+}
+
+.friends-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.friends-container::-webkit-scrollbar-thumb {
+    background-color: #202225;
+    border-radius: 3px;
+}
+
+.friends-container ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+.friend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    background-color: #2F3136;
+    cursor: pointer;
+}
+
+.friend-item:hover {
+    background-color: #424348;
+}
+
+.friend-item:focus {
+    transition: transform 0.1s ease;
+}
+.friend-item:active {
+    transform: scale(0.99);
+}
+
+
+.friend-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #2F3136;
+}
+
+.friend-item span {
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.status-offline {
+    background-color: #747f8d;
+}
+
+.status-idle {
+    background-color: #faa61a;
+}
+
+.status-dnd {
+    background-color: #ed4245;
+}
+
+.friend-search-input {
+    width: 90%;
+    max-width: 250px;
+    padding: 8px 12px;
+    margin: 10px auto;
+    border-radius: 6px;
+    border: 1px solid #4f545c;
+    background-color: transparent;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    display: block;
+    margin-bottom: 20px;
+    transition: border 0.2s ease;
+}
+
+.friend-search-input::placeholder {
+    color: white;
+}
+
+.friend-search-input:focus {
+    border-color: white;
+}
+
+.chat-item-trash {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 6px;
+    cursor: pointer;
+    color: whitesmoke;
+    background-color: transparent;
+    padding: 2px 6px;
+    border-radius: 4px;
+    z-index: 2;
+    transition: background-color 0.2s ease;
+}
+
+.chat-item-trash:hover {
+    color: whitesmoke;
+}
