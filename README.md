@@ -1,4 +1,4 @@
-React Frontend
+Clique React Frontend
 
 React frontend for the Clique chat application. Connects to a Spring Boot backend and supports real-time messaging via WebSockets.
 
